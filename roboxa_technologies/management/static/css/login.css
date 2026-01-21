@@ -1,0 +1,129 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body styling */
+body {
+    background: linear-gradient(to right, #4A90E2, #50E3C2); /* Softer gradient for professionalism */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative; /* Needed for absolute positioning of overlay */
+}
+
+/* Overlay for the background text */
+.background-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust to center */
+    font-size: 5em; /* Adjusted text size */
+    color: rgba(255, 255, 255, 0.1); /* Light color with transparency */
+    white-space: nowrap; /* Prevent line breaks */
+    pointer-events: none; /* Prevent interaction */
+    font-weight: bold; /* Make the text bold */
+}
+
+/* Login container styling */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box {
+    background: #ffffff; /* White background for the login box */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+    width: 320px; /* Slightly wider box */
+    text-align: center;
+    position: relative; /* For stacking context */
+    z-index: 1; /* Bring to the front */
+}
+
+/* Title styling */
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333; /* Darker color for better contrast */
+    font-size: 1.5em; /* Slightly larger font for title */
+}
+
+/* Input group styling */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #666; /* Lighter label color */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex; /* Use flexbox to align items in a row */
+    margin-top: 15px; /* Space above the button container */
+}
+
+/* Individual button styling */
+.button-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Specific styles for Send OTP button */
+#send-otp {
+    background: #007bff; /* Bootstrap primary color */
+    color: #fff;
+    margin-right: 10px; /* Space between Send OTP and Login buttons */
+}
+
+#send-otp:hover {
+    background: #0056b3; /* Darker blue on hover */
+}
+
+/* Specific styles for Login button */
+button[type="submit"] {
+    background: #4CAF50; /* Green color for the button */
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+/* Forgot password link styling */
+.forgot-password {
+    margin-top: 10px;
+}
+
+.forgot-password a {
+    color: #007bff; /* Bootstrap primary color */
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}

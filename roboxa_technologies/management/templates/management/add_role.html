@@ -1,0 +1,33 @@
+<!-- add_role.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Add Role</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>Dashboard Navigation</h2>
+            <ul>
+                <li><a href="{% url 'usermanagement' %}">User Management</a></li>
+                <li><a href="{% url 'masterdata' %}">Master Data</a></li>
+                <li><a href="{% url 'pmo' %}">PMO</a></li>
+                <li><a href="{% url 'employees' %}">Employees</a></li>
+                <li><a href="{% url 'manager' %}">Manager</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <h1>Add Role</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="role_name" placeholder="Enter role name" required>
+                <button type="submit">Add Role</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!-- maintain_role.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Maintain Roles</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>Dashboard Navigation</h2>
+            <ul>
+                <li><a href="{% url 'usermanagement' %}">User Management</a></li>
+                <li><a href="{% url 'masterdata' %}">Master Data</a></li>
+                <li><a href="{% url 'pmo' %}">PMO</a></li>
+                <li><a href="{% url 'employees' %}">Employees</a></li>
+                <li><a href="{% url 'manager' %}">Manager</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <h1>Maintain Roles</h1>
+            <ul>
+                {% for role in roles %}
+                    <li>{{ role.name }} 
+                        <a href="{% url 'delete_role' role.id %}" onclick="return confirm('Are you sure you want to delete this role?');">Delete</a>
+                    </li>
+                {% empty %}
+                    <li>No roles available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+from django.urls import path
+from . import views
+from .views import EmployeeDashboard,ManagerDashboard
+from .views import (get_grouped_asset_categories)
+
+
+urlpatterns = [
+    path('add-task/', views.add_task, name='add_task'),
+    path('edit-task/<str:task_code>/', views.edit_task, name='edit_task'),
+    path('display-task/', views.display_tasks, name='display_task'),
+    path('display-task-byid/<str:task_code>/', views.get_task_by_id, name='display_tasks_byid'),
+    path('delete-task/<str:task_code>/', views.delete_task, name='delete_task'),
+    path('task-descriptions-by-phase/',views.task_descriptions_by_task_group, name='task_descriptions'),
+    path('task-descriptions-by-phase-projectcode/',views.task_descriptions_by_task_group_and_project_code, name='task_descriptions_by_project_code'),
+    path('add-employee/', views.add_employee, name='add_employee'),
+    path('edit-employee/<str:employee_code>/', views.edit_employee, name='edit_employee'),
+    path('display-employee/', views.display_employee, name='display_employee'),
+    path('display-employee-byid/<str:employee_code>/', views.get_employee_by_id, name='display_employee_byid'),
+    path('delete-employee/<str:employee_code>/', views.delete_employee, name='delete_employee'),
+    path('add-projectroles/', views.add_project_role, name='add_projectroles'),
+    path('display-projectroles/', views.display_project_roles, name='display_projectroles'),
+    path('display-projectrole-byid/<str:role_id>/', views.get_project_role_by_id, name='display_projectrole_byid'),
+    path('edit-projectroles/<str:role_id>/', views.edit_project_role, name='edit_projectroles'),
+    path('delete-projectrole/<str:role_id>/', views.delete_project_role, name='delete_projectroles'),
+    path('get-employee-summary-report', views.employee_summary_report, name='employee_summary_report'),
+    path('get-employee-summary-report-detailed', views.employee_summary_report_detailed, name='employee_summary_report_detailed'),
+    path('get-employee-summary-report-detailed-byproject', views.employee_summary_report_detailed_by_project, name='employee_detailed_byproject'),
+    path('employee-dashboard/<int:year>/<str:employee_code>/', EmployeeDashboard.as_view()),
+    path('manager-dashboard/<str:project_code>/', ManagerDashboard.as_view(), name='manager_dashboard'),
+    path('add-asset_categories/', views.create_asset_category, name='create_asset_category'),
+    path('asset_categories/<str:asset_id>/', views.update_asset_category, name='update_asset_category'),
+    path('asset-categories/all/', views.get_all_asset_categories, name='all-asset-categories'),
+    path('asset_categories/<str:asset_id>/detail/', views.get_asset_category_by_id, name='get_asset_category_by_id'),
+    path('asset_categories/<str:asset_id>/delete/', views.delete_asset_category, name='delete_asset_category'),
+    path('grouped-asset-categories/', get_grouped_asset_categories, name='grouped-asset-categories'),
+    path('add-asset_models/', views.create_asset_model, name='create_asset_model'),
+    path('asset_models/<str:asset_model_id>/', views.update_asset_model, name='update_asset_model'),
+    path('asset-models/all/', views.get_all_asset_models, name='all-asset-models'),
+    path('asset_models/<str:asset_model_id>/detail/', views.get_asset_model_by_id, name='get_asset_model_by_id'),
+    path('asset_models/<str:asset_model_id>/delete/', views.delete_asset_model, name='delete_asset_model'),
+    path('add-status/', views.create_status, name='create_status'),
+    path('status/<str:status_id>/', views.update_status, name='update_status'),
+    path('statuses/all/', views.get_all_status, name='all_statuses'),
+    path('status/<str:status_id>/detail/', views.get_status_by_id, name='get_status_by_id'),
+    path('status/<str:status_id>/delete/', views.delete_status, name='delete_status'),
+    path('companies/', views.list_companies, name='list_companies'),
+    path('companies/create/', views.create_company, name='create_company'),
+    path('companies/<int:key>/', views.get_company, name='get_company'),
+    path('companies/<int:key>/update/', views.update_company, name='update_company'),
+    path('companies/<int:key>/delete/', views.delete_company, name='delete_company'),
+    path('suppliers/', views.list_suppliers, name='list_suppliers'),
+    path('suppliers/create/', views.create_supplier, name='create_supplier'),
+    path('suppliers/<int:key>/', views.get_supplier, name='get_supplier'),
+    path('suppliers/<int:key>/update/', views.update_supplier, name='update_supplier'),
+    path('suppliers/<int:key>/delete/', views.delete_supplier, name='delete_supplier'),
+    path("display_name/", views.display_name, name="display_name"),
+    path('companies/locations/',views.get_all_companies_with_locations,name='get_all_companies_with_locations'),
+  
+    
+
+]

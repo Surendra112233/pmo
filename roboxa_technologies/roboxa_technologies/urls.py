@@ -25,9 +25,9 @@ from rest_framework import permissions
 # Set up the schema view for Swagger and Redoc with JWT token auth support
 schema_view = get_schema_view(
     openapi.Info(
-        title="Roboxa Technologies API",
+        title="MY Own Roboxa Technologies API",
         default_version='v1',
-        description="API documentation for Roboxa Technologies project",
+        description="My Own API documentation for Roboxa Technologies project",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),

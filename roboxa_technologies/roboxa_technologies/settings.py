@@ -34,8 +34,6 @@ DEBUG = config("DEBUG", cast=bool)
 ALLOWED_HOSTS = [
     '127.0.0.1',   # Localhost
     'localhost',
-    '192.168.0.22',  # internal server IP
-    '111.93.3.163',  # external IP address
 ]
 
 SIMPLE_JWT = {
@@ -90,7 +88,6 @@ MIDDLEWARE = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    "http://111.93.3.163:8301"
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -178,14 +175,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# host3
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
+EMAIL_BACKEND = config(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.console.EmailBackend"
+)
+
+EMAIL_HOST = config("EMAIL_HOST", default="")
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=587)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
+EMAIL_HOST_USER = config("EMAIL_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
  
 # Disable CSRF validation for API endpoints (works for DRF)
 CSRF_COOKIE_HTTPONLY = True

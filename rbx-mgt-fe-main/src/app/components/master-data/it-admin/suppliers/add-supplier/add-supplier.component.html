@@ -1,0 +1,107 @@
+<div class="add-supplier">
+    <div class="card">
+        <div class="card-header text-white">
+            <h4 class="mb-0">{{page_title}} Supplier</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="supplierForm">
+
+            <!-- supplier -->
+            <div class="form-row">
+                <label class="form-label">Supplier <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericWithSpace class="form-control" placeholder="Enter supplier" formControlName="supplier" />
+
+                    <!-- Validation messages under input -->
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(supplierForm.get('supplier')?.dirty || supplierForm.get('supplier')?.touched) 
+                                && supplierForm.get('supplier')?.invalid">
+                    <div *ngIf="supplierForm.get('supplier')?.errors?.['required']">
+                        Supplier is required.
+                    </div>
+                    <div *ngIf="supplierForm.get('supplier')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="supplierForm.get('supplier')?.errors?.['maxlength']">
+                        Maximum 40 characters allowed.
+                    </div>
+                    </div>
+                </div>            
+            </div>
+
+            <!-- Address -->
+            <div class="form-row">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" class="form-control" placeholder="Enter address" formControlName="address" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(supplierForm.get('address')?.dirty || supplierForm.get('address')?.touched) 
+                                && supplierForm.get('address')?.invalid">
+                    <div *ngIf="supplierForm.get('address')?.errors?.['required']">
+                        Address is required.
+                    </div>
+                    <div *ngIf="supplierForm.get('address')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="supplierForm.get('address')?.errors?.['maxlength']">
+                        Maximum 80 characters allowed.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geo Region -->
+            <div class="form-row">
+                <label class="form-label">Geo Region <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <select class="form-select" formControlName="geo_region" 
+                            (change)="onRegionChange('onChange')" placeholder="Select Region">
+                        <option value="" disabled selected>Select Project Region</option>
+                        <option *ngFor="let item of regions" [value]="item.name">{{ item.name }}</option>
+                    </select>
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(supplierForm.get('geo_region')?.dirty || supplierForm.get('geo_region')?.touched) 
+                                && supplierForm.get('geo_region')?.invalid">
+                    <div *ngIf="supplierForm.get('geo_region')?.errors?.['required']">
+                        Geo region is required.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country -->
+            <div class="form-row">
+                <label class="form-label">Country <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <p-dropdown 
+                    [options]="countries"
+                    optionLabel="name" 
+                    optionValue="name"
+                    [filter]="true" 
+                    filterBy="name"
+                    formControlName="country"
+                    placeholder="Select Country">
+                    </p-dropdown>
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(supplierForm.get('country')?.dirty || supplierForm.get('country')?.touched) 
+                                && supplierForm.get('country')?.invalid">
+                    <div *ngIf="supplierForm.get('country')?.errors?.['required']">
+                        Country is required.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-row text-center mt-3 action-fe">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="supplierForm.invalid" (click)="onSubmit()">{{btn_text}}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>

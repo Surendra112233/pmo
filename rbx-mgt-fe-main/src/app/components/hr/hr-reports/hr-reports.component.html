@@ -1,0 +1,174 @@
+<div class="main-container hr-reports">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Time Log Report</h4>
+                </div>
+                <div class="card-body">         
+         <form [formGroup]="employeeReportForm">
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gy-4 hr-report">
+                                            <div class=" col-md-2">
+                                                <div>
+                                                    <label for="year" class="form-label">Report Type <label class="required-field">*</label></label>
+                                                    <div class="form-icon">
+                                                        <select data-bs-toggle="tooltip" data-bs-placement="top" [title]="reportType"  class="form-select" formControlName="report_type" (change)="onChangeReportType($event)">
+                                                            <option value="" disabled selected>Report Type </option>
+                                                            <option *ngFor="let type of projectType" [value]="type.name">{{ type.name }}</option>
+                                                        </select>
+                                                     </div>
+                                                    <div *ngIf="getFormControl('report_type')?.invalid && (getFormControl('report_type')?.dirty || getFormControl('report_type')?.touched)" class="text-danger small">
+                                                        <span *ngIf="getFormControl('report_type')?.errors?.['required']">Please Select Report Type</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-3" *ngIf="isProjectCode">
+                                                <label class="form-label">Project Code</label>
+                                                <p-multiSelect 
+                                                formControlName="project_code"
+                                                [options]="projects" class="multiselectdropdown"
+                                                optionLabel="formattedLabel" 
+                                                optionValue="project_code" 
+                                                placeholder="Select Project Code"
+                                                styleClass="p-multiselect-styled"
+                                                [panelStyle]="{'width':'100%'}"
+                                                [class.disableDropdown]="isProjectsLoading"
+                                                [loading]="isProjectsLoading"
+                                                [loadingIcon]="'pi pi-spin pi-spinner'">
+                                            </p-multiSelect>
+                                            <!-- <div *ngIf="getFormControl('project_code')?.invalid && (getFormControl('project_code')?.dirty || getFormControl('project_code')?.touched)" class="text-danger small">
+                                                <span *ngIf="getFormControl('project_code')?.errors?.['required']">Please Select Project Code</span>
+                                            </div> -->
+                                            </div>                                            
+                                            <div class=" col-md-3  emp-code" *ngIf="isEmployeeCode">
+                                                <label class="form-label">Employee Code</label>
+                                                <div *ngIf="!employeeDropdownDisabled">
+                                                    <!-- <p-dropdown 
+                                                        formControlName="employee_code"
+                                                        [options]="employeeDetails"
+                                                        optionLabel="employee_codewithName" 
+                                                        optionValue="employee_code" 
+                                                        placeholder="Select Employee Code"
+                                                        [filter]="true"
+                                                        [disabled]="employeeDropdownDisabled"
+                                                        [class.disableDropdown]="isEmpDetailsLoading"
+                                                        [loading]="isEmpDetailsLoading"
+                                                        [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                    </p-dropdown> -->
+                                                    <p-multiSelect 
+                                                        formControlName="employee_code"
+                                                        [options]="employeeDetails" class="multiselectdropdown"
+                                                        optionLabel="employee_codewithName" 
+                                                        optionValue="employee_code" 
+                                                        placeholder="Select Employee Code"
+                                                        styleClass="p-multiselect-styled"
+                                                        [panelStyle]="{'width':'100%'}"
+                                                        [showClear]="true"
+                                                        [class.disableDropdown]="isEmpDetailsLoading"
+                                                        [loading]="isEmpDetailsLoading"
+                                                        [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                    </p-multiSelect>
+                                                </div>
+                                                <input *ngIf="employeeDropdownDisabled" type="text" class="form-control form-control-icon readonly-form" placeholder="Enter Employee Code" formControlName="employee_code" [readonly]="true"
+                                                        appAlphanumeric appNoSpace>
+                                                <div *ngIf="getFormControl('employee_code')?.invalid && (getFormControl('employee_code')?.dirty || getFormControl('employee_code')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('employee_code')?.errors?.['required']">Please Select Employee Code</span>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-3  emp-code" *ngIf="isEmployeeCode && !employeeDropdownDisabled">
+                                                <label class="form-label">Country</label>
+                                                <div>
+                                                    <p-dropdown 
+                                                        formControlName="country"
+                                                        [options]="countryList"
+                                                        optionLabel="name" 
+                                                        optionValue="name" 
+                                                        placeholder="Select Country"
+                                                        [filter]="true">
+                                                    </p-dropdown>
+                                                </div>
+                                            <div *ngIf="getFormControl('employee_code')?.invalid && (getFormControl('employee_code')?.dirty || getFormControl('employee_code')?.touched)" class="text-danger small">
+                                                <span *ngIf="getFormControl('employee_code')?.errors?.['required']">Please Select Employee Code</span>
+                                            </div>
+                                            </div>
+
+                                            <div class=" col-md-2" *ngIf="isEmployeeCode">
+                                                <div>
+                                                    <label for="year" class="form-label">Month</label>
+                                                    <div class="form-icon">
+                                                        <select class="form-select" formControlName="month" id="month"  >
+                                                            <option value="" disabled selected>Select Month</option>
+                                                            <option *ngFor="let mt of months" [value]="mt.id">{{ mt.name }}</option>
+                                                        </select>
+                                                     </div>
+                                                    <div *ngIf="getFormControl('month')?.invalid && (getFormControl('month')?.dirty || getFormControl('month')?.touched)" class="text-danger small txtFont">
+                                                        <span *ngIf="getFormControl('month')?.errors?.['required']">Please select month</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2" *ngIf="isEmployeeCode">
+                                                <div>
+                                                    <label for="year" class="form-label">Year</label>
+                                                    <div class="form-icon">
+                                                        <select class="form-select" formControlName="year" id="year">
+                                                        <!-- <select class="form-select" [(ngModel)]="selectedYear" formControlName="year" id="year"> -->
+                                                            <option value="" disabled selected>Select Year</option>
+                                                            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                                                        </select>
+                                                     </div>
+                                                    <div *ngIf="getFormControl('year')?.invalid && (getFormControl('year')?.dirty || getFormControl('year')?.touched)" class="text-danger small txtFont">
+                                                        <span *ngIf="getFormControl('year')?.errors?.['required']">Please select year</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 text-center mt-4">
+                                                <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!employeeReportForm.valid">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+       <hr>
+      
+ <!-- <div *ngIf="isProjectCode">
+    <app-project-grid [projectSummaryReport]="projectSummaryReport" [projectDetailReport]="projectDetailReport"></app-project-grid>
+ </div> -->
+
+ <div>
+    <app-hr-emp-report 
+    [employeeSummaryReport]="employeeSummaryReport" 
+    [employeeDetailReport]="employeeDetailReport" 
+    [employeeSummaryProjectWiseReport]="employeeSummaryProjectWiseReport" 
+    [selectedReportType]="reportType"
+    [missedEntriesReport]="missedEntriesReport">
+</app-hr-emp-report>
+ </div>
+    
+ </div> 
+</div>
+</div>
+</div>
+</div></div>
+</div></div>
+</div></div>

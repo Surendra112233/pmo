@@ -1,0 +1,28 @@
+<div class="view-model">
+  <div class="card">
+    <div class="card-header text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">View Asset Model</h4>
+      <i class="fas fa-pen cursor-pointer"
+        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Asset Model" (click)="onEdit()"></i>
+    </div>
+
+    <div class="card-body">
+      <!-- Asset Model Code -->
+      <div class="form-row">
+        <label class="form-label">Asset Model Code</label>
+        <div class="form-value">{{ model?.asset_model_code }}</div>
+      </div>
+
+      <!-- Asset Model Name -->
+      <div class="form-row">
+        <label class="form-label">Asset Model Name</label>
+        <div class="form-value">{{ model?.asset_model_name }}</div>
+      </div>
+
+
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="main-container emp-dashboard">
+    <div class="page-content pt-0">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <!-- Collapsible Employee Details Section -->
+            <div class="employee-info-wrapper mt-3 mb-3" *ngIf="employeeDetails">
+              <!-- <div class="employee-info-header" (click)="toggleEmployeeInfo()">
+                <h5 class="mb-0">
+                  <i class="fas" [ngClass]="{'fa-chevron-down': showEmployeeInfo, 'fa-chevron-right': !showEmployeeInfo}"></i>
+                  Employee Details
+                </h5>
+              </div> -->
+
+              <div class="employee-info-body" *ngIf="showEmployeeInfo">
+                <div class="row mt-2">
+                  <div class="col-md-4">
+                    <span class="label-bold">Name:</span> {{ employeeDetails.name || 'N/A' }}
+                  </div>
+                  <div class="col-md-4">
+                    <span class="label-bold">Band:</span> {{ employeeDetails.band || 'N/A' }}
+                  </div>
+                  <div class="col-md-4">
+                    <span class="label-bold">Department:</span> {{ employeeDetails.department || 'N/A' }}
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <span class="label-bold">Reporting Manager:</span> {{ employeeDetails.reportingManager || 'N/A' }}
+                  </div>
+                  <div class="col-md-4 mt-3">
+                    <span class="label-bold">Joining Date:</span> {{ employeeDetails.joiningDate | date: 'dd-MM-yyyy' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+                                <div class="card">
+                                <!-- <div class="card" style="background-color: #F7CFE0;"> -->
+                                    <div class="card-header text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Dashboard</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-md-4 year-section" [formGroup]="dashboardForm">
+                                            <label for="yearSelect" class="select-year">Year</label>
+                                            <div>
+                                                <p-dropdown [options]="years"  formControlName="year" (onChange)="getDashboardData($event)"></p-dropdown>
+                                            </div>
+                                        </div> 
+                                        
+                                        <div class="row mt-30">
+                                              <div class="col-md-6">                                            
+                                                <div class="stats-cards">
+                                                  <div class="card target">
+                                                    <i class="icon fas fa-bullseye"></i>
+                                                    <div class="card-info">
+                                                      <p class="label">Target Hours(till date)</p>
+                                                      <p class="value">{{ animatedData.targetUtilizationTillDate.toFixed(2) }}</p>
+                                                      <!-- <p class="value">{{tableData.targetUtilization}}</p> -->
+                                                    </div>
+                                                  </div>
+                                                  <div class="card utilized">
+                                                    <i class="icon fas fa-clock"></i>
+                                                    <div class="card-info">
+                                                      <p class="label">Utilization Hours</p>
+                                                      <p class="value">{{ animatedData.utilization.toFixed(2) }}</p>
+                                                      <!-- <p class="value">{{tableData.utilization}}</p> -->
+                                                    </div>
+                                                  </div>
+                                                  <!-- <div class="card utilization">
+                                                    <i class="icon fas fa-percentage"></i>
+                                                    <div class="card-info">
+                                                      <p class="label">Utilization %</p>
+                                                      <p class="value">{{ animatedData.totalUtilization.toFixed(2) }}</p> -->
+                                                      <!-- <p class="value">{{ animatedData.totalUtilization.toFixed(2) }} {{ units.totalUtilization }}</p> -->
+                                                    <!-- </div>
+                                                  </div> -->
+                                                </div>                                                  
+                                              </div>
+                                            <div class="col-md-6" style="display: flex; justify-content: space-around; height: 150px;">
+                                                <!-- <label style="font-weight: bold;">Total Utilization(%)</label>  -->
+                                                <app-meter-gauge [percentage]="meterPercent"></app-meter-gauge>
+                                                <div class="threshold-legend">
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 0 to 69.9 -->
+                                                    <span class="color-box" style="background-color: red;"></span> 0–70
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 70 to 79.9 -->
+                                                    <span class="color-box" style="background-color: lightcoral;"></span> 70–80
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 80 to 84.9 -->
+                                                    <span class="color-box" style="background-color: yellow;"></span> 80–85
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 85 to 89.9 -->
+                                                    <span class="color-box" style="background-color: #A5D6A7;"></span> 85–90
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 90 to 94.9 -->
+                                                    <span class="color-box" style="background-color: #66BB6A;"></span> 90–95
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 95 to 100 -->
+                                                    <span class="color-box" style="background-color: darkgreen;"></span> 95–100
+                                                  </div>
+                                                </div>                                                                                   
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <!-- <h3 style="width: 100%; padding: 10px;" class="chart-header"><i class="icon fas fa-chart-pie"></i> Quarterly / Monthly Bar Chart</h3> -->
+                                                <label style="width: 100%; padding: 12px;" class="chart-header"> Quarterly / Monthly Utilization Chart</label>
+                                                <div class="chart-placeholder" style="margin-top: 5px;">                                                  
+                                                  <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+                                                </div>                                                 
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12" >
+                                                <p-table [value]="pendingTableData" class="pending-table"
+                                                    #dt2 [sortField]="'project_start_date'"
+                                                    [paginator]="pendingTableData.length > 10" 
+                                                    [rows]="10" 
+                                                    [rowsPerPageOptions]=""
+                                                    [showCurrentPageReport]="pendingTableData.length > 10"
+                                                    [globalFilterFields]="['project_code','project_description', 'project_start_date','project_end_date', 'project_manager', 'no_of_days_missing_entry']">
+                                                    <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title font-opensans">Time Log Data</h4>
+                                                        <div class="search-container">
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="header">
+                                                      <tr>
+                                                        <th>Project Code</th>
+                                                        <th>Project Description</th>
+                                                        <th>Project Manager</th>
+                                                        <th pSortableColumn="project_start_date">Start Date<p-sortIcon field="project_start_date" /></th>
+                                                        <th>End / Till Date</th>
+                                                        <!-- <th>Allocation %</th> -->
+                                                        <th>Missed Entries</th>
+                                                        <th>Action</th>
+                                                      </tr>
+                                                    </ng-template>
+                                                    
+                                                    <ng-template pTemplate="body" let-rowData>
+                                                      <tr>
+                                                        <td>{{ rowData.project_code }}</td>
+                                                        <td>{{ rowData.project_description }}</td>
+                                                        <td>{{ rowData.project_manager?.includes(' - ') ? rowData.project_manager?.split(' - ')[1] : rowData.project_manager }}</td>
+                                                        <td data-bs-toggle="tooltip" data-bs-placement="top" title="Start date of an employee within a project assigned">{{ rowData.count_start_date | date : 'dd-MM-yyyy' }}</td>
+                                                        <td data-bs-toggle="tooltip" data-bs-placement="top" title="End date / Current Date for calculation of missed days">{{ rowData.count_end_date | date : 'dd-MM-yyyy' }}</td>
+                                                        <!-- <td class="center-align">{{ rowData.allocation_percent }}</td>                                                         -->
+                                                        <td class="center-align">{{ rowData.no_of_days_missing_entry }}</td>
+                                                        <td (click)="addTimesheet()" class="add-entry"><i class="fas fa-sign-in-alt"></i> {{  'Submit' }}</td>
+                                                      </tr>
+                                                    </ng-template>
+                                                  </p-table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

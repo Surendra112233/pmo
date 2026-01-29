@@ -1,0 +1,34 @@
+<div class="view-category">
+  <div class="card">
+    <div class="card-header text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">View Asset Category</h4>
+      <i class="fas fa-pen cursor-pointer"
+        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Asset Category" (click)="onEdit()"></i>
+    </div>
+
+    <div class="card-body">
+      <!-- Asset Type -->
+      <div class="form-row">
+        <label class="form-label">Asset Type</label>
+        <div class="form-value">{{ category?.asset_type }}</div>
+      </div>
+
+      <!-- Asset Category -->
+      <div class="form-row">
+        <label class="form-label">Asset Category</label>
+        <div class="form-value">{{ category?.asset_category }}</div>
+      </div>
+
+      <!-- Asset Sub-Category -->
+      <div class="form-row">
+        <label class="form-label">Asset Sub-Category</label>
+        <div class="form-value">{{ category?.asset_sub_category }}</div>
+      </div>
+
+
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

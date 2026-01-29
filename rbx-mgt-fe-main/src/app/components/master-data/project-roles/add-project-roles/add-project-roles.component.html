@@ -1,0 +1,44 @@
+<div class="main-container add-pro-roles">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">{{ taskHeaderText }}</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="projectRolesForm" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Project Role <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control name-ellipsis" formControlName="project_role"  placeholder="Enter Project Role" appNoSpace appAlphaNumericSpecialChars appFirstLetterCapital>
+                    <div *ngIf="getFormControl('project_role')?.invalid && (getFormControl('project_role')?.dirty || getFormControl('project_role')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('project_role')?.errors?.['required']">Please Enter Project Role</span>
+                        <span *ngIf="getFormControl('project_role')?.errors?.['minlength']">
+                            Project Role must be at least 3 characters long
+                          </span>
+                          <span *ngIf="getFormControl('project_role')?.errors?.['maxlength']">
+                            Project Role maximum length can not exceed 100 characters
+                          </span>
+                    </div>
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="button" class="btn btn-secondary me-2"  (click)="back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!projectRolesForm.valid" (click)="onSubmit()">{{ buttonValue }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

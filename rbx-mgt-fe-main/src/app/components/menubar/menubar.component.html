@@ -1,0 +1,378 @@
+<div class="layout">
+    <p-toast></p-toast>
+      <!-- Header -->
+      <header class="header">
+        <div class="left-section">
+          <span class="app-icon">
+              <img                
+                  alt=""
+                  class="img-fluid"
+                  src="../././../../assets/images/Roboxa Logo.png" width="100px"
+              />
+          </span>
+          <button (click)="toggleSidebar()" class="toggler">
+              <i class="fas fa-sharp fa-thin fa-bars"></i>
+          </button>
+        </div>
+        
+        <div class="right-section">
+          <div class="user-details">
+            <span class="display-name">{{"PMO Application"}}</span>
+            <!-- <span class="display-name">{{userName}}</span> -->
+          </div>
+          <div class="profile">
+            <i class="fas fa-user-circle profile-icon" pTooltip="Profile" tooltipPosition="left" (click)="toggleProfileMenu()"></i>
+            <ul *ngIf="isProfileMenuOpen" class="profile-menu">              
+                <li class="pt-text" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User Name">
+                    <i class="fas fa-user"></i> {{ userName }}
+                </li>
+                <li class="pt-text" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Designation">
+                    <i class="fas fa-briefcase"></i> {{ designation }}
+                </li>
+                <li class="roles-container pt-text" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Role(s)">
+                  <i class="fas fa-user-tag"></i> 
+                  <span class="truncate-text">{{ roles }}</span>
+                </li>
+                <li (click)="logout()">
+                    <i class="fas fa-power-off"></i> Logout
+                </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      
+      <div class="main-container" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <nav>
+            <ul>  
+              <li class="main-menu" *ngIf="roles.includes('UserAdmin')">
+                <span class="menu-header">User Management</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/maintain_users', '/user_registration', '/edit_user', '/view_user'])">
+                    <a routerLink="/um/maintain_users">
+                      <i class="fas fa-users" data-bs-toggle="tooltip" data-bs-placement="top" title="Maintain Users" *ngIf="isSidebarCollapsed"></i>
+                      <i class="fas fa-users" *ngIf="!isSidebarCollapsed"></i><span *ngIf="!isSidebarCollapsed">Maintain Users</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/maintain_roles','/assign_roles'])">
+                    <a routerLink="/um/maintain_roles">
+                        <i class="fas fa-user-tag" data-bs-toggle="tooltip" data-bs-placement="top" title="Assign Roles" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-user-tag" *ngIf="!isSidebarCollapsed"></i><span *ngIf="!isSidebarCollapsed">Assign Roles</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+  
+              <li class="main-menu" *ngIf="roles.includes('DataAdmin') || roles.includes('ITAdmin')">
+                <span class="menu-header">Master Data</span>
+                <ul >
+                  <li *ngIf="roles.includes('DataAdmin')" class="sub-menu" [class.active]="isActive(['/project_tasks', '/add_task', '/edit_task', '/view_task'])">
+                    <a routerLink="/md/project_tasks">
+                        <i class="fas fa-globe" data-bs-toggle="tooltip" data-bs-placement="top" title="Tasks" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-globe" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Tasks</span>
+                    </a>
+                  </li>
+                  <li *ngIf="roles.includes('DataAdmin')" class="sub-menu" [class.active]="isActive(['/project_roles', '/add_project_roles', '/edit_project_roles', '/view_project_roles'])">
+                    <a routerLink="/md/project_roles">
+                        <i class="fas fa-chart-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Project Roles" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-line" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Project Roles</span>
+                    </a>
+                  </li>
+
+                  <li *ngIf="roles.includes('ITAdmin')" class="sub-menu" [class.active]="isActive(['/companies', '/add_company', '/edit_company', '/view_company'])">
+                    <a routerLink="/md/companies">
+                        <i class="fas fa-building" data-bs-toggle="tooltip" data-bs-placement="top" title="Companies" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-building" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Companies</span>
+                    </a>
+                  </li>
+
+                  <li *ngIf="roles.includes('ITAdmin')" class="sub-menu" [class.active]="isActive(['/suppliers', '/add_supplier', '/edit_supplier', '/view_supplier'])">
+                    <a routerLink="/md/suppliers">
+                        <i class="fas fa-truck" data-bs-toggle="tooltip" data-bs-placement="top" title="Suppliers" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-truck" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Suppliers</span>
+                    </a>
+                  </li>
+
+                  <li *ngIf="roles.includes('ITAdmin')" class="sub-menu" [class.active]="isActive(['/asset_categories', '/add_category', '/edit_category', '/view_category'])">
+                    <a routerLink="/md/asset_categories">
+                        <i class="fas fa-layer-group" data-bs-toggle="tooltip" data-bs-placement="top" title="Asset Categories" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-layer-group" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Asset Categories</span>
+                    </a>
+                  </li>
+
+                  <li *ngIf="roles.includes('ITAdmin')" class="sub-menu" [class.active]="isActive(['/asset_models', '/add_model', '/edit_model', '/view_model'])">
+                    <a routerLink="/md/asset_models">
+                        <i class="fas fa-cubes" data-bs-toggle="tooltip" data-bs-placement="top" title="Asset Models" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-cubes" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Asset Models</span>
+                    </a>
+                  </li>
+
+                  <li *ngIf="roles.includes('ITAdmin')" class="sub-menu" [class.active]="isActive(['/status', '/add_status', '/edit_status', '/view_status'])">
+                    <a routerLink="/md/status">
+                        <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Status" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-info-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Status</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
+
+              <li class="main-menu" *ngIf="roles.includes('HR')">
+                <span class="menu-header">Human Resources</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/employees', '/add_employee', '/edit_employee', '/view_employee'])">
+                    <a routerLink="/hr/employees">
+                        <i class="fas fa-handshake" data-bs-toggle="tooltip" data-bs-placement="top" title="Employees" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-handshake" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Employees</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['hr/hr_approval'])">
+                    <a routerLink="/hr/hr_approval">
+                        <i class="fas fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Approval" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-check-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Approval</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['hr/reports'])">
+                    <a routerLink="/hr/reports">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="main-menu" *ngIf="roles.includes('ITAdmin')">
+                <span class="menu-header">Assets</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/hardware', '/add_hardware', '/edit_hardware', '/view_hardware'])">
+                    <a routerLink="/IT/hardware">
+                        <i class="fas fa-microchip" data-bs-toggle="tooltip" data-bs-placement="top" title="Hardware" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-microchip" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Hardware</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/software', '/add_software', '/edit_software', '/view_software'])">
+                    <a routerLink="/IT/software">
+                        <i class="fas fa-laptop-code" data-bs-toggle="tooltip" data-bs-placement="top" title="Software" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-laptop-code" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Software</span>
+                    </a>
+                  </li>                  
+                </ul>
+              </li>
+  
+              <li class="main-menu" *ngIf="roles.includes('PMO') || roles.includes('Allocation')">
+                <span class="menu-header">PMO</span>
+                <ul >
+                  <li class="sub-menu" *ngIf="roles.includes('PMO')"
+                    [class.active]="isActive(['/project-assignment', '/add-project-assignment', '/view-project-assignment', '/edit-project-assignment'])">
+                    <a routerLink="/pmo/project-assignment">
+                        <i class="fas fa-file-invoice" data-bs-toggle="tooltip" data-bs-placement="top" title="Projects" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-file-invoice" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Projects</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" *ngIf="roles.includes('Allocation')"
+                      [class.active]="isActive(['/allocation_percent'])">
+                    <a routerLink="/pmo/allocation_percent">
+                      <i class="fas fa-project-diagram" data-bs-toggle="tooltip" data-bs-placement="top" title="Assign Allocation" *ngIf="isSidebarCollapsed"></i>
+                      <i class="fas fa-project-diagram" *ngIf="!isSidebarCollapsed"></i>
+                      <span *ngIf="!isSidebarCollapsed">Assign Allocation</span>
+                    </a>
+                  </li>                  
+                  <li class="sub-menu" *ngIf="roles.includes('PMO')" 
+                    [class.active]="isActive(['pmo/summary-report'])">
+                    <a routerLink="/pmo/summary-report">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="main-menu" *ngIf="roles.includes('Employee')">
+              <!-- <li class="main-menu" *ngIf="roles.includes('HR') || roles.includes('PMO') || roles.includes('Employee') || roles.includes('Manager') || roles.includes('DeliveryHead') || roles.includes('Management')"> -->
+                <span class="menu-header">Employee</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/emp-dashboard'])">
+                    <a routerLink="/emp/emp-dashboard">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Dashboard" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/timesheet', '/add_timesheet', '/view_timesheet'])">
+                    <a routerLink="/emp/timesheet">
+                        <i class="fas fa-file-invoice" data-bs-toggle="tooltip" data-bs-placement="top" title="Timesheet Entry" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-file-invoice" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Timesheet Entry</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu"
+                      [class.active]="isActive(['/view_allocation_percent'])">
+                    <a routerLink="/pmo/view_allocation_percent">
+                      <i class="fas fa-project-diagram" data-bs-toggle="tooltip" data-bs-placement="top" title="View Allocation" *ngIf="isSidebarCollapsed"></i>
+                      <i class="fas fa-project-diagram" *ngIf="!isSidebarCollapsed"></i>
+                      <span *ngIf="!isSidebarCollapsed">View Allocation</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['emp/timeLog'])">
+                    <a routerLink="/emp/timeLog">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+
+              <li class="main-menu" *ngIf="roles.includes('Manager')">
+                <span class="menu-header">Manager</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/mng-dashboard'])">
+                    <a routerLink="/manager/mng-dashboard">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Dashboard" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/approval'])">
+                    <a routerLink="/manager/approval">
+                        <i class="fas fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Approval" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-check-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Approval</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu">
+                    <a routerLink="/manager/utilization">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                    
+                    <ul >
+                      <li class="sub-menu" [class.active]="isActive(['/utilization'])">
+                        <a routerLink="/manager/utilization">
+                          <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Utilization" *ngIf="isSidebarCollapsed"></i>
+                          <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Utilization</span>
+                        </a>
+                      </li>
+                      <li class="sub-menu" [class.active]="isActive(['/manager/timeLog'])">
+                        <a routerLink="/manager/timeLog">
+                            <i class="fas fa-business-time" data-bs-toggle="tooltip" data-bs-placement="top" title="Time Log" *ngIf="isSidebarCollapsed"></i>
+                            <i class="fas fa-business-time" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Time Log</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>              
+
+              <li class="main-menu" *ngIf="roles.includes('DeliveryHead')">
+                <span class="menu-header">Delivery Head</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/dh-dashboard'])">
+                    <a routerLink="/dh/dh-dashboard">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Dashboard" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/dh-approval'])">
+                    <a routerLink="/dh/dh-approval">
+                        <i class="fas fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Approval" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-check-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Approval</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu">
+                    <a routerLink="/dh/dh-utilization">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                    
+                    <ul >
+                      <li class="sub-menu" [class.active]="isActive(['/dh-utilization'])">
+                        <a routerLink="/dh/dh-utilization">
+                          <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Utilization" *ngIf="isSidebarCollapsed"></i>
+                          <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Utilization</span>
+                        </a>
+                      </li>
+                      <li class="sub-menu" [class.active]="isActive(['/dh-timeLog'])">
+                        <a routerLink="/dh/dh-timeLog">
+                            <i class="fas fa-business-time" data-bs-toggle="tooltip" data-bs-placement="top" title="Time Log" *ngIf="isSidebarCollapsed"></i>
+                            <i class="fas fa-business-time" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Time Log</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="main-menu" *ngIf="roles.includes('Management')">
+                <span class="menu-header">Management</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/mnt-dashboard'])">
+                    <a routerLink="/mgmnt/mnt-dashboard">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Dashboard" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/mnt-approval'])">
+                    <a routerLink="/mgmnt/mnt-approval">
+                        <i class="fas fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Approval" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-check-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Approval</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu">
+                    <a routerLink="/mgmnt/mnt-utilization">
+                        <i class="fas fa-chart-bar" data-bs-toggle="tooltip" data-bs-placement="top" title="Reports" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-chart-bar" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Reports</span>
+                    </a>
+                    
+                    <ul >
+                      <li class="sub-menu" [class.active]="isActive(['/mnt-utilization'])">
+                        <a routerLink="/mgmnt/mnt-utilization">
+                          <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Utilization" *ngIf="isSidebarCollapsed"></i>
+                          <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Utilization</span>
+                        </a>
+                      </li>
+                      <li class="sub-menu" [class.active]="isActive(['/mnt-timeLog'])">
+                        <a routerLink="/mgmnt/mnt-timeLog">
+                            <i class="fas fa-business-time" data-bs-toggle="tooltip" data-bs-placement="top" title="Time Log" *ngIf="isSidebarCollapsed"></i>
+                            <i class="fas fa-business-time" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Time Log</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+
+              <!-- Travel Module Start -->
+              <li class="main-menu">
+                <span class="menu-header">Travel</span>
+                <ul >
+                  <li class="sub-menu" [class.active]="isActive(['/travel-requests','/raise-travel-request','/view-travel-request','/edit_travel_request'])">
+                    <a routerLink="/travel/travel-requests">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Requests" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Request</span>
+                    </a>
+                  </li>
+                  <li class="sub-menu" [class.active]="isActive(['/raise-cash-advance-request'])">
+                    <a routerLink="/travel/raise-cash-advance-request">
+                        <i class="fas fa-tachometer-alt" data-bs-toggle="tooltip" data-bs-placement="top" title="Cash Advance" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-tachometer-alt" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Cash Advance</span>
+                    </a>
+                  </li>
+                  <!-- <li class="sub-menu" [class.active]="isActive(['/travel-approvals'])">
+                    <a routerLink="/travel/travel-approvals">
+                        <i class="fas fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Approvals" *ngIf="isSidebarCollapsed"></i>
+                        <i class="fas fa-check-circle" *ngIf="!isSidebarCollapsed"></i> <span *ngIf="!isSidebarCollapsed">Approvals</span>
+                    </a>
+                  </li> -->
+                </ul>
+              </li>
+              <!-- Travel Module End -->
+
+            </ul>
+          </nav>
+        </aside>
+      
+        <!-- Main Content -->
+        <main class="content">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>

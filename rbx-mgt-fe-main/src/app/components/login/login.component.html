@@ -1,0 +1,237 @@
+<div class="login-container">
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <div class="bg-overlay"></div>
+        <!-- <div class="shape">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
+                <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
+            </svg>
+        </div> -->
+    </div>
+
+    <div class="auth-page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div style="position:absolute; left:10px; top:-25px;">
+                    <!-- <div class="text-center mt-sm-5 mb-4 justify-content-center" style="text-align: center !important;"> -->
+                        <a class="d-inline-block auth-logo" style="display: inline-block !important;">
+                            <img src="../../../assets/images/Roboxa Logo.png" alt="" height="50" class="logo-image" >
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p-toast></p-toast>
+            <div class="row justify-content-center login-row" style="margin-top: 170px;">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card mt-4 card-bg-fill login-card">
+                        <div class="card-body p-4">
+                            <div class="text-center mt-2">
+                                <h5 class="text-primary">PMO</h5>
+                                <p class="text-muted" *ngIf="enableOTPField">Enter OTP sent to your registered email</p>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <form [formGroup]="loginForm" class="form-horizontal">
+                                    <div class="mb-3" *ngIf="!enableOTPField">
+                                        <label class="label-text">Email
+                                        <label class="required-field">*</label></label>
+                                        <input #usernameField [class.error]="apiErrors['errMsg'] || apiErrors['username']" autocomplete="off" style="margin-top:2%;border-radius: 15px; " type="text" formControlName="username"
+                                        appNoSpace                                          
+                                        (keydown)="clearError()"
+                                        (keydown)="handleEmailKeyDown($event)"
+                                        (input)="onEmailInput()"
+                                        class="form-control username" id="username" placeholder="Enter Email">
+                                        <div *ngIf="getFormControl('username')?.invalid && (getFormControl('username')?.dirty || getFormControl('username')?.touched) && !apiErrors['username']">
+                                            <span *ngIf="getFormControl('username')?.errors?.['required']" class="text-danger small">Email is required.</span>
+                                            <span *ngIf="!getFormControl('username')?.errors?.['maxlength'] && getFormControl('username')?.errors?.['email']" class="text-danger small">Please enter a valid email.</span>
+                                            <span *ngIf="getFormControl('username')?.errors?.['maxlength']" class="text-danger small">Maximum 100 characters allowed.</span>
+                                        </div>
+                                        <div *ngIf="apiErrors['username']" class="text-danger small">
+                                            {{ apiErrors['username'] }}
+                                        </div>                           
+                                    </div>
+                                    
+                                    <div class="mb-3" *ngIf="!enableOTPField">
+                                        <label class="label-text password-label form-group has-top-label w-100" for="password">Password
+                                        <label class="required-field">*</label>
+                                        </label>                                   
+                                        <div class="input-group password-field" [class.error]="apiErrors['errMsg'] || apiErrors['password']">
+                                            <input #passwordField
+                                              autocomplete="off"
+                                              id="password" appNoSpace
+                                              [type]="showPassword ? 'text' : 'password'"
+                                              formControlName="password"
+                                              class="form-control password"
+                                              placeholder="Enter Password"
+                                              appNoSpace  (keydown)="clearError()"                                       
+                                              maxlength="16" style="border-radius: 15px;"/>
+                                            <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer">
+                                                <i [ngClass]="showPassword ? 'las la-eye-slash' : ' las la-eye'"></i>
+                                            </span>
+                                          </div>
+                                        <div *ngIf="getFormControl('password')?.invalid && (getFormControl('password')?.dirty || getFormControl('password')?.touched) && !apiErrors['password']" class="text-danger small">
+                                            <span *ngIf="getFormControl('password')?.errors?.['required']" class="error-msg">Password is required.</span>
+                                            <span *ngIf="getFormControl('password')?.errors?.['minLength']">Minimum 6 characters are required.</span>
+                                            <span *ngIf="getFormControl('password')?.errors?.['maxLength']"> Maximum 16 characters are allowed.</span>
+                                            <span *ngIf="getFormControl('password')?.errors?.['invalidPassword']"> Password must contain at least one uppercase letter, one digit, and one special character.</span>
+                                        </div>
+                                        <div *ngIf="apiErrors['password']" class="input-group-text">
+                                            {{ apiErrors['password'] }}
+                                        </div>
+                                        <span *ngIf="loginErrorMessage" class="text-danger small">
+                                            {{loginErrorMessage}}
+                                        </span>
+                                    </div>
+
+                                    
+
+                                    <div class="mb-3" *ngIf="enableOTPField">
+                                        <label for="otp" class="form-label label-text">OTP
+                                            <label class="required-field">*</label></label>
+                                        <input autocomplete="off" type="text" formControlName="otp" maxlength="6" appNoSpace
+                                          class="form-control  mb-3" (input)="validateOTP($event, 'otp')" id="otp" appAlphanumeric placeholder="Enter OTP" style="border-radius: 15px;">
+                                          <div *ngIf="getFormControl('otp')?.invalid && (getFormControl('otp')?.dirty || getFormControl('otp')?.touched)" class="text-danger small">
+                                            <span *ngIf="getFormControl('otp')?.errors?.['required']">otp is required</span>
+                                        </div>
+                                        <div class="otp-timer">
+                                            <p id="timer" *ngIf="otpText">OTP will Expire in {{ min }}:{{ sec }}</p>
+                                            <p id="timer" *ngIf="!otpText">OTP Expired.</p>
+                                            <button type="button" (click)="resendOtp()" class="btn btn-link resend-btn" [disabled]="isResendDisabled">Resend OTP</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <div class="col-md-12" *ngIf="!enableOTPField">
+                                          <button (click)="onLogin(false)" class="btn submit-btn" [disabled]="!getFormValidation()||isLoginbtnDisable">Login</button>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="enableOTPField">
+                                          <button (click)="onSubmit()" [disabled]="!loginForm.get('otp')?.value||!otpText" class="btn submit-btn">Submit</button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="apiErrors['errMsg']" class="text-danger small">
+                                        {{ apiErrors['errMsg'] }}
+                                    </div>
+
+                                    <div *ngIf="!enableOTPField" class="mt-4" style="padding-top: 6px; margin-top: 0.5rem !important; display: flex; justify-content: space-between;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe" >
+                                            <label class="form-check-label" for="rememberMe" class="text-muted forgot-pass" style="color: #00acc1 !important;">Keep me signed in</label>
+                                        </div>
+                                        <a [routerLink]="['/forgot_password']" class="text-muted forgot-pass" style="color: #00acc1 !important;">
+                                            <i class="las la-lock me-1"></i> Forgot Password ?</a>                                        
+                                    </div>
+                                  </form>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="auth-wrapper">
+    <div class="bg-image"></div>
+    <p-toast></p-toast>
+    <div class="auth-content">
+      <div class="card">
+          <form [formGroup]="loginForm">
+              <div class="row align-items-center text-center">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                          <img                
+                          alt=""
+                          class="img-fluid mb-4"
+                          src="../../../assets/images/Roboxa Logo.png" width="150px" height="100px"
+                          />
+                      <h4 class="mb-3 f-w-400">FINANCE</h4>
+                        <div class="mb-3" *ngIf="!enableOTPField">
+                            <label class="label-text">Email
+                            <label class="required-field">*</label></label>
+                            <input #usernameField [class.error]="apiErrors['errMsg'] || apiErrors['username']" autocomplete="off" style="margin-top:2%;border-radius: 15px; " type="text" formControlName="username"
+                                appNoSpace                                          
+                                (keydown)="clearError()"
+                                class="form-control username" id="username" placeholder="Enter Email">
+                            <div *ngIf="getFormControl('username')?.invalid && (getFormControl('username')?.dirty || getFormControl('username')?.touched) && !apiErrors['username']">
+                                <span *ngIf="getFormControl('username')?.errors?.['required']" class="text-danger small">Email is required.</span>
+                                <span *ngIf="!getFormControl('username')?.errors?.['maxlength'] && getFormControl('username')?.errors?.['email']" class="text-danger small">Please enter a valid email.</span>
+                                <span *ngIf="getFormControl('username')?.errors?.['maxlength']" class="text-danger small">Maximum 100 characters allowed.</span>
+                            </div>
+                            <div *ngIf="apiErrors['username']" class="text-danger small">
+                                {{ apiErrors['username'] }}
+                            </div>                           
+                        </div>
+
+                        <div class="mb-3" *ngIf="!enableOTPField">
+                            <label class="label-text password-label form-group has-top-label w-100" for="password">Password
+                            <label class="required-field">*</label>
+                            </label>                                   
+                            <div class="input-group password-field" [class.error]="apiErrors['errMsg'] || apiErrors['password']">
+                                <input #passwordField
+                                  autocomplete="off"
+                                  id="password" appNoSpace
+                                  [type]="showPassword ? 'text' : 'password'"
+                                  formControlName="password"
+                                  (paste)="preventPaste($event)"
+                                  class="form-control password"
+                                  placeholder="Enter Password"
+                                  appNoSpace  (keydown)="clearError()"                                       
+                                  maxlength="16" style="border-radius: 15px;"/>
+                                <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer">
+                                    <i [ngClass]="showPassword ? 'las la-eye-slash' : ' las la-eye'"></i>
+                                </span>
+                              </div>
+                            <div *ngIf="getFormControl('password')?.invalid && (getFormControl('password')?.dirty || getFormControl('password')?.touched) && !apiErrors['password']" class="text-danger small">
+                                <span *ngIf="getFormControl('password')?.errors?.['required']" class="error-msg">Password is required.</span>
+                                <span *ngIf="getFormControl('password')?.errors?.['minLength']">Minimum 6 characters are required.</span>
+                                <span *ngIf="getFormControl('password')?.errors?.['maxLength']"> Maximum 16 characters are allowed.</span>
+                                <span *ngIf="getFormControl('password')?.errors?.['invalidPassword']"> Password must contain at least one uppercase letter, one digit, and one special character.</span>
+                            </div>
+                            <div *ngIf="apiErrors['password']" class="input-group-text">
+                                {{ apiErrors['password'] }}
+                            </div>
+                            <span *ngIf="loginErrorMessage" class="text-danger small">
+                                {{loginErrorMessage}}
+                            </span>
+                        </div>
+
+                        <div class="mb-3" *ngIf="enableOTPField">
+                            <label for="otp" class="form-label label-text">OTP
+                                <label class="required-field">*</label></label>
+                            <input autocomplete="off" type="text" formControlName="otp" maxlength="6" appNoSpace
+                              class="form-control  mb-3" (input)="validateOTP($event, 'otp')" id="otp" appAlphanumeric placeholder="Enter OTP" style="border-radius: 15px;">
+                              <div *ngIf="getFormControl('otp')?.invalid && (getFormControl('otp')?.dirty || getFormControl('otp')?.touched)" class="text-danger small">
+                                <span *ngIf="getFormControl('otp')?.errors?.['required']">otp is required</span>
+                            </div>
+                            <div class="otp-timer">
+                                <p id="timer" *ngIf="otpText">OTP will Expire in {{ min }}:{{ sec }}</p>
+                                <p id="timer" *ngIf="!otpText">OTP Expired.</p>
+                                <button type="button" (click)="resendOtp()" class="btn btn-link resend-btn" [disabled]="isResendDisabled">Resend OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="col-md-12" *ngIf="!enableOTPField">
+                              <button (click)="onLogin(false)" class="btn submit-btn" [disabled]="!getFormValidation()||isLoginbtnDisable">Login</button>
+                            </div>
+                            <div class="col-md-12" *ngIf="enableOTPField">
+                              <button (click)="onSubmit()" [disabled]="!loginForm.get('otp')?.value||!otpText" class="btn submit-btn">Submit</button>
+                            </div>
+                        </div>
+                        <div *ngIf="apiErrors['errMsg']" class="text-danger small">
+                            {{ apiErrors['errMsg'] }}
+                        </div>
+
+                        <div *ngIf="!enableOTPField" class="mt-4" style="padding-top: 6px; margin-top: 0.5rem !important; display: flex; justify-content: space-between;">
+                            <a [routerLink]="['/forgot_password']" class="text-muted forgot-pass" style="color: #00acc1 !important;">
+                                <i class="las la-lock me-1"></i> Forgot Password ?</a>
+                            
+                        </div>
+                    </div>
+                  </div>
+                </div>
+          </form>
+  
+      </div>
+    </div>
+</div> -->
+  

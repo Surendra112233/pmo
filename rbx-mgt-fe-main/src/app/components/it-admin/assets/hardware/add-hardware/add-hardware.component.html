@@ -1,0 +1,837 @@
+<div class="main-container add-hardware">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">{{page_title}} Hardware</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form [formGroup]="hardwareForm">
+                                                <p-accordion>
+
+                                                    <!-- General Data -->
+                                                    <p-accordionTab header="General Data" [selected]="true">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Type<span class="text-danger">*</span></label>
+                                                                <div class="form-value">{{'Hardware'}}</div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Category <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="assetCategories" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Asset Category" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name" 
+                                                                        formControlName="assetCategory"
+                                                                        (onChange)="onCategoryChange('onChange')">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('assetCategory')?.dirty || hardwareForm.get('assetCategory')?.touched) 
+                                                                                && hardwareForm.get('assetCategory')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('assetCategory')?.errors?.['required']">
+                                                                            Asset category is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Sub Category <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="assetSubCategories" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Asset Sub Category" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name" 
+                                                                        formControlName="assetSubCategory">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('assetSubCategory')?.dirty || hardwareForm.get('assetSubCategory')?.touched) 
+                                                                                && hardwareForm.get('assetSubCategory')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('assetSubCategory')?.errors?.['required']">
+                                                                            Asset sub category is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Name <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter Asset Name" formControlName="assetName" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('assetName')?.dirty || hardwareForm.get('assetName')?.touched) 
+                                                                                && hardwareForm.get('assetName')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('assetName')?.errors?.['required']">
+                                                                            Asset name is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetName')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetName')?.errors?.['maxlength']">
+                                                                            Maximum 40 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Company<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="companies" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Company" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name" 
+                                                                        formControlName="company"
+                                                                        (onChange)="onCompanyChange('onChange')">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('company')?.dirty || hardwareForm.get('company')?.touched) 
+                                                                                && hardwareForm.get('company')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('company')?.errors?.['required']">
+                                                                            Company is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Location<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-dropdown 
+                                                                            [options]="locations" 
+                                                                            optionLabel="name" 
+                                                                            optionValue="name"
+                                                                            placeholder="Select Location" 
+                                                                            [filter]="true" 
+                                                                            filterBy="name" 
+                                                                            formControlName="location">
+                                                                            </p-dropdown>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(hardwareForm.get('location')?.dirty || hardwareForm.get('location')?.touched) 
+                                                                                    && hardwareForm.get('location')?.invalid">
+                                                                            <div *ngIf="hardwareForm.get('location')?.errors?.['required']">
+                                                                                Location is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Roboxa Asset Id <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Roboxa Asset Id" formControlName="assetId" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('assetId')?.dirty || hardwareForm.get('assetId')?.touched) 
+                                                                                && hardwareForm.get('assetId')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('assetId')?.errors?.['required']">
+                                                                            Roboxa Asset Id is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetId')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetId')?.errors?.['maxlength']">
+                                                                            Maximum 30 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Configuration Details</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Configuration details" formControlName="configDetails" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('configDetails')?.dirty || hardwareForm.get('configDetails')?.touched) 
+                                                                                && hardwareForm.get('configDetails')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('configDetails')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('configDetails')?.errors?.['maxlength']">
+                                                                            Maximum 100 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                             <div class="form-row">
+                                                                <label class="form-label">External</label>
+                                                                <input class="form-check-input" type="checkbox" id="external" formControlName="external" style="margin-top: 0px; font-size: 20px;">
+                                                            </div>
+
+                                                            <div class="form-row" *ngIf="hardwareForm.get('external')?.value === true">
+                                                                <label class="form-label">Transfer From <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter Transfer From" formControlName="transferFrom" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('transferFrom')?.dirty || hardwareForm.get('transferFrom')?.touched) 
+                                                                                && hardwareForm.get('transferFrom')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('transferFrom')?.errors?.['required']">
+                                                                            Transfer From is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('transferFrom')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('transferFrom')?.errors?.['maxlength']">
+                                                                            Maximum 40 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row" *ngIf="hardwareForm.get('external')?.value === true">
+                                                                <label class="form-label">Transfer From Date<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar7 (keydown)="calendar7.showOverlay()" appDisableKeys
+                                                                        formControlName="transferFromDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" [maxDate]="maxDate" placeholder="Select Transfer From Date"></p-calendar>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('transferFromDate')?.dirty || hardwareForm.get('transferFromDate')?.touched) 
+                                                                                && hardwareForm.get('transferFromDate')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('transferFromDate')?.errors?.['required']">
+                                                                            Transfer From Date is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row" *ngIf="hardwareForm.get('external')?.value === true">
+                                                                <label class="form-label">Transfer To <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter Transfer To" formControlName="transferTo" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('transferTo')?.dirty || hardwareForm.get('transferTo')?.touched) 
+                                                                                && hardwareForm.get('transferTo')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('transferTo')?.errors?.['required']">
+                                                                            Transfer To is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('transferTo')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('transferTo')?.errors?.['maxlength']">
+                                                                            Maximum 40 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row" *ngIf="hardwareForm.get('external')?.value === true">
+                                                                <label class="form-label">Transfer To Date<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar8 (keydown)="calendar8.showOverlay()" appDisableKeys
+                                                                        formControlName="transferToDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" [maxDate]="maxDate" placeholder="Select Transfer To Date"></p-calendar>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('transferToDate')?.dirty || hardwareForm.get('transferToDate')?.touched) 
+                                                                                && hardwareForm.get('transferToDate')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('transferToDate')?.errors?.['required']">
+                                                                            Transfer To Date is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="form-row">
+                                                                <label class="form-label">Manufacturer Asset Tag <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Asset Tag" formControlName="assetTag" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('assetTag')?.dirty || hardwareForm.get('assetTag')?.touched) 
+                                                                                && hardwareForm.get('assetTag')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('assetTag')?.errors?.['required']">
+                                                                            Asset tag is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetTag')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('assetTag')?.errors?.['maxlength']">
+                                                                            Maximum 30 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Manufacturer Serial Number<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Serial Number" formControlName="serialNumber" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('serialNumber')?.dirty || hardwareForm.get('serialNumber')?.touched) 
+                                                                                && hardwareForm.get('serialNumber')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('serialNumber')?.errors?.['required']">
+                                                                            Serial number is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('serialNumber')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('serialNumber')?.errors?.['maxlength']">
+                                                                            Maximum 30 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Model <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div class="wdh-100 d-flex align-items-center">
+                                                                        <p-dropdown 
+                                                                        [options]="models" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Select Model" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="model">
+                                                                        </p-dropdown>
+
+                                                                        <span style="cursor: pointer; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Model"
+                                                                         (click)="onAddModel()">
+                                                                            <i class="fas fa-plus-circle fa-lg"></i>
+                                                                        </span>
+                                                                    </div>                                                           
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('model')?.dirty || hardwareForm.get('model')?.touched) 
+                                                                                && hardwareForm.get('model')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('model')?.errors?.['required']">
+                                                                            Model is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div class="wdh-100 d-flex align-items-center">
+                                                                        <p-dropdown 
+                                                                        [options]="statuses" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Select Status" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="status">
+                                                                        </p-dropdown>
+
+                                                                        <span style="cursor: pointer; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Status"
+                                                                         (click)="onAddStatus()">
+                                                                            <i class="fas fa-plus-circle fa-lg"></i>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('status')?.dirty || hardwareForm.get('status')?.touched) 
+                                                                                && hardwareForm.get('status')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('status')?.errors?.['required']">
+                                                                            Status is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                                <div class="form-row">
+                                                                    <label class="form-label">User Name <span class="text-danger">*</span></label>
+                                                                    <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-dropdown 
+                                                                            [options]="users" 
+                                                                            optionLabel="label" 
+                                                                            optionValue="label"
+                                                                            placeholder="Select User Name" 
+                                                                            [filter]="true" 
+                                                                            filterBy="label" 
+                                                                            formControlName="userName"
+                                                                            [class.disableDropdown]="isEmpLoading"
+                                                                            [loading]="isEmpLoading"
+                                                                            [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                            </p-dropdown>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(hardwareForm.get('userName')?.dirty || hardwareForm.get('userName')?.touched) 
+                                                                                    && hardwareForm.get('userName')?.invalid">
+                                                                            <div *ngIf="hardwareForm.get('userName')?.errors?.['required']">
+                                                                                User name is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-row">
+                                                                    <label class="form-label">From Date<span class="text-danger">*</span></label>
+                                                                    <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-calendar
+                                                                            #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                                                            formControlName="fromDate" [showTime]="false" appendTo="body"
+                                                                            dateFormat="dd/mm/yy" [maxDate]="maxDate" placeholder="Select From Date"></p-calendar>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(hardwareForm.get('fromDate')?.dirty || hardwareForm.get('fromDate')?.touched) 
+                                                                                    && hardwareForm.get('fromDate')?.invalid">
+                                                                            <div *ngIf="hardwareForm.get('fromDate')?.errors?.['required']">
+                                                                                From Date is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                                
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Notes</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" class="form-control" placeholder="Enter Notes" formControlName="notes" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('notes')?.dirty || hardwareForm.get('notes')?.touched) 
+                                                                                && hardwareForm.get('notes')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('notes')?.errors?.['required']">
+                                                                            Notes is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('notes')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('notes')?.errors?.['maxlength']">
+                                                                            Maximum 80 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Image
+                                                                    <div class="text-muted small mb-2 fw-500">
+                                                                        (Only pdf/jpeg format allowed. Max size <i>5MB</i>)
+                                                                    </div>
+                                                                </label>
+                                                                <div class="form-value password-field">
+                                                                    <input type="file" (change)="onFileSelect($event, 'image')" id="image_attachment" formControlName="image"/>
+                                                                    <i *ngIf="imgAvailable == true"
+                                                                    class="fas fa-eye"
+                                                                    style="cursor: pointer; margin-left: 8px"
+                                                                    (click)="viewPdf('image')"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view image document"
+                                                                    >
+                                                                    </i>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+                                                    
+                                                    <!-- Optional Info -->
+                                                    <p-accordionTab header="Optional Info">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty Start Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar3 (keydown)="calendar3.showOverlay()" appDisableKeys
+                                                                        formControlName="warrantyStart" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Start Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty End Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar4 (keydown)="calendar4.showOverlay()" appDisableKeys
+                                                                        formControlName="warrantyEnd" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select End Date"
+                                                                        (change)="testEnddate(hardwareForm.get('warrantyEnd'), hardwareForm.get('warrantyStart'))"></p-calendar>
+                                                                    </div>
+                                                                    
+                                                                    <div *ngIf="hardwareForm.errors?.['endDateLessThanStartDate'] && (hardwareForm.get('warrantyEnd')?.dirty || hardwareForm.get('warrantyStart')?.dirty)" 
+                                                                        class="text-danger small">End date must be greater than or equal to start date.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty Status</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <select class="form-select" formControlName="warrantyStatus" id="warrantyStatus"  >
+                                                                            <option value="" disabled selected>Select Warranty Status</option>
+                                                                            <option *ngFor="let status of warrantyStatus" [value]="status.id">{{ status.name }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC Vendor</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter AMC Vendor" formControlName="amcVendor" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('amcVendor')?.dirty || hardwareForm.get('amcVendor')?.touched) 
+                                                                                && hardwareForm.get('amcVendor')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('amcVendor')?.errors?.['amcVendor']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('amcVendor')?.errors?.['maxlength']">
+                                                                            Maximum 100 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC Start Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar9 (keydown)="calendar9.showOverlay()" appDisableKeys
+                                                                        formControlName="amcStartDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select AMC Start Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC End Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar10 (keydown)="calendar10.showOverlay()" appDisableKeys
+                                                                        formControlName="amcEndDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select AMC End Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Check-In Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar5 (keydown)="calendar5.showOverlay()" appDisableKeys
+                                                                        formControlName="checkInDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Check-In Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">BYOD</label>
+                                                                <input class="form-check-input" type="checkbox" id="interCompany" formControlName="byod" style="margin-top: 0px; font-size: 20px;">
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>                                                
+
+                                                    <!-- Order Info -->
+                                                    <p-accordionTab header="Order Info">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Order Number</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Order Number" formControlName="orderNumber" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('orderNumber')?.dirty || hardwareForm.get('orderNumber')?.touched) 
+                                                                                && hardwareForm.get('orderNumber')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('orderNumber')?.errors?.['required']">
+                                                                            Order number is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('orderNumber')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('orderNumber')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Purchase Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar6 (keydown)="calendar6.showOverlay()" appDisableKeys
+                                                                        formControlName="purchaseDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Purchase Date"></p-calendar>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('purchaseDate')?.dirty || hardwareForm.get('purchaseDate')?.touched) 
+                                                                                && hardwareForm.get('purchaseDate')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('purchaseDate')?.errors?.['required']">
+                                                                            Purchase date is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Supplier</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div class="wdh-100 d-flex align-items-center">
+                                                                        <p-dropdown 
+                                                                        [options]="suppliers" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Select Supplier" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="supplier">
+                                                                        </p-dropdown>
+
+                                                                        <span style="cursor: pointer; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Supplier"
+                                                                         (click)="onAddSupplier()">
+                                                                            <i class="fas fa-plus-circle fa-lg"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Purchase Cost</label>
+                                                                <div class="wdh-100">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <input type="text" appNumbersOnly class="form-control" 
+                                                                        placeholder="Enter Purchase Cost" formControlName="purchaseCost"
+                                                                        (blur)="onPurchaseCostBlur()" />
+                                                                        
+                                                                        <p-dropdown 
+                                                                        [options]="currencyList" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Currency" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="currency"
+                                                                        class="currencyList">
+                                                                        </p-dropdown>
+                                                                    </div>                                                                   
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="purchaseCostTouched 
+                                                                        && hardwareForm.get('currency')?.invalid
+                                                                        && hardwareForm.get('currency')?.errors?.['required']">
+                                                                        Currency is required when Purchase Cost is entered.
+                                                                    </div>                                                                   
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Invoice Copy
+                                                                    <div class="text-muted small mb-2 fw-500">
+                                                                        (Only pdf/jpeg format allowed. Max size <i>5MB</i>)
+                                                                    </div>
+                                                                </label>
+                                                                <!-- <div class="flex-1 wdh-100">
+                                                                    <input type="file" (change)="onFileSelect($event, 'invoice')" id="invoice_attachment" formControlName="invoiceCopy"/>
+                                                                </div> -->
+                                                                <div class="form-value password-field">
+                                                                    <input type="file" (change)="onFileSelect($event, 'invoice')" id="invoice_attachment" formControlName="invoiceCopy"/>
+                                                                    <i *ngIf="invAvailable == true"
+                                                                    class="fas fa-eye"
+                                                                    style="cursor: pointer; margin-left: 8px"
+                                                                    (click)="viewPdf('invoice')"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view invoice document"
+                                                                    >
+                                                                    </i>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+
+                                                    <!-- Admin Credentials -->
+                                                    <p-accordionTab header="Admin Credentials">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Admin User Name<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Admin User Name" formControlName="adminUserName" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('adminUserName')?.dirty || hardwareForm.get('adminUserName')?.touched) 
+                                                                                && hardwareForm.get('adminUserName')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('adminUserName')?.errors?.['required']">
+                                                                            Admin user name is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('adminUserName')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('adminUserName')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Admin Password <span class="text-danger">*</span>                                                                   </label>
+                                                                <div class="flex-1 wdh-100 input-group password-field">
+                                                                    <input 
+                                                                    [type]="showPassword ? 'text' : 'password'" 
+                                                                    class="form-control" 
+                                                                    placeholder="Enter Admin Password" 
+                                                                    formControlName="adminPassword"
+                                                                    />
+
+                                                                    <!-- Toggle Icon -->
+                                                                    <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer">
+                                                                        <i [ngClass]="showPassword ? 'fas fa-eye-slash' : ' fas fa-eye'"></i>
+                                                                    </span>
+                                                                </div>                                                                
+                                                            </div>
+
+                                                            <div class="form-row pwd-fld-err">
+                                                                <label></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <!-- Validation Errors -->
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(hardwareForm.get('adminPassword')?.dirty || hardwareForm.get('adminPassword')?.touched) 
+                                                                                && hardwareForm.get('adminPassword')?.invalid">
+                                                                        <div *ngIf="hardwareForm.get('adminPassword')?.errors?.['required']">
+                                                                            Admin password is required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('adminPassword')?.errors?.['minlength']">
+                                                                            Minimum 6 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="hardwareForm.get('adminPassword')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+
+                                                    <!-- Assignment Details -->
+                                                    <p-accordionTab header="Assignment Details" *ngIf="hardware_id">
+                                                        <p-table [value]="assignmentDetails.controls"
+                                                            [tableStyle]="{'width': '100%'}"
+                                                            [paginator]="assignmentDetails.controls.length > 0"
+                                                            [rows]="10"
+                                                            [rowsPerPageOptions]=""
+                                                            [showCurrentPageReport]="assignmentDetails.controls.length > 0"
+                                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                            #dt2
+                                                            [globalFilterFields]="[]">
+                                                            <ng-template pTemplate="caption">
+                                                                <h4 class="card-title mb-0 flex-grow-1">Assignment Details</h4>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="header">
+                                                                <tr>
+                                                                    <th>User Name</th>
+                                                                    <th>Status</th>
+                                                                    <th>From Date</th>
+                                                                    <th>To Date</th>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="body" let-row>
+                                                                <tr>
+                                                                    <td>{{ row.value.userName }}</td>
+                                                                    <td>{{ row.value.status }}</td>
+                                                                    <td>{{ row.value.fromDate ? (row.value.fromDate | date:'dd-MM-yyyy') : '-' }}</td>
+                                                                    <td>{{ row.value.toDate ? (row.value.toDate | date:'dd-MM-yyyy') : '-' }}</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="emptymessage">
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center">No details found</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </p-table>
+                                                    </p-accordionTab>
+                                                </p-accordion>
+
+                                                <!-- Audit Trail (Read-only, not accordion) -->
+                                                <div class="audit-trial mt-3" *ngIf="hardware_id">
+                                                    <!-- <h4>Audit Trail</h4> -->
+                                                    <div class="form-row">
+                                                        <label>Last Modified By</label>
+                                                        <span>{{hardwareForm.get('auditTrail.lastChangedBy')?.value}}</span>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <label>Last Modified Date</label>
+                                                        <span>{{hardwareForm.get('auditTrail.lastChangedDate')?.value | date:'dd-MM-yyyy HH:mm'}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Form Actions -->
+                                                <div class="form-actions text-center mt-3">
+                                                    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary" [disabled]="!getFormValidation()" (click)="onSubmit()">{{btn_text}}</button>
+                                                </div>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Dialog for adding model -->
+<p-dialog header="" [(visible)]="displayAddModelDialog" [modal]="true" [closable]="true" [style]="{width: '75%'}">
+  <app-add-asset-model [from_hardware]="true" (model_for_hardware)="onModelAdded($event)"></app-add-asset-model>
+</p-dialog>
+
+
+<!-- Dialog for adding status -->
+<p-dialog header="" [(visible)]="displayAddStatusDialog" [modal]="true" [closable]="true" [style]="{width: '75%'}">
+  <app-add-status [from_hardware]="true" (status_for_hardware)="onStatusAdded($event)"></app-add-status>
+</p-dialog>
+
+
+<!-- Dialog for adding supoplier -->
+<p-dialog header="" [(visible)]="displayAddSupplierDialog" [modal]="true" [closable]="true" [style]="{width: '75%'}">
+  <app-add-supplier [from_hardware]="true" (supplier_for_hardware)="onSupplierAdded($event)"></app-add-supplier>
+</p-dialog>

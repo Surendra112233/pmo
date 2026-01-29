@@ -1,0 +1,39 @@
+.fs55{font-size:55px;}
+.mt18{margin-top:18px;}
+.mt40{margin-top:40px;}
+.mtb20{margin-top:20px; margin-bottom:20px;}
+.p0{padding:0px;}
+
+
+.available24hours{color: #898989;}
+
+.formRunningHeader{
+	background: #f7f7fa;
+    padding: 15px;
+    margin-left: -0.2rem;
+    margin-right: -0.2rem;
+    color: #696f76;
+}
+
+.form-icon i {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 20px;
+    color: #6d6d6d;
+    background: #f3f3f9;
+    padding: 0 8px;
+    border: 1px solid #ced4da;
+    border-right: none;
+}	
+
+[data-theme=default]{
+	/*--vz-font-base: 0.90rem;*/
+}

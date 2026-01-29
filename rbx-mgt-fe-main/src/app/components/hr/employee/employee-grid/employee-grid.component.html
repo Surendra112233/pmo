@@ -1,0 +1,82 @@
+<div class="main-content employee-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="filteredData"
+                                                     [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                     [paginator]="filteredData.length > 0"
+                                                     [rows]="10"
+                                                     [rowsPerPageOptions]=[10,20,30,40,50]
+                                                     [showCurrentPageReport]="filteredData.length > 0"
+                                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                     #dt2
+                                                     [sortField]="'joining_date'" 
+                                                     [sortOrder]="-1"
+                                                     [globalFilterFields]="['employee_code','name', 'email', 'mobile', 'designation', 'joining_date', 'manager', 'status']">
+                                                     <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title">Employees List</h4>
+                                                        <div class="add">
+                                                            <i class="fas fa-user-plus" (click)="addEmployee()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add Employee"></i>
+                                                        </div>
+                                                        <div class="select-type">
+                                                             <select class="form-select" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+                                                                <option value="" disabled>Select Status</option>
+                                                                <option *ngFor="let type of status" [value]="type.id">{{ type.name }}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="search-container">
+                                                            <i class="fas fa-search search-icon"></i>
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                        </div>
+                                                    </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="employee_code" style="width: 10%;">Code <p-sortIcon field="employee_code" /></th>
+                                                        <th pSortableColumn="name" style="width: 15%;">Name <p-sortIcon field="name" /></th>
+                                                        <th pSortableColumn="email" style="width: 20%;">Email <p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="mobile" style="width: 10%;">Mobile <p-sortIcon field="mobile" /></th>
+                                                        <th pSortableColumn="designation" style="width: 15%;">Designation <p-sortIcon field="designation" /></th>
+                                                        <th pSortableColumn="joining_date" style="width: 10%;">Joining Date <p-sortIcon field="joining_date" /></th>
+                                                        <th pSortableColumn="manager" style="width: 15%;">Manager <p-sortIcon field="manager" /></th>
+                                                        <th pSortableColumn="status" style="width: 5%;">Status <p-sortIcon field="status" /></th>
+                                                        <!-- <th>Delete</th>  -->
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-employee>
+                                                    <tr>
+                                                        <td><a (click)="navigateToView(employee.employee_code)" class="site-update-link">{{ employee.employee_code }}</a></td>
+                                                        <td>{{ employee.name }}</td>
+                                                        <td>{{ employee.email }}</td>
+                                                        <td>{{ employee.mobile }}</td>
+                                                        <td>{{ employee.designation }}</td>
+                                                        <td>{{ employee.joining_date | date: 'dd-MM-yyyy' }}</td>
+                                                        <td>{{ employee.manager }}</td>
+                                                        <td>{{ employee.status.toLowerCase() == 'active' ? 'Active' : 'Inactive' }}</td>
+                                                        <!-- <td><a (click)="deleteEmployee(employee.employee_code)" class="site-update-link "><i class="las la-trash text-danger" style="font-size: 20px;"></i></a></td>  -->
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="8" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

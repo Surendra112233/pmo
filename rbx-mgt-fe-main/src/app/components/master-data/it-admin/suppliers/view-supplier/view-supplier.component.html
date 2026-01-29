@@ -1,0 +1,39 @@
+<div class="view-supplier">
+  <div class="card">
+    <div class="card-header text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">View Supplier</h4>
+      <i class="fas fa-pen cursor-pointer"
+        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Supplier" (click)="onEdit()"></i>
+    </div>
+
+    <div class="card-body">
+      <!-- Supplier -->
+      <div class="form-row">
+        <label class="form-label">Supplier</label>
+        <div class="form-value">{{ supplier?.supplier }}</div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-row">
+        <label class="form-label">Address</label>
+        <div class="form-value">{{ supplier?.address }}</div>
+      </div>
+
+      <!-- Geo Region -->
+      <div class="form-row">
+        <label class="form-label">Geo Region</label>
+        <div class="form-value">{{ supplier?.geo_region }}</div>
+      </div>
+
+      <!-- Country -->
+      <div class="form-row">
+        <label class="form-label">Country</label>
+        <div class="form-value">{{ supplier?.country }}</div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

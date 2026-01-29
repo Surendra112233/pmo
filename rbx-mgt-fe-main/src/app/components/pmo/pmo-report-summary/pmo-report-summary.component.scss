@@ -1,0 +1,240 @@
+  /*Table Container */
+  .work-log-table-container {
+    /* overflow-x: auto; */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    position: relative; /* required for sticky positioning */
+    margin-top: 30px;
+    
+    overflow: auto;
+    max-height: 500px; /* Adjust as needed */
+    overflow: auto;
+  }
+
+  .scroll-wrapper {
+    width: max-content;
+    min-width: 100%;
+  }
+  
+  /*Table Styles */
+  table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    /* font-family: 'Segoe UI', sans-serif;
+    font-size: 14px; */
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #fff;
+  }
+  
+  th, td {
+    padding: 12px 16px;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #ddd;
+    background: white;
+  }
+  
+  /*Sticky Header */
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: #455a64; //#5c636a;
+    color: #fff;
+    font-weight: 600;
+    /* z-index: 10; */
+    z-index: 12;
+  }
+
+  tbody tr td {
+    cursor: pointer;
+  }
+
+  tbody tr td:nth-child(1),
+  tbody tr td:nth-child(2) {
+    cursor: text;
+  }
+
+  tbody tr td:nth-child(1),
+  tbody tr td:nth-child(2),
+  tbody tr td:last-child,
+  tbody tr td:hover {
+    color: #00acc1;
+  }
+  
+  ::ng-deep p-dialog table tbody tr td:not(:nth-child(1)),
+  ::ng-deep p-dialog table tbody tr td:not(:nth-child(2)) {
+    cursor: text !important;
+  }
+
+  ::ng-deep p-dialog table tbody tr td:nth-child(1),
+  ::ng-deep p-dialog table tbody tr td:nth-child(2),
+  ::ng-deep p-dialog table tbody tr td:last-child,
+  ::ng-deep p-dialog table tbody tr td:hover {
+    color: #685563 !important;
+  }
+  
+  /*Sticky Columns */
+  .sticky-col {
+    position: sticky;
+    background: white;
+    /* z-index: 3; */
+    z-index: 11;
+  }
+  
+  /*Employee Name */
+  .left-col {
+    font-weight: bold;
+    left: 0;
+    /* min-width: 220px; */
+    text-align: left;
+    color: #1f2937;
+    /* z-index: 4 !important; */
+  }
+
+  .left-col.emp-name-col {
+    z-index: 14; 
+  }
+  
+  /*Total Column (last) */
+  .right-most {
+    /* right: 0;
+    min-width: 100px;
+    border-left: 1px solid #ddd;
+    font-weight: 500; */
+
+    position: sticky;
+    right: 0;
+    background: white;
+    z-index: 9;
+    font-weight: bold;
+  }
+  
+  /*Row Styles */
+  tbody tr:hover {
+    background-color: #f9fafb;
+  }
+  
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /*Footer/Total Rows */
+  tfoot td {
+    font-weight: bold;
+    background-color: #f3f4f6;
+  }
+  
+  /*Rounded Header Corners */
+  table th:first-child {
+    border-top-left-radius: 8px;
+  }
+  
+  table th:last-child {
+    /* border-top-right-radius: 8px; */
+  }
+  
+  /*Scrollbar Aesthetics */
+  .work-log-table-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .work-log-table-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+
+
+  
+  .card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+      background-color: #e0f7fa; //50
+  }
+
+  .submit-btn {
+    margin-top: 26px;
+    padding: 6px 14px;
+  }
+
+  .approved-row {
+    color: rgb(0, 120, 0) !important;
+    font-weight: bold;
+  }
+  
+  .rejected-row {
+    color:  rgba(255, 0, 0, 1) !important;
+    font-weight: bold;
+  }
+  
+  .open-row {
+    color:  rgb(210 210 14) !important;
+    font-weight: bold;
+  }
+
+  ::ng-deep .pmo-report .p-dropdown-label.p-inputtext,
+  ::ng-deep .pmo-report p-calendar input {
+    padding: 5px !important;
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  ::ng-deep .pmo-report p-calendar input::placeholder {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  ::ng-deep p-calendar .p-calendar {
+    width: 65%;
+  }
+
+  ::ng-deep p-dropdown p-overlay ul.p-dropdown-items {
+      padding-left: 0rem !important;
+      font-size: 12px !important;
+  }
+
+  ::ng-deep .pmo-report .p-dropdown.p-component.p-inputwrapper {
+    // max-width: 85%;
+    width: 100%;
+  }
+
+  .dwnld-btn {
+    color: #00acc1;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  /* .p-button:focus {
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #00acc1, 0 1px 2px 0 black;
+  }
+
+  .p-button:focus-visible {
+    box-shadow: 0 0 0 0.2rem #00acc1;;
+  } */
+
+  .work-log-table-container table tbody tr td.approved {
+    color: rgb(0, 120, 0);
+  }
+
+  .work-log-table-container table tbody tr td.rejected {
+    color: rgba(255, 0, 0, 1);
+  }
+
+  .work-log-table-container table tbody tr td.open {
+    color: rgb(210 210 14);
+  }
+
+  .align-left {
+    text-align: left;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+        font-size: 12px !important;
+  }

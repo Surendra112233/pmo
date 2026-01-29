@@ -1,0 +1,242 @@
+<div class="main-container hr-approval">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Timesheet Approval</h4>
+                </div>
+                <div class="card-body">         
+         <form [formGroup]="timesheetApprovalForm">
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gy-4">
+                                                    <!-- <div class="col-md-2">
+                                                        <label for="iconInput" class="form-label">Project Code</label>                                                    
+                                                        <div>
+                                                            <p-dropdown 
+                                                            [options]="projects" 
+                                                            optionLabel="formattedLabel" 
+                                                            optionValue="project_code"
+                                                            placeholder="Select Project Code" 
+                                                            formControlName="project_code"
+                                                            [filter]="true" 
+                                                            filterBy="project_description"
+                                                            [class.disableDropdown]="isProjectsLoading"
+                                                            [loading]="isProjectsLoading"
+                                                            [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                            </p-dropdown>
+                                                        </div>
+                                                    </div> -->
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Employee Code</label>
+                                                            <div>
+                                                                <p-dropdown 
+                                                                formControlName="employee_code"
+                                                                [options]="employeeDetails"
+                                                                optionLabel="employee_codewithName" 
+                                                                optionValue="employee_code" 
+                                                                placeholder="Select Employee Code"
+                                                                [filter]="true"
+                                                                [showClear]="true"
+                                                                [class.disableDropdown]="isEmpDetailsLoading"
+                                                                [loading]="isEmpDetailsLoading"
+                                                                [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                </p-dropdown>
+                                                            </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Status<span class="text-danger">*</span></label>
+                                                    <select class="form-select" formControlName="status"  placeholder="Select Status">
+                                                        <option value="" disabled selected>Select Status</option>
+                                                        <option *ngFor="let status of statusList" [value]="status.value">{{ status.name }}</option>
+                                                    </select> 
+                                                <div *ngIf="getFormControl('status')?.invalid && (getFormControl('status')?.dirty || getFormControl('status')?.touched)">
+                                                    <span *ngIf="getFormControl('status')?.errors?.['required']" style="color: red; font-size:12px ;">Please Select Status</span>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-md-2">
+                                                <div>
+                                                    <label for="year" class="form-label">Month<label class="required-field">*</label></label>
+                                                    <div class="form-icon">
+                                                        <select class="form-select" formControlName="month" id="month"  >
+                                                            <option value="" disabled selected>Select Month</option>
+                                                            <option *ngFor="let mt of months" [value]="mt.id">{{ mt.name }}</option>
+                                                        </select>
+                                                     </div>
+                                                    <div *ngIf="getFormControl('month')?.invalid && (getFormControl('month')?.dirty || getFormControl('month')?.touched)">
+                                                        <span *ngIf="getFormControl('month')?.errors?.['required']" style="color: red; font-size:12px ;">Please select Month</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div>
+                                                    <label for="year" class="form-label">Year<label class="required-field">*</label></label>
+                                                    <div class="form-icon">
+                                                        <select class="form-select" [(ngModel)]="selectedYear" formControlName="year" id="year"  >
+                                                            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                                                        </select>
+                                                     </div>
+                                                    <div *ngIf="getFormControl('year')?.invalid && (getFormControl('year')?.dirty || getFormControl('year')?.touched)">
+                                                        <span *ngIf="getFormControl('year')?.errors?.['required']" style="color: red; font-size:12px ;">Please select Year</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-center" style="margin-top: 48px !important;">
+                                                <button type="submit" style="font-size: 12px; padding: 8px 18px;" class="btn btn-primary" [class.disabled]="!getFormValidation()" (click)="getTimesheets()">Submit</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+       <hr *ngIf="showTimesheets">
+
+        <div class="row" *ngIf="showTimesheets" id="employeeTimesheets">
+            <div class="col">
+                <div class="h-100">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <ng-container *ngIf="dataLoaded; else loadingTemplate">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">                                        
+                                            <p-table 
+                                            [value]="timesheet_entries"
+                                            [tableStyle]="{ 'min-width': '50rem' }"
+                                            #dt1
+                                            [globalFilterFields]="['employee_code','employee_name','date','project_code','description', 'project_role','new_description','worked_hours','remarks','status','comments']"
+                                            [scrollable]="true" 
+                                            scrollHeight="400px"
+                                            [sortField]="'date'">
+
+                                            <ng-template pTemplate="caption">
+                                                <h4 class="card-title mb-0 flex-grow-1 table-title"></h4>
+                                                <div class="search-container">
+                                                    <i class="fas fa-search search-icon"></i>
+                                                    <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                </div>
+                                            </ng-template>
+                                
+                                    <ng-template pTemplate="header">
+                                        <tr class="table-header">
+                                            <!-- <th style="width:10%;">Employee Code</th> -->
+                                            <th pSortableColumn="employee_code">Employee Code<p-sortIcon field="employee_code" /></th>
+                                            <th style="width:10%;">Employee Name</th>
+                                            <th pSortableColumn="date">Date<p-sortIcon field="date" /></th>
+                                            <th style="width:10%;">Project Code</th>
+                                            <th style="width:20%;">Project Name</th>
+                                            <th style="width:10%;">Project Role</th>
+                                            <th style="width:15%;">Phase</th>
+                                            <th style="width:15%;">Task Description</th>
+                                            <th style="width:10%;">Worked Hours</th>
+                                            <th style="width:10%;">Remarks</th>
+                                            <th style="width:5%;">
+                                                <label>Select All</label>
+                                                <p-checkbox 
+                                                [(ngModel)]="selectAll" 
+                                                (onChange)="toggleSelectAll($event)" 
+                                                binary="true"
+                                                class="small-checkbox">
+                                                </p-checkbox>
+                                            </th>                                          
+                                            <th style="width:5%;">Status</th>
+                                            <th style="width:5%;">Comments</th>
+                                        </tr>
+                                    </ng-template>
+                                    
+                                    <ng-template pTemplate="body" let-timesheetData let-rowIndex="rowIndex">
+                                        <tr [ngClass]="{ 'weekend': isWeekend(timesheetData.date) }">
+                                            <td>{{ timesheetData.employee_code }}</td>
+                                            <td>{{ timesheetData.employee_name }}</td>
+                                            <td>{{ timesheetData.date | date: 'dd-MM-yyyy' }}</td>
+                                            <td>{{ timesheetData.project_code }}</td>
+                                            <td>{{ timesheetData.description }}</td>
+                                            <td>{{ timesheetData.project_role }}</td>
+                                            <td>{{ getPhaseName(timesheetData.task_description) }}</td>
+                                            <td>{{ timesheetData.new_description }}</td>
+                                            <td>{{ timesheetData.worked_hours }}</td>
+                                            <td>{{ timesheetData.remarks }}</td>
+                                            <td>
+                                                <p-checkbox 
+                                                [(ngModel)]="timesheetData.selected" 
+                                                binary="true"
+                                                class="small-checkbox">
+                                                </p-checkbox>
+                                            </td>                                          
+                                            <td >
+                                                <select [(ngModel)]="timesheetData.status" (change)="updateStatus(rowIndex, timesheetData.status)">
+                                                    <option value="approved">Approved</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="timesheetData.comments" class="form-control"
+                                                [class.is-invalid]="timesheetData.showCommentError"
+                                                (ngModelChange)="onCommentChange(timesheetData)" 
+                                                data-bs-toggle="tooltip" data-bs-placement="top" [title]="timesheetData.comments">
+                                                <div *ngIf="timesheetData.showCommentError">
+                                                <span style="color: red;">Please enter comments</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="13" class="text-center">No timesheet found</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <!-- LOADING TEMPLATE (outside table scope) -->
+                                <ng-template #loadingTemplate>
+                                <div class="text-center my-4">
+                                    <i class="pi pi-spin pi-spinner" style="font-size: 2em; color: #00acc1; animation-duration: 0.8s;"></i>
+                                    <p>Loading timesheets for approval. Please wait...</p>
+                                </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        
+        <div class="status-container  col-12 text-center mt-4" *ngIf="showTimesheets">
+            <div class="status-box weekend"></div><span>Week Off</span>
+        </div>
+       
+        <div class="col-12 text-center mt-4" *ngIf="showTimesheets">
+            <a class="btn btn-primary waves-effect waves-light" (click)="timesheetApproval()">Submit</a>
+        </div>
+ </div> 
+</div>
+</div>
+</div>
+</div></div>
+</div></div>
+</div></div>

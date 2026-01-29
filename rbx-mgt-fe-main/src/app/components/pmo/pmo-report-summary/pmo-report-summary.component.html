@@ -1,0 +1,163 @@
+<div class="main-container">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+            <div class="card pmo-report">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">PMO Report</h4>
+                </div>
+                <div class="card-body">         
+                    <div class="row gx-2 gy-4">
+                        <p-toast></p-toast>
+                        <div class="col-md-6">
+                            <label class="form-label">Select Project<span class="text-danger">*</span></label>
+                            <div>
+                                <p-dropdown 
+                                    [options]="projects" 
+                                    [(ngModel)]="selectedProject" 
+                                    optionLabel="formattedLabel"
+                                    optionValue="project_code" 
+                                    placeholder="Select Project"
+                                    filter="true"
+                                    filterBy="project_description">
+                                </p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Start Date<span class="text-danger">*</span></label>        
+                            <div>
+                                <p-calendar
+                                #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                [(ngModel)]="fromDate" [showTime]="false" appendTo="body"
+                                dateFormat="dd/mm/yy" placeholder="Select Start Date" (onSelect)="onDateChange()"></p-calendar>
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-2">
+                            <label class="form-label">End Date<span class="text-danger">*</span></label>        
+                            <div>
+                                <p-calendar
+                                #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys
+                                [(ngModel)]="toDate" [showTime]="false" appendTo="body"
+                                dateFormat="dd/mm/yy" placeholder="Select End Date" (onSelect)="onDateChange()"></p-calendar>
+                            </div>
+                        </div>                      
+                        
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary submit-btn" (click)="fetchWorkLogs()" [disabled]="!isFormValid()">Submit</button>
+                        </div>
+                    
+                        <div class="col-12 text-danger mt-2" *ngIf="isDateValid()">
+                            End Date should be greater than or equal to Start Date.
+                        </div>
+                    </div>           
+
+                    <hr>
+
+                    <!-- Work Log Table -->
+                    <div class="work-log-table-container" *ngIf="dateHeaders.length">
+                        <div class="scroll-wrapper">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="sticky-col left-col" style="width: 5%;">Employee Code</th>
+                                    <th class="sticky-col left-col emp-name-col" style="width: 10%;">Employee Name</th>
+                                    <th style="width: 5%;" *ngFor="let date of dateHeaders">{{ date | date: 'dd-MM-yy' }}</th>
+                                    <th class="sticky-col right-most" style="width: 5%;">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let log of workLogs">
+                                    <td class="sticky-col left-col" style="width: 5%;">{{ log.employee_code }}</td>
+                                    <td class="sticky-col left-col" style="width: 10%;">{{ log.employee_name }}</td>
+                                    <td style="width: 5%;" *ngFor="let date of dateHeaders" (click)="openBreakupDialog(log, date)"
+                                        [ngClass]="{'approved': log?.log[date]?.status_flag == 'Approved',
+                                                    'rejected': log?.log[date]?.status_flag == 'Rejected',
+                                                    'open': log?.log[date]?.status_flag == 'Open',
+                                        }">
+                                        {{ log?.log[date]?.total_hours || '-' }}
+                                        <!-- {{ log?.log[date]?.total_hours || '-' }} {{' ('}}{{log?.log[date]?.allocation_percent}}{{'%)'}} -->
+                                    </td>
+                                    <td class="sticky-col right-most" style="width: 5%;" (click)="openTotalBreakupDialog(log)">{{ log.total }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                          </div>
+                    </div>
+    
+                </div> 
+            </div>
+        </div>
+    </div>
+    </div></div>
+    </div></div>
+    </div></div>
+
+
+
+  <p-dialog header="Work Log Details" 
+    [(visible)]="showBreakupDialog"
+    [modal]="true"
+    [style]="{ width: 'calc(100vw - 40px)', margin: '0 20px' }"
+    [baseZIndex]="10000"
+    [dismissableMask]="true"
+    header=""
+    [contentStyle]="{ overflow: 'auto', maxHeight: '80vh' }"
+    [styleClass]="'wide-breakup-dialog'">
+    <ng-template pTemplate="header">
+        <div class="d-flex align-items-center fw-bold">
+          <span class="head"><b>{{'Total Worked Hours'}} - {{totalWorkedHours}}</b></span>
+            <i *ngIf="isDownloadVisible()" (click)="downloadXLSX()" class="fas fa-download dwnld-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"></i>
+        </div>
+      </ng-template>
+    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="fw-bold">
+            {{'Total Worked Hours'}} - {{totalWorkedHours}}
+            <i *ngIf="isDownloadVisible()" class="fas fa-download dwnld-btn"  (click)="downloadXLSX()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"></i>
+        </div>
+        <button *ngIf="isDownloadVisible()" pButton type="button" icon="pi pi-download" label="Download" class="p-button-sm dwnld-btn" (click)="downloadXLSX()"></button>
+    </div> -->
+  
+    <table class="table table-bordered table-sm text-center">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Employee Code</th>
+          <th>Employee Name</th>
+          <th>Project Name</th>
+          <th>Phase</th>
+          <th>Task Description</th>
+          <th>Worked Hours</th>
+          <th>Remarks</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of selectedBreakupData">
+          <td>{{ record.date | date:'dd-MM-yyyy'}}</td>
+          <td>{{ record.emp_code }}</td>
+          <td>{{ record.emp_name }}</td>
+          <td>{{ record.project_name }}</td>
+          <td>{{ record.phase }}</td>
+          <td>{{ record.task_description }}</td>
+          <td>{{ record.worked_hours }}</td>
+          <td class="align-left">{{ record.remarks}}</td>
+          <td [ngClass]="{                                        
+            'approved-row': record.status === 'approved',
+            'rejected-row': record.status === 'rejected',
+            'open-row': record.status === 'open',
+          }" 
+          >{{ record.status === 'approved' ? 'Approved' : 
+              record.status === 'rejected' ? 'Rejected' :
+              record.status === 'open' ? 'Open' : record.status}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </p-dialog>
+  

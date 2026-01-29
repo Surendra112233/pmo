@@ -1,0 +1,121 @@
+<div class="add-company">
+    <div class="card">
+        <div class="card-header text-white">
+            <h4 class="mb-0">{{page_title}} Company</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="companyForm">
+
+            <!-- Company -->
+            <div class="form-row">
+                <label class="form-label">Company <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter company" formControlName="company" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(companyForm.get('company')?.dirty || companyForm.get('company')?.touched) 
+                                && companyForm.get('company')?.invalid">
+                    <div *ngIf="companyForm.get('company')?.errors?.['required']">
+                        Company is required.
+                    </div>
+                    <div *ngIf="companyForm.get('company')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="companyForm.get('company')?.errors?.['maxlength']">
+                        Maximum 50 characters allowed.
+                    </div>
+                    </div>
+                </div>            
+            </div>
+
+            <!-- Address -->
+            <div class="form-row">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" class="form-control" placeholder="Enter address" formControlName="address" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(companyForm.get('address')?.dirty || companyForm.get('address')?.touched) 
+                                && companyForm.get('address')?.invalid">
+                    <div *ngIf="companyForm.get('address')?.errors?.['required']">
+                        Address is required.
+                    </div>
+                    <div *ngIf="companyForm.get('address')?.errors?.['maxlength']">
+                        Maximum 80 characters allowed.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geo Region -->
+            <div class="form-row">
+                <label class="form-label">Geo Region <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <select class="form-select" formControlName="geo_region" 
+                            (change)="onRegionChange('onChange')" placeholder="Select Region">
+                        <option value="" disabled selected>Select Project Region</option>
+                        <option *ngFor="let item of regions" [value]="item.name">{{ item.name }}</option>
+                    </select>
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(companyForm.get('geo_region')?.dirty || companyForm.get('geo_region')?.touched) 
+                                && companyForm.get('geo_region')?.invalid">
+                    <div *ngIf="companyForm.get('geo_region')?.errors?.['required']">
+                        Geo region is required.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country -->
+            <div class="form-row">
+                <label class="form-label">Country <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <p-dropdown 
+                    [options]="countries"
+                    optionLabel="name" 
+                    optionValue="name"
+                    [filter]="true" 
+                    filterBy="name"
+                    formControlName="country"
+                    placeholder="Select Country">
+                    </p-dropdown>
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(companyForm.get('country')?.dirty || companyForm.get('country')?.touched) 
+                                && companyForm.get('country')?.invalid">
+                    <div *ngIf="companyForm.get('country')?.errors?.['required']">
+                        Country is required.
+                    </div>
+                    </div>
+                </div>
+            </div>            
+
+            <!-- Location Names -->
+            <div class="form-row">
+                <label class="form-label">Location Names</label>
+                <div class="chip-input-container flex-1">
+                <!-- Chips -->
+                <div class="chip" *ngFor="let loc of locationNames.controls; let i = index">
+                    {{ loc.value }}
+                    <span class="chip-close" (click)="removeLocation(i)">×</span>
+                </div>
+                <!-- Input -->
+                <input type="text"
+                        class="chip-input"
+                        formControlName="locationInput"
+                        placeholder="Type and press Enter"
+                        (keydown.enter)="addLocationFromInput(); $event.preventDefault();" />
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-row text-center mt-3 action-fe">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid" (click)="onSubmit()">{{btn_text}}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,464 @@
+<div class="main-container add-task">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div
+                                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">View Travel Request</h4>
+                                        <a (click)="navigateToEditRequest()" data-bs-toggle="tooltip" *ngIf="requestData.is_edit"
+                                            data-bs-placement="top" title="Edit Request">
+                                            <i class="fas fa-user-edit text-white all-icons"></i>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <form [formGroup]="requestForm" class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Employee Code<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="employee_code" placeholder="Enter Employee Code"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Employee Name<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="employee_name" placeholder="Enter Employee Name"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Department<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="department" placeholder="Enter Department"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Type <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_type" placeholder="Project Type" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Code <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_code" placeholder="Project Code" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Name <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_name" placeholder="Enter Project Name"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Country <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="country" placeholder="Enter Country" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Project Manager<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_manager" placeholder="Project Manager"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Delivery Manager<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="delivery_manager" placeholder="Delivery Manager"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">SBU Head<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="sbu_head" placeholder="SBU Head" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Travel Location <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="travel_location" placeholder="Travel Location"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Travel Purpose <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="travel_purpose" placeholder="Travel Purpose"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4"
+                                                *ngIf="requestForm.get('travel_purpose')?.value === 'Others'">
+                                                <label class="form-label">If Others, Specify <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="others_specify" placeholder="Specify" readonly>
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                <div
+                                                    class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                    <h4 class="head">Travel Details:</h4>
+                                                    <!-- <div class="add">
+                                                        <i class="fas fa-plus-circle pointer" (click)="addTravelRow()"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Add Travel Details"></i>
+                                                    </div> -->
+                                                </div>
+                                                <div class="travel-table-wrapper">
+                                                    <table class="table table-bordered travel-table">
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th rowspan="2">S No</th>
+
+                                                                <!-- Departure -->
+                                                                <th colspan="4" class="dep_arr">Departure</th>
+
+                                                                <!-- Arrivals -->
+                                                                <th colspan="4" class="dep_arr">Arrivals</th>
+
+                                                                <th rowspan="2" class="from-col">Mode</th>
+                                                                <th rowspan="2" class="from-col">Payment By</th>
+                                                            </tr>
+
+                                                            <tr class="text-center">
+                                                                <!-- Departure sub columns -->
+                                                                <th class="from-col">Country</th>
+                                                                <th class="from-col">From</th>
+                                                                <th class="from-col">Date</th>
+                                                                <th>Time</th>
+
+                                                                <!-- Arrival sub columns -->
+                                                                <th class="from-col">Country</th>
+                                                                <th class="from-col">To</th>
+                                                                <th class="from-col">Date</th>
+                                                                <th>Time</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody formArrayName="travel_details">
+                                                            <tr *ngFor="let row of travelDetails.controls; let i = index"
+                                                                [formGroupName]="i">
+                                                                <td class="text-center">{{ i + 1 }}</td>
+
+                                                                <!-- Departure -->
+                                                                <td class="from-col">
+                                                                    <input type="test" class="form-control"
+                                                                        formControlName="departure_country"
+                                                                        placeholder="Country" readonly>
+                                                                </td>
+                                                                <td class="from-col"><input type="text"
+                                                                        class="form-control"
+                                                                        formControlName="departure_from"
+                                                                        placeholder="From City" readonly>
+                                                                </td>
+                                                                <td class="from-col">
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="departure_date"
+                                                                        placeholder="Date" readonly>
+                                                                </td>
+                                                                <td><input type="time" class="form-control"
+                                                                        formControlName="departure_time"
+                                                                        placeholder="Time" readonly></td>
+
+                                                                <!-- Arrival -->
+                                                                <td class="from-col">
+                                                                    <input type="test" class="form-control"
+                                                                        formControlName="arrival_country"
+                                                                        placeholder="Country" readonly>
+                                                                </td>
+                                                                <td class="from-col"><input type="text"
+                                                                        class="form-control"
+                                                                        formControlName="arrival_to"
+                                                                        placeholder="To City">
+                                                                </td>
+                                                                <td class="from-col">
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="arrival_date"
+                                                                        placeholder="Date" readonly>
+                                                                </td>
+                                                                <td><input type="time" class="form-control"
+                                                                        formControlName="arrival_time" readonly></td>
+
+                                                                <!-- Others -->
+                                                                <td>
+                                                                    <input type="text" class="form-control from-col"
+                                                                        formControlName="mode" readonly
+                                                                        placeholder="Mode">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control from-col"
+                                                                        formControlName="payment_by" readonly
+                                                                        placeholder="Payment By">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <label class="form-label">Travel Preferences (if any)</label>
+                                                <textarea class="form-control" formControlName="travel_preferences"
+                                                    rows="1" placeholder="Meal / Seat etc." readonly></textarea>
+                                            </div>
+
+                                            <!-- Accommodation Required (Yes/No) -->
+                                            <div class="col-md-4 mt-4">
+                                                <label class="form-label">Accommodation Required</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="accommodation_required" readonly
+                                                    placeholder="Accommodation Required">
+                                            </div>
+
+                                            <!-- Accommodation Details Table -->
+                                            <div class="col-12 mt-3"
+                                                *ngIf="requestForm.get('accommodation_required')?.value == 'true' || requestForm.get('accommodation_required')?.value == 'Yes'">
+                                                <div
+                                                    class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                    <h4 class="head">Accommodation Details:</h4>
+                                                    <!-- <div class="add">
+                                                        <i class="fas fa-plus-circle pointer"
+                                                            (click)="addAccommodationRow()" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" title="Add Accommodation"></i>
+                                                    </div> -->
+                                                </div>
+
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered accommodation-table">
+                                                        <thead>
+                                                            <tr class="text-center bg-light">
+                                                                <th>Accommodation Type</th>
+                                                                <th>Check-in Date</th>
+                                                                <th>Check-out Date</th>
+                                                                <th>No. of Days</th>
+                                                                <th>City</th>
+                                                                <th>Payment To be debited to</th>
+                                                                <th>Remarks</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody formArrayName="accommodation">
+                                                            <tr *ngFor="let row of accommodations.controls; let i = index"
+                                                                [formGroupName]="i">
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="accommodation_type"
+                                                                        placeholder="Accommodation Type" readonly />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="check_in"
+                                                                        placeholder="Check-In" readonly />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="check_out"
+                                                                        placeholder="Check-Out" readonly />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        formControlName="no_of_days" min="1" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="city" placeholder="City"
+                                                                        readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="payment_to"
+                                                                        placeholder="Payment To" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="remarks" placeholder="Remarks"
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <div
+                                                    class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                                    <h4 class="head">Personal Details:</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label">Date Of Birth <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" formControlName="date_of_birth"
+                                                    placeholder="DOB" readonly>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="form-label">Age <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="age" placeholder="Age" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">ID Document Type <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="id_document_type" placeholder="Document Type"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">ID Document Number <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="id_document_number" placeholder="Document Number"
+                                                    maxlength="100">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Passport Number <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="passport_number" placeholder="Passport Number"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Mobile<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="mobile" placeholder="Mobile">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Alternative Mobile<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="alt_mobile" placeholder="Alternative Mobile"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Email ID<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="email" placeholder="Email ID" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Alternative Email ID<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="alt_email" placeholder="Alternative Email ID"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <label class="form-label">Address</label>
+                                                <textarea class="form-control" formControlName="address" rows="1"
+                                                    placeholder="Address" readonly></textarea>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <label class="form-label">Comments</label>
+                                                <textarea class="form-control" formControlName="comments" rows="2"
+                                                    placeholder="Comments" readonly></textarea>
+                                            </div>
+                                            <!-- <div class="col-12 text-center mt-4">
+                                                <button type="button" class="btn btn-secondary me-2"
+                                                    (click)="navigateToGrid()">Back</button>
+                                            </div> -->
+                                        </form>
+
+                                        <!-- History Start-->
+                                        <div class="card mt-4">
+                                            <div class="card-header bg-light">
+                                                <h4 class="head" style="color: white;">History</h4>
+                                            </div>
+
+                                            <div class="card-body p-0">
+                                                <table class="table table-bordered table-hover mb-0 approval-table">
+                                                    <thead class="table-light text-center">
+                                                        <tr>
+                                                            <th>Status</th>
+                                                            <th>Approver</th>
+                                                            <th>Date</th>
+                                                            <th>Time</th>
+                                                            <th class="text-start">Comments</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr *ngFor="let item of approvalHistory">
+                                                            <!-- STATUS -->
+                                                            <td class="text-center">
+                                                                <span [ngClass]="getStatusClass(item.status)">
+                                                                    <i [ngClass]="getStatusIcon(item.status)"></i>
+                                                                    {{ item.status }}
+                                                                </span>
+                                                            </td>
+
+                                                            <!-- USER -->
+                                                            <td>
+                                                                <b>{{ item.role }}</b>
+                                                                <div class="text-muted small">{{ item.user }}</div>
+                                                            </td>
+
+                                                            <!-- DATE -->
+                                                            <td class="text-center">{{ item.date }}</td>
+
+                                                            <!-- TIME -->
+                                                            <td class="text-center">{{ item.time }}</td>
+
+                                                            <!-- COMMENTS -->
+                                                            <td class="text-start">
+                                                                <span *ngIf="item.comments; else noComments">
+                                                                    {{ item.comments }}
+                                                                </span>
+                                                                <ng-template #noComments>
+                                                                    <span class="text-muted fst-italic">No
+                                                                        comments</span>
+                                                                </ng-template>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- History End -->
+                                        <form [formGroup]="approverForm" class="row g-3 mt-2">
+                                            <div class="col-12 mt-3" *ngIf="hasApprovalRole()">
+                                                <label class="form-label">Approver Comments</label>
+                                                <textarea class="form-control"
+                                                    formControlName="project_manager_comments" rows="2"
+                                                    placeholder="Comments"  maxlength="100"></textarea>
+                                                <small class="text-danger" *ngIf="
+                                                        approverForm.get('project_manager_comments')?.touched &&
+                                                        approverForm.get('project_manager_comments')?.hasError('required')
+                                                        ">
+                                                    Comments are required when rejecting the request
+                                                </small>
+                                            </div>
+                                            <div class="col-12 text-center mt-4">
+                                                <ng-container *ngIf="hasApprovalRole()">
+                                                    <button type="button" class="btn btn-xs btn-secondary me-2 fs-12"
+                                                        (click)="reject()">Reject</button>
+                                                    <button type="submit" class="btn btn-primary me-2 fs-12"
+                                                        (click)="approve()">Approve
+                                                    </button>
+                                                </ng-container>
+                                                <button type="button" class="btn btn-secondary me-2 fs-12"
+                                                    (click)="navigateToGrid()">Back</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

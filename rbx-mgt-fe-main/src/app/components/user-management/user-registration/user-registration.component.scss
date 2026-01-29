@@ -1,0 +1,175 @@
+.user-registration {
+  
+  // input[readonly] {
+  //     border:var(--cui-border-width) solid var(--cui-border-color) !important;
+  //   }
+
+  .card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+      background-color: #e0f7fa; //50
+  }
+    
+  select option {
+      padding-left: 0 !important; /* Remove padding from the options */
+    }
+
+    // .form-label{
+    //   font-weight: 450 !important;
+    // }
+
+    .mat-mdc-form-field, .mat-mdc-floating-label {
+      line-height: 1 !important;
+      width: 20rem !important;
+      font-size: 12px !important;
+      font-family: 'Open Sans', sans-serif;
+      // font-size: 14px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+  
+    .mat-mdc-menu-content, .mat-mdc-menu-content .mat-mdc-menu-item .mdc-list-item__primary-text {
+      font-size: 12px !important;
+      font-family: 'Open Sans', sans-serif !important;
+      // font-size: 14px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    }
+
+    ///////////////////////
+    /// 
+  /* Ensure the input field takes full width */
+  /* Ensure the phone input takes full width */
+  .full-width {
+    width: 100%;
+  }
+
+  /* Style the phone input container */
+  .custom-phone-input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  /* Adjust the dropdown position (appear below the input) */
+  .custom-phone-input .iti__country-list {
+    position: absolute !important;
+    top: 100% !important; /* Align dropdown just below the input */
+    left: 0;
+    width: 100% !important;
+    max-height: 200px !important; /* Set a fixed max height */
+    overflow-y: auto !important; /* Enable scroll for large lists */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    z-index: 1000; /* Ensure it appears on top */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  }
+
+  /* Style each country list item */
+  .iti__country {
+    padding: 10px;
+    font-size: 14px !important;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+
+  /* Hover effect for better UX */
+  .iti__country:hover {
+    background: #f1f1f1;
+  }
+
+  /* Highlight the selected country */
+  .iti__country.iti__highlight {
+    background: #e0f7fa !important;
+  }
+
+  /* Reduce the flag size */
+  .iti__flag {
+    width: 16px !important;
+    height: 12px !important;
+  }
+
+  /* Prevent the dropdown from expanding too much */
+  .custom-phone-input .iti__dropdown-content {
+    max-width: 100% !important;
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 45px !important;
+
+  }
+
+  .custom-phone-input .iti__selected-flag {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+  .custom-phone-input input {
+    width: 100%;
+    height: 38px;
+    padding-left: 50px; /* Adjust to fit flag */
+  }
+
+  .iti--container {
+    position: absolute !important;
+    z-index: 1000 !important;
+  }
+
+  .iti__dropdown {
+    width: auto !important;
+    min-width: 200px !important;
+  }
+
+  ::ng-deep p-calendar {
+    display: grid;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  ::ng-deep input[type=email],
+  ::ng-deep .p-dropdown{
+    padding-left: 10px !important;
+  }
+
+  ::ng-deep .p-dropdown-items {
+      padding: 0px !important;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+      width: 100%;
+  }
+
+  ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+      font-size: 12px;
+      font-family: 'Open Sans', sans-serif;
+  }
+
+  ::ng-deep .p-dropdown-items {
+    padding: 0px !important;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+    width: 100%;
+  }
+
+  ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+    font-size: 12px;
+    padding-left: 0 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  ::ng-deep .p-dropdown {
+    line-height: 1 !important;
+    width: 100% !important;
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+}

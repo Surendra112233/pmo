@@ -1,0 +1,68 @@
+.card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+    background-color: #e0f7fa; //50
+}
+
+::ng-deep .page-content .report-project-grid td,
+::ng-deep .page-content .report-project-grid th {
+    border: 1px solid #ddd !important;
+}
+
+.header-blue {
+    background-color: #80d8ff;
+    width: 25%;
+}
+
+.header-orange {
+    background-color: #ff9e80;
+    width: 25%;
+}
+  
+::ng-deep .p-datatable-wrapper .p-datatable-thead th p-sorticon svg {
+    width: 10px;
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    // font-size: 14px !important;
+    padding: .75rem !important;
+}
+
+::ng-deep .p-datatable-header {
+    display: flex;
+    background-color: #fff;
+}
+
+::ng-deep .p-datatable-header .search {
+    padding-right: 10px;
+}
+
+::ng-deep .p-datatable-header .search input {
+    padding: 6px;
+}
+
+::ng-deep .p-datatable-header .add a {
+    /* background-color: #405189 !important; */
+}
+
+::ng-deep .p-datatable-wrapper {
+    font-size: 0.85rem;
+}
+
+::ng-deep .p-datatable-tbody a.site-update-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.row-hover:hover {
+    background-color: #e0e0e0;  /* Light gray on hover */
+}
+
+::ng-deep .p-datatable-tbody tr td.right-align {
+    text-align: right !important;
+}

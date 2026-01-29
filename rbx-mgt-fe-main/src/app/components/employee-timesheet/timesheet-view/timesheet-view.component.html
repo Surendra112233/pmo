@@ -1,0 +1,102 @@
+<div class="main-content timesheet-grid">
+	<div class="page-content">			
+		<div class="container-fluid">
+			<p-toast></p-toast>			  
+			<div class="row">
+				<div class="col">
+					<div class="h-100">
+						<div class="row row-body">
+							<div class="col-xl-12">
+								<div class="card">										
+									<div class="card-body">
+										<div class="table-responsive table-card">	
+											<p-table [value]="timesheetData"
+											 [tableStyle]="{ 'min-width': '50rem' }"
+											 [paginator]="timesheetData.length > 0"
+											 [rows]="10"
+											 [rowsPerPageOptions]=[10,20,30,40,50]
+											 [showCurrentPageReport]="timesheetData.length > 0"
+											 [sortField]="'date'" 
+        									 [sortOrder]="-1"
+											 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+											 #dt2 
+											 [globalFilterFields]="['description','project_manager', 'date', 'task_description',  'worked_hours','status']">
+											 <ng-template pTemplate="caption">
+												<h4 class="card-title mb-0 flex-grow-1 table-title font-opensans">Timesheet Entries - {{month + ','}} {{currentYear}}</h4>
+												<div class="add">
+													<i class="fas fa-thin fa-plus" (click)="addTimesheet()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add Timesheet"></i>
+												</div>
+												<div class="search-container">
+													<i class="fas fa-search search-icon"></i>
+													<input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+												</div>
+											</ng-template>
+												<ng-template pTemplate="header">
+													<tr>
+														<th pSortableColumn="description" style="width:20%">
+															Project <p-sortIcon field="description" />
+														</th>
+														<th pSortableColumn="project_manager" style="width:20%">
+															Project Manager <p-sortIcon field="project_manager" />
+														</th>
+														<!-- <th pSortableColumn="month" style="width:20%">
+															Month/Year <p-sortIcon field="month" />
+														</th> -->
+														<th pSortableColumn="date" style="width:20%">
+															Date <p-sortIcon field="date" />
+														</th>
+														<th pSortableColumn="task_description" style="width:10%">
+															Phase <p-sortIcon field="task_description" />
+														</th>
+														<!-- <th pSortableColumn="new_description" style="width:10%">
+															Task Description <p-sortIcon field="new_description" />
+														</th> -->
+														<!-- <th pSortableColumn="task_description" style="width:10%">
+															Task <p-sortIcon field="task_description" />
+														</th> -->
+														<th pSortableColumn="worked_hours" style="width:20%">
+															Worked Hours <p-sortIcon field="worked_hours" />
+														</th>
+                                                        <th pSortableColumn="status" style="width:20%">
+															Status <p-sortIcon field="status" />
+														</th>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="body" let-timesheet >
+													<tr>
+														<td>
+															<!-- <a (click)="navigateToView(timesheet.id)" class="site-update-link">{{ timesheet.project_code}}</a> -->
+															{{ timesheet.description}}
+														</td>
+														<td>{{ timesheet.project_manager?.includes(' - ') ? timesheet.project_manager?.split(' - ')[1] :timesheet.project_manager}}</td>
+														<!-- <td>{{ timesheet.month}} / {{ timesheet.year}}</td> -->
+														<td>{{ formatDate(timesheet.date) }}</td>
+														<td>{{ getPhaseName(timesheet.task_description)  }}</td>
+														<!-- <td>{{ timesheet.new_description  }}</td> -->
+														<td>{{ timesheet.worked_hours }}</td>
+                                                        <td [ngClass]="{'approved': timesheet.status === 'approved',
+														'rejected': timesheet.status === 'rejected',
+														'open': timesheet.status === 'open'}">
+															{{ timesheet.status  == 'open' ? 'Open' : 
+																timesheet.status == 'approved' ? 'Approved' :
+																timesheet.status  == 'rejected' ? 'Rejected' : timesheet.status}}
+														</td>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="emptymessage">
+													<tr>
+													  <td colspan="7" class="text-center">No data found</td>
+													</tr>
+												</ng-template>
+											</p-table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

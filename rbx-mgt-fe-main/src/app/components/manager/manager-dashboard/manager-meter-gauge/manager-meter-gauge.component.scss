@@ -1,0 +1,15 @@
+  ::ng-deep ngx-gauge.ngx-gauge-meter {
+    height: 150px;
+  }
+
+  ::ng-deep ngx-gauge.ngx-gauge-meter .reading-block {
+    overflow: visible;
+    color: #00acc1;
+  }
+
+  ::ng-deep ngx-gauge.ngx-gauge-meter .reading-label {
+    font-size: 12px !important;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: -30px;
+  }

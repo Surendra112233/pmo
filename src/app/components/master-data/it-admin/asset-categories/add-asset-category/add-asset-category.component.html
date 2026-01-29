@@ -1,0 +1,83 @@
+<div class="add-category">
+    <div class="card">
+        <div class="card-header text-white">
+            <h4 class="mb-0">{{page_title}} Asset Category</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="categoryForm">
+
+            <!-- Asset Type -->
+            <div class="form-row">
+                <label class="form-label">Asset Type <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <select class="form-select" formControlName="asset_type" placeholder="Select Asset Type">
+                        <option value="" disabled selected>Select Asset Type</option>
+                        <option *ngFor="let item of assetTypes" [value]="item.value">{{ item.value }}</option>
+                    </select>
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(categoryForm.get('asset_type')?.dirty || categoryForm.get('asset_type')?.touched) 
+                                && categoryForm.get('asset_type')?.invalid">
+                    <div *ngIf="categoryForm.get('asset_type')?.errors?.['required']">
+                        Asset type is required.
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- category -->
+            <div class="form-row">
+                <label class="form-label">Asset Category <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter asset category" formControlName="asset_category" />
+
+                    <!-- Validation messages under input -->
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(categoryForm.get('asset_category')?.dirty || categoryForm.get('asset_category')?.touched) 
+                                && categoryForm.get('asset_category')?.invalid">
+                    <div *ngIf="categoryForm.get('asset_category')?.errors?.['required']">
+                        Asset category is required.
+                    </div>
+                    <div *ngIf="categoryForm.get('asset_category')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="categoryForm.get('asset_category')?.errors?.['maxlength']">
+                        Maximum 40 characters allowed.
+                    </div>
+                    </div>
+                </div>            
+            </div>
+
+            <!-- sub category -->
+            <div class="form-row">
+                <label class="form-label">Asset Sub-category <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter asset sub-category" formControlName="asset_sub_category" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(categoryForm.get('asset_sub_category')?.dirty || categoryForm.get('asset_sub_category')?.touched) 
+                                && categoryForm.get('asset_sub_category')?.invalid">
+                    <div *ngIf="categoryForm.get('asset_sub_category')?.errors?.['required']">
+                        Asset sub-category is required.
+                    </div>
+                    <div *ngIf="categoryForm.get('asset_sub_category')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="categoryForm.get('asset_sub_category')?.errors?.['maxlength']">
+                        Maximum 40 characters allowed.
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Actions -->
+            <div class="form-row text-center mt-3 action-fe">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid" (click)="onSubmit()">{{btn_text}}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>

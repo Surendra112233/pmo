@@ -1,0 +1,75 @@
+<div class="main-content hardware-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="hardware"
+                                                [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                [paginator]="hardware.length > 0"
+                                                [rows]="10"
+                                                [rowsPerPageOptions]=""
+                                                [showCurrentPageReport]="hardware.length > 0"
+                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                #dt2
+                                                [globalFilterFields]="['assetCategory','assetSubCategory', 'assetTag', 'serialNumber', 'model', 'status']">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title">Hardware List</h4>
+                                                    <div class="add" (click)="addHardware()"
+                                                          data-bs-toggle="tooltip" data-bs-placement="top" title="Add Hardware">
+                                                        <i class="fas fa-microchip" style="font-size: 16px;"></i>
+                                                        <i class="fas fa-plus small"></i>
+                                                      </div>
+                                                    <div class="search-container">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                        <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="assetCategory">Asset category <p-sortIcon field="user_id" /></th>
+                                                        <th pSortableColumn="assetSubCategory">Asset Sub Category<p-sortIcon field="name" /></th>
+                                                        <th pSortableColumn="assetTag">Asset Tag <p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="serialNumber">Serial No <p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="model">Model<p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="status">Status<p-sortIcon field="email" /></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-user>
+                                                    <tr>
+                                                        <td>{{ user.assetCategory }}</td>
+                                                        <td>{{ user.assetSubCategory }}</td>
+                                                        <td>{{ user.assetTag }}</td>
+                                                        <td>{{ user.serialNumber }}</td>
+                                                        <td>{{ user.model }}</td>
+                                                        <td>{{ user.status }}</td>
+                                                        <td>                                                            
+                                                            <i (click)="viewHardware(user)" class="action-btn fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="right" title="View"></i>
+                                                            <i (click)="editHardware(user)" class="action-btn mx-3 fas fa-edit" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit"></i>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="7" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

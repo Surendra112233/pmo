@@ -1,0 +1,286 @@
+<div class="row">
+    <div class="col">
+        <div class="h-100">
+            <div class="row">
+                <!-- <div class="col-md-12">
+                    <label style="width: 100%; padding: 10px;" class="chart-header">Quarterly / Monthly Utilization Chart</label>
+                    <div class="chart-placeholder" style="margin-top: 5px;">
+                        <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+                    </div>
+                </div> -->
+
+                <div class="col-xl-12">
+                    <div class="card" *ngIf="employeeSummaryReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Summary Report</h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                              </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-emp-grid">                                        
+                                <p-table [value]="employeeSummaryReport">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Employee Name</th>
+                                            <th>Employee Country</th>
+                                            <th>Project Country</th>
+                                            <th>Project Code</th>
+                                            <th>Project Name</th>
+                                            <th>Project Type</th>
+                                            <!-- <th>Allocation %</th> -->
+                                            <!-- <th>Delivery Model</th> -->
+                                            <th>Start Date (min of Phases)</th>
+                                            <th>End Date (max of Phases)</th>
+                                            <th class="right-align">Total Allocated Hours   (A)</th>
+                                            <th class="right-align">Allocated Hours(till date)           (B)</th>
+                                            <th class="right-align">Total Worked Hours   (C)</th>
+                                            <th class="right-align">Utilization                 (C/B) * 100</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee>
+                                        <tr>
+                                            <td>{{employee.employee_name}}</td>
+                                            <td>{{employee.country}}</td>
+                                            <td>{{employee.project_country}}</td>
+                                            <td>{{employee.project_code}}</td>
+                                            <td>{{employee.description}}</td>
+                                            <td>{{employee.project_type}}</td>
+                                            <!-- <td>{{employee.allocation_percent}}</td> -->
+                                            <!-- <td>{{employee.delivery_model}}</td> -->
+                                            <td>{{employee.start_date | date: 'dd-MM-yyyy'}}</td>
+                                            <td>{{employee.end_date | date: 'dd-MM-yyyy'}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.total_allocated_hours)}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.till_allocated_hours)}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.total_worked_hours)}}</td>
+                                            <td class="right-align">{{employee.till_utilization}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card employeeDetailedeReport" *ngIf="employeeDetailReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Detailed Report </h4>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains', 'detailedReport')" placeholder="Search...">
+                            
+                                <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                    <i class="fas fa-download text-white all-icons"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-emp-grid">                                        
+                                <p-table [value]="employeeDetailReport" 
+                                [sortField]="'description'" 
+                                [sortOrder]="-1" 
+                                #detailedTable
+                                [globalFilterFields]="['project_code','description', 'task', 'employee_name']">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Employee Name</th>
+                                            <th>Employee Country</th>
+                                            <th>Project Country</th>
+                                            <th>Project Code</th>
+                                            <th pSortableColumn="description">Project Name<p-sortIcon field="description" /></th>
+                                            <th>Project Type</th>
+                                            <th>Delivery Model</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th pSortableColumn="task">Phase<p-sortIcon field="task" /></th>
+                                            <th class="right-align">Total Allocated Hours   (A)</th>
+                                            <th class="right-align">Allocated Hours(till date)           (B)</th>
+                                            <th class="right-align">Total Worked Hours   (C)</th>
+                                            <th class="right-align">Utilization                (C/B) * 100</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee>
+                                        <tr>
+                                            <td>{{employee.employee_name}}</td>
+                                            <td>{{employee.country}}</td>
+                                            <td>{{employee.project_country}}</td>
+                                            <td>{{employee.project_code}}</td>
+                                            <td>{{employee.description}}</td>
+                                            <td>{{employee.project_type}}</td>
+                                            <td>{{employee.delivery_model}}</td>
+                                            <td>{{employee.start_date | date: 'dd-MM-yyyy'}}</td>
+                                            <td>{{employee.end_date | date: 'dd-MM-yyyy'}}</td>
+                                            <td>{{employee.task}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.total_allocated_hours)}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.till_allocated_hours)}}</td>
+                                            <td class="right-align">{{formatIndianNumber(employee.total_worked_hours)}}</td>
+                                            <td class="right-align">{{employee.till_utilization}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card employeeProjectDurationReport" *ngIf="employeeProjectDurationReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Project Duration Report </h4>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains', 'employeeProjectDurationReport')" placeholder="Search...">
+                            
+                                <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                    <i class="fas fa-download text-white all-icons"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-emp-grid">                                        
+                                <p-table [value]="employeeProjectDurationReport" #projectDurationTable
+                                [sortField]="'description'" 
+                                [sortOrder]="-1" 
+                                #detailedTable
+                                [globalFilterFields]="['project_name','employee_no', 'employee_name', 'project_specific', 'contractor', 'skillset_primary', 'skillset_secondary', 'employee_end_date', 'allocation_percent']">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Project Name</th>
+                                            <th>Employee Id</th>
+                                            <th>Employee Name</th>
+                                            <th>Project Specific Hire</th>
+                                            <th>Contractor</th>
+                                            <th>Skill Set - Primary</th>
+                                            <th>Skill Set - Secondary</th>
+                                            <th>Employee End Date</th>
+                                            <th class="right-align">Availability % (as on end date)</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee>
+                                        <tr>
+                                            <td>{{employee.project_name}}</td>
+                                            <td>{{employee.employee_no}}</td>
+                                            <td>{{employee.employee_name}}</td>
+                                            <td>{{employee.project_specific == 'yes' ? 'Yes':'No'}}</td>
+                                            <td>{{employee.contractor == 'yes' ? 'Yes':'No'}}</td>
+                                            <td>{{employee.skillset_primary}}</td>
+                                            <td>{{employee.skillset_secondary}}</td>
+                                            <td>{{employee.employee_end_date | date:'dd-MM-yyyy'}}</td>
+                                            <td class="right-align">{{employee.allocation_percent}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card employeeCumulativeReport" *ngIf="employeeCumulativeReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Utilization Cumulative Report</h4>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains', 'cumulativeReport')" placeholder="Search...">
+                            
+                                <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                    <i class="fas fa-download text-white all-icons"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-emp-grid">                                        
+                                <p-table [value]="employeeCumulativeReport" #cumulativeTable
+                                         [globalFilterFields]="['employee_code','employee_name', 'billable_hours', 'non_billable_hours', 'utilization_percentage']"
+                                         [paginator]="employeeCumulativeReport.length > 10"
+                                         [rows]="10"
+                                         [rowsPerPageOptions]=""
+                                         [showCurrentPageReport]="employeeCumulativeReport.length > 10"
+                                         [sortField]="'utilization_percentage'">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Employee Id</th>
+                                            <th>Employee Name</th>
+                                            <th class="right-align">Expected Hours (A)</th>
+                                            <th class="right-align">Billable Hours (B)</th>
+                                            <th class="right-align">Non-Billable Hours (C)</th>
+                                            <th pSortableColumn="utilization_percentage" class="right-align">
+                                                Utilization % [(B/A) * 100]<p-sortIcon field="utilization_percentage"/>
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee>
+                                        <tr>
+                                            <td>{{employee.employee_code}}</td>
+                                            <td>{{employee.employee_name}}</td>
+                                            <td class="right-align">{{employee.expected_hours}}</td>
+                                            <td class="right-align">{{employee.billable_hours}}</td>
+                                            <td class="right-align">{{employee.non_billable_hours}}</td>
+                                            <td class="right-align">{{employee.utilization_percentage}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <!-- <label style="width: 100%; padding: 10px;" class="chart-header">Quarterly / Monthly Utilization Chart</label> -->
+                                <div class="chart-placeholder" style="margin-top: 30px;">
+                                    <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card employeeAvailabilityReport" *ngIf="employeeAvailabilityReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Availability Report</h4>
+                             <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains', 'availabilityReport')" placeholder="Search...">
+                            
+                                <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                    <i class="fas fa-download text-white all-icons"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-emp-grid">                                        
+                                <p-table [value]="employeeAvailabilityReport" #availabilityTable
+                                         [globalFilterFields]="['employee_code','employee_name', 'project_name', 'allocation_percent', 'availability_date']"
+                                         [paginator]="employeeAvailabilityReport.length > 10"
+                                         [rows]="10"
+                                         [rowsPerPageOptions]=""
+                                         [showCurrentPageReport]="employeeAvailabilityReport.length > 10"
+                                         [sortField]="'allocation_percent'"
+                                         [sortOrder]="-1">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Employee Id</th>
+                                            <th>Employee Name</th>
+                                            <th>Primary Skill(s)</th>
+                                            <th>Secondary Skill(s)</th>
+                                            <!-- <th>Project Name</th> -->
+                                            <th class="center-align" pSortableColumn="allocation_percent">
+                                                Allocation % <p-sortIcon field="allocation_percent"/>
+                                            </th>
+                                            <th>
+                                                Availability Date
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-employee>
+                                        <tr>
+                                            <td>{{employee.employee_code}}</td>
+                                            <td>{{employee.employee_name}}</td>
+                                            <td>{{employee.primary_skill ? employee.primary_skill : 'N/A'}}</td>
+                                            <td>{{employee.secondary_skill ? employee.secondary_skill : 'N/A'}}</td>
+                                            <!-- <td>{{employee.project_name}}</td> -->
+                                            <td class="center-align">{{employee.allocation_percent}}</td>
+                                            <td>{{employee.availability_date}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        
+

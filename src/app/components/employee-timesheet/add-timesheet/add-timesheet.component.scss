@@ -1,0 +1,339 @@
+.timesheet-section {
+  .card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+      background-color: #e0f7fa; //50
+  }
+
+  .project-hrs {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    // font-size: 14px !important;
+    background-color: #f4f4f4 !important;
+  }
+
+  .add-icon {
+    color: #fff;
+    margin-top: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  .readonly-form {
+    background-color: #e9ecef;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .form-select.disabled {
+    opacity: 0.7;
+    pointer-events: none;
+    color: grey !important;
+    cursor: not-allowed !important;
+  }
+
+  ::ng-deep .p-tabview .p-tabview-nav {
+    padding: 0px;
+  }
+
+  ::ng-deep .p-tabview .p-tabview-nav a {
+    font-size: 13px;
+      color: #374151;
+      text-decoration: none;
+  }
+
+  ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #00acc1;
+    border-color: #00acc1;
+  }
+
+  /* PrimeNG Calendar & Dropdown */
+  ::ng-deep p-calendar .p-calendar
+  {
+      width: 100% !important;
+  }
+
+  ::ng-deep p-calendar .p-calendar input
+  {
+      margin-left: 0px !important;
+      //cursor: pointer;
+      line-height: 1.1 !important;
+  }
+
+  ::ng-deep .p-dropdown-items {
+      padding: 0px !important;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+      width: 100%;
+  }
+
+  ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      // font-size: 14px;
+  }
+
+  /* PrimeNG DataTable */
+  .p-datatable table {
+      width: 100%;
+  }
+
+  ::ng-deep .p-datatable-wrapper {
+      font-size: 0.85rem;
+  }
+
+  ::ng-deep .p-datatable-thead th {
+      font-weight: 700 !important;
+      font-size: 12px !important;
+      // font-size: 14px !important;
+      padding: 0.75rem !important;
+  }
+
+  ::ng-deep .p-datatable-header {
+    display: flex;    
+    background-color: #00acc1 !important;
+  }
+
+  ::ng-deep .p-datatable-header .search {
+      padding-right: 10px;
+  }
+
+  ::ng-deep .p-datatable-header .search input {
+      padding: 6px;
+  }
+
+  ::ng-deep .p-datatable-tbody a.site-update-link {
+      text-decoration: underline;
+      cursor: pointer;
+  }
+
+  ::ng-deep .table-title {
+    color: #fff !important;
+  }
+
+
+  /* Table Styling */
+  p-table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+
+  p-table th, 
+  p-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+  }
+
+  p-table th {
+      background-color: #f4f4f4;
+      font-weight: bold;
+  }
+
+  p-table tbody tr {
+      border-bottom: 1px solid #ddd;
+  }
+
+  p-table td {
+      padding: 10px;
+      // white-space: nowrap;
+  }
+
+  /* Table Row Effects */
+  .row-hover:hover {
+      background-color: #f1f1f1;
+  }
+
+  .row-clicked {
+      background-color: #c8e6c9;
+  }
+
+  tr:hover {
+      background-color: #f1f1f1;
+  }
+
+  tr:active {
+      background-color: #c8e6c9;
+  }
+
+  /* Dialog Box */
+  p-dialog {
+      max-width: 600px;
+  }
+
+  /* Input Fields */
+  .p-iconField input {
+      width: 300px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+  }
+
+  p-table .p-datatable-tbody {
+      display: block; /* Make the body a block element */
+      overflow-y: auto; /* Enable vertical scroll for the body */
+      max-height: calc(400px - 40px); /* Adjust based on header height */
+      /* 400px is the total height, 40px is an estimated header height */
+    }
+    ::ng-deep .p-multiselect {
+      width: 17rem !important;
+      line-height: 1.1 !important;
+      }
+
+      /* CSS for row colors */
+  .approved-row {
+      color:rgb(0, 120, 0) !important; /* Light green for approved */
+      font-weight: bold;
+    }
+    
+    .rejected-row {
+      color:rgba(255, 0, 0, 1) !important;
+      font-weight: bold;
+    }
+
+    .open-row {
+      color: rgb(210 210 14) !important;
+      font-weight: bold;
+    }
+
+    tr.weekend-row {
+      background-color: #00acc1 !important;
+      color: #fff;
+    }
+    
+    
+    /* Optional: Add some padding to the rows for a cleaner look */
+    table td {
+      padding: 10px;
+    }
+    
+    /* Optional: Add hover effect */
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .cancel-btn:hover,.cancel-btn:focus{
+      border: 1px solid #bbc0c7 !important;
+      background-color: #455a64 !important; //455a64
+      color: #fff;
+    }
+
+    ::ng-deep .p-dropdown-items {
+      padding: 0px !important;
+    }
+    
+    ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+      width: 100%;
+    }
+    
+    ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+      font-size: 12px;
+      // font-size: 14px;
+      // padding-left: 0 !important;
+    }
+    ::ng-deep .p-dropdown {
+      line-height: 1 !important;
+      width: 100% !important;
+      // width: 22rem !important;
+      // width: 20.5rem !important;
+      font-size: 12px !important;
+      font-family: 'Open Sans', sans-serif;
+      // font-size: 14px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+    
+    ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+      font-family: 'Open Sans', sans-serif !important;
+      font-size: 12px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+      // font-size: 14px !important;
+    }
+
+    .txtFont {
+      font-size: 12px !important;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .status-container {
+      display: flex;               /* Aligns the items horizontally */
+      align-items: center;         /* Vertically centers the items */
+    }
+    
+    .status-box {
+      width: 20px;                 /* Width of the box */
+      height: 20px;                /* Height of the box */
+      border-radius: 50%;          /* Makes the box round */
+      margin-right: 5px;           /* Space between the box and the label */
+    }
+
+    span.weekend-label {
+      margin-left: 0px;
+      color: #fff !important;
+    }
+    
+    .approved {
+      background-color: rgb(0, 120, 0);
+    }
+    
+    .rejected {
+      background-color:  rgba(255, 0, 0, 1);
+    }
+    
+    .open {
+      background-color:  rgb(210 210 14);
+    }
+
+    .weekend {
+      background-color: #00acc1; 
+    }
+    
+    span {
+      margin-left: 4px;        
+      font-size: 14px;   
+      margin-right: 10px;  
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      font-weight: 500;     
+    }
+
+    .workedHrsDisabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    ::ng-deep .p-element.p-dialog.p-component {
+      height: 100%;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+      max-width: 300px;
+
+      .search-icon {
+          position: absolute;
+          left: 10px;
+          font-size: 10px;
+          color: gray;
+      }
+
+      input {
+          font-size: 12px;
+          padding-left: 30px !important;
+          width: 100%;
+          border-radius: 5px;
+          border: 1px solid gray;
+          padding: 5px;
+      }           
+  }
+
+  .font-opensans {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+  }
+}

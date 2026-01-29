@@ -1,0 +1,146 @@
+.add-project {
+    .card-header {
+        background-color: #00acc1 !important;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .card-body {
+        background-color: #e0f7fa; //50
+    }
+    
+    .form-label{
+        font-weight: bold !important;
+        // font-weight: 450 !important;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .contracting_field.disableField {
+        pointer-events: none;
+        cursor: not-allowed;
+        opacity: 0.6;
+        color: darkgrey;
+    }
+
+    #interCompany.form-check-input:checked {
+        background-color: #00acc1;
+        border-color: #00acc1;
+    }
+
+    .phase-allocation-header {
+        display: flex;
+        margin-top: 25px;
+    }
+
+    .table-title {
+        margin-right: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .delete-icon,
+    .edit-icon {
+        color: #00acc1;
+        margin-top: 6px;
+        cursor: pointer;
+        padding: 0px
+    }
+
+    .delete-icon {
+        margin-left: 20px;
+    }
+
+    td.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .required-field {
+        color: red;
+    }
+
+    .error-msg {
+        font-weight: 500;
+        color: red; 
+        font-size:12px ;
+        // background: #03e9f4;
+    }
+
+    .form-control.disableField {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+
+    .page-content th,
+    .page-content td {
+        border-bottom: none;
+    }
+    
+    ::ng-deep p-calendar .p-calendar
+    {
+        width: 100% !important;
+    }
+
+    ::ng-deep p-calendar .p-calendar input
+    {
+        // margin-left: 30px !important;
+    }
+
+    ::ng-deep p-calendar .p-calendar input {
+        cursor: pointer;
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    ::ng-deep .p-dropdown-items {
+        padding: 0px !important;
+    }
+
+    ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+        width: 100%;
+    }
+
+    ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+        font-size: 12px;
+        // font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+    }
+    select .form-select option:hover {
+        background-color: #5856d6 !important;
+        color: white !important; 
+    }
+
+    ::ng-deep .p-dropdown-items {
+        padding: 0px !important;
+    }
+
+    ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+        width: 100%;
+    }
+
+    ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+        font-size: 12px;
+        // padding-left: 0 !important;
+    }
+
+    ::ng-deep .p-dropdown {
+        line-height: 1 !important;
+        width: 100%;
+        // width: 21.5rem !important;
+        font-size: 12px !important;
+        font-family: 'Open Sans', sans-serif;
+        // font-size: 14px !important;
+        // font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+        font-family: 'Open Sans', sans-serif !important;
+        font-size: 12px !important;
+        // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+        // font-size: 14px !important;
+    }
+
+    .font-opensans {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+    }
+}

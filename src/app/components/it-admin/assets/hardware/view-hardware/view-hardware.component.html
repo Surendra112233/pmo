@@ -1,0 +1,314 @@
+<div class="view-hardware">
+  <div class="card">
+    <div
+      class="card-header text-white d-flex justify-content-between align-items-center"
+    >
+      <h4 class="mb-0">View Hardware</h4>
+      <i
+        class="fas fa-pen cursor-pointer"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Edit Hardware"
+        (click)="onEdit()"
+      ></i>
+    </div>
+
+    <div class="card-body">
+      <!-- General Data -->
+      <h4 class="section-title">General Data</h4>
+      <div class="general-data ml-20">
+        <div class="form-row">
+          <label class="form-label">Asset Type</label>
+          <div class="form-value">Hardware</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Asset Category</label>
+          <div class="form-value">{{ hardwareDetails?.assetCategory ? hardwareDetails?.assetCategory : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Asset Sub Category</label>
+          <div class="form-value">{{ hardwareDetails?.assetSubCategory ? hardwareDetails?.assetSubCategory : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Asset Name</label>
+          <div class="form-value">{{ hardwareDetails?.assetName ? hardwareDetails?.assetName : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Company</label>
+          <div class="form-value">{{ hardwareDetails?.company ? hardwareDetails?.company : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Location</label>
+          <div class="form-value">{{ hardwareDetails?.location ? hardwareDetails?.location : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Roboxa Asset Id</label>
+          <div class="form-value">{{ hardwareDetails?.roboxaAssetId ? hardwareDetails?.roboxaAssetId : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Configuration Details</label>
+          <div class="form-value">{{ hardwareDetails?.configurationDetails ? hardwareDetails?.configurationDetails : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">External</label>
+          <div class="form-value">
+            {{ hardwareDetails?.external == true ? "Yes" : "No" }}
+          </div>
+        </div>
+        <div class="form-row" *ngIf="hardwareDetails?.external == true">
+          <label class="form-label">Transfer From</label>
+          <div class="form-value">{{ hardwareDetails?.transferFrom ? hardwareDetails?.transferFrom : '-' }}</div>
+        </div>
+        <div class="form-row" *ngIf="hardwareDetails?.external == true">
+          <label class="form-label">Transfer From Date</label>
+          <div class="form-value">{{ hardwareDetails?.transferFromDate ? (hardwareDetails?.transferFromDate | date : "dd-MM-yyyy") : '-' }}</div>
+        </div>
+        <div class="form-row" *ngIf="hardwareDetails?.external == true">
+          <label class="form-label">Transfer To</label>
+          <div class="form-value">{{ hardwareDetails?.transferTo ? hardwareDetails?.transferTo : '-' }}</div>
+        </div>
+        <div class="form-row" *ngIf="hardwareDetails?.external == true">
+          <label class="form-label">Transfer To Date</label>
+          <div class="form-value">{{ hardwareDetails?.transferToDate ? (hardwareDetails?.transferToDate | date : "dd-MM-yyyy") : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Manufacturer Asset Tag</label>
+          <div class="form-value">{{ hardwareDetails?.assetTag ? hardwareDetails?.assetTag : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Manufacturer Serial Number</label>
+          <div class="form-value">{{ hardwareDetails?.serialNumber ? hardwareDetails?.serialNumber : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Model</label>
+          <div class="form-value">{{ hardwareDetails?.model ? hardwareDetails?.model : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Status</label>
+          <div class="form-value">{{ hardwareDetails?.status ? hardwareDetails?.status : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">User Name</label>
+          <div class="form-value">{{ hardwareDetails?.userName ? hardwareDetails?.userName : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">From Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.fromDate ? (hardwareDetails?.fromDate | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Notes</label>
+          <div class="form-value">{{ hardwareDetails?.notes ? hardwareDetails?.notes : '-' }}</div>
+        </div>
+        <div class="form-row">
+            <label class="form-label">Image</label>
+              <div class="form-value" *ngIf="imgAvailable == false">
+            {{ 'No'}}
+          </div>
+          <div class="form-value password-field" *ngIf="imgAvailable == true">
+            <span>{{'Yes'}}</span>
+            <i
+              class="fas fa-eye"
+              style="cursor: pointer; margin-left: 8px"
+              (click)="viewPdf('image')"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view image document"
+            >
+            </i>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Optional Info -->
+      <h4 class="section-title">Optional Info</h4>
+      <div class="optional-info ml-20">
+        <div class="form-row">
+          <label class="form-label">Warranty Start Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.warrantyStart ? (hardwareDetails?.warrantyStart | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Warranty End Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.warrantyEnd ? (hardwareDetails?.warrantyEnd | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Warranty Status</label>
+          <div class="form-value">
+            {{ hardwareDetails?.warrantyStatus ? hardwareDetails?.warrantyStatus : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">AMC Vendor</label>
+          <div class="form-value">
+            {{ hardwareDetails?.amcVendor ? hardwareDetails?.amcVendor : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">AMC Start Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.amcStartDate ? (hardwareDetails?.amcStartDate | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">AMC End Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.amcEndDate ? (hardwareDetails?.amcEndDate | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Check-In Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.checkInDate ? (hardwareDetails?.checkInDate | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">BYOD</label>
+          <div class="form-value">
+            {{ hardwareDetails?.byod == true ? "Yes" : "No" }}
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Order Info -->
+      <h4 class="section-title">Order Info</h4>
+      <div class="order-info ml-20">
+        <div class="form-row">
+          <label class="form-label">Order Number</label>
+          <div class="form-value">{{ hardwareDetails?.orderNumber ? hardwareDetails?.orderNumber : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Purchase Date</label>
+          <div class="form-value">
+            {{ hardwareDetails?.purchaseDate ? (hardwareDetails?.purchaseDate | date : "dd-MM-yyyy") : '-' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Supplier</label>
+          <div class="form-value">{{ hardwareDetails?.supplier ? hardwareDetails?.supplier : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Purchase Cost</label>
+          <div class="form-value">
+            {{ hardwareDetails?.purchaseCost ? hardwareDetails?.purchaseCost : '-' }} {{ hardwareDetails?.currency ? hardwareDetails?.currency : '' }}
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Invoice Copy</label>
+         <div class="form-value" *ngIf="invAvailable == false">
+            {{ 'No'}}
+          </div>
+          <div class="form-value password-field" *ngIf="invAvailable == true">
+            <span>{{'Yes'}}</span>
+            <i
+              class="fas fa-eye"
+              style="cursor: pointer; margin-left: 8px"
+              (click)="viewPdf('invoice')"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view invoice document"
+            >
+            </i>
+          </div>
+        </div>
+      </div>
+      
+
+      <hr />
+
+      <!-- Admin Credentials -->
+      <h4 class="section-title">Admin Credentials</h4>
+      <div class="admin-credentials ml-20">
+        <div class="form-row">
+          <label class="form-label">Admin User Name</label>
+          <div class="form-value">{{ hardwareDetails?.adminUserName ? hardwareDetails?.adminUserName : '-' }}</div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Admin Password</label>
+          <!-- <div class="form-value">{{ hardwareDetails?.adminPassword}}</div> -->
+          <div class="form-value password-field">
+            <span *ngIf="!showPassword">
+              {{ getMaskedPassword(hardwareDetails?.adminPassword) }}
+            </span>
+            <span *ngIf="showPassword">{{
+              hardwareDetails?.adminPassword ? hardwareDetails?.adminPassword : '-'
+            }}</span>
+            <i
+              class="fas"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              style="cursor: pointer; margin-left: 8px"
+              (click)="togglePassword()"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view password"
+            >
+            </i>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Assignment Details -->
+      <h4 class="section-title">Assignment Details</h4>
+      <div class="assignment-details ml-20">
+        <p-table
+          [value]="hardwareDetails?.assignmentDetails || []"
+          [tableStyle]="{'width': '100%'}"
+          [paginator]="(hardwareDetails?.assignmentDetails?.length || 0) > 0"
+          [rows]="10"
+          [rowsPerPageOptions]=""
+          [showCurrentPageReport]="(hardwareDetails?.assignmentDetails?.length || 0) > 0"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          #dt2
+          [globalFilterFields]="[]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>User Name</th>
+              <th>Status</th>
+              <th>From Date</th>
+              <th>To Date</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row>
+            <tr>
+              <td>{{ row.userName }}</td>
+              <td>{{ row.status }}</td>
+              <td>{{ row.fromDate | date : "dd-MM-yyyy" }}</td>
+              <td>
+                {{ row.toDate ? (row.toDate | date : "dd-MM-yyyy") : "-" }}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4" class="text-center">No details found</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <hr />
+
+      <!-- Audit Trail -->
+      <h4 class="section-title">Audit Trail</h4>
+      <div class="audit-trial mt-3">
+          <div class="form-row">
+              <label>Last Modified By</label>
+              <span>{{hardwareDetails?.auditTrail?.lastChangedBy}}</span>
+          </div>
+          <div class="form-row">
+              <label>Last Modified Date</label>
+              <span>{{hardwareDetails?.auditTrail?.lastChangedDate | date:'dd-MM-yyyy HH:mm'}}</span>
+          </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,368 @@
+<div class="row">
+    <div class="col">
+        <div class="h-100">
+            <div class="row">
+                <div class="col-xl-12">
+                  
+                    <div class="card" *ngIf="projectSummaryReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Project Summary Report</h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                              </a>
+                            <!-- <button type="button" class="btn btn-primary" (click)="exportToExcel()">Export Excel</button> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-project-grid">                                        
+                                <p-table [value]="projectSummaryReport"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                #dt2
+                                [globalFilterFields]="['project_region', 'project_country', 'project_code', 'description', 'project_type', 'delivery_model', 'start_date', 'end_date', 'status', 'total_budget','task', 'total_allocated_hours', 'total_worked_hours', 'billable_hours', 'non_billable', 'utilization']"
+                                [scrollable]="true" 
+                                scrollHeight="400px">
+                           
+                           <ng-template pTemplate="header">
+                               <tr class="table-header">
+                                   <th style="width:10%;">Project Region</th>
+                                   <th style="width:10%;">Project Country</th>
+                                   <th style="width:10%;">Project Code</th>
+                                   <th style="width:20%;">Description</th>
+                                   <th style="width:10%;">Project Type</th>
+                                   <th style="width:10%;">Delivery Model</th>
+                                   <th style="width:10%;">Start Date</th>
+                                   <th style="width:10%;">End Date</th>
+                                   <th style="width:5%;">Status</th>
+                                   <th style="width:10%;" class="right-align">Allocated Budget Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Allocated Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Worked Hours</th>
+                                   <!-- <th style="width:10%;" class="right-align">Billable Hours</th>
+                                   <th style="width:10%;" class="right-align">Non-Billable</th> -->
+                                   <th style="width:5%;" class="right-align">Utilization %</th>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="body" let-project>
+                               <tr>
+                                   <td>{{ project.project_region }}</td>
+                                   <td>{{ project.project_country }}</td>
+                                   <td>{{ project.project_code }}</td>
+                                   <td>{{ project.description }}</td>
+                                   <td>{{ project.project_type }}</td>
+                                   <td>{{ project.delivery_model }}</td>
+                                   <td>{{ project.start_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.end_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.project_status == 'active' ? 'Active' :
+                                    project.project_status == 'open' ? 'Open' :
+                                    project.project_status == 'rejected' ? 'Rejected' :
+                                    project.project_status}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_budgeted_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_allocated_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_worked_hours)}}</td>
+                                   <!-- <td class="right-align">{{formatIndianNumber(project.billable_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.non_billable_hours)}}</td> -->
+                                   <td class="right-align">{{ project.utilization_percentage }}</td>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="emptymessage">
+                               <tr>
+                                   <td colspan="15" class="text-center">No data found</td>
+                               </tr>
+                           </ng-template>
+                       </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" *ngIf="projectDetailReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Project Detailed Report </h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                              </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-project-grid">                                        
+                                <p-table [value]="projectDetailReport"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                [sortField]="'task'"
+                                #dt2
+                                [globalFilterFields]="['project_region', 'project_country', 'project_code', 'description', 'project_type', 'delivery_model', 'start_date', 'end_date', 'status', 'total_budget','task', 'total_allocated_hours', 'total_worked_hours', 'billable_hours', 'non_billable', 'utilization']"
+                                [scrollable]="true" 
+                                scrollHeight="400px">
+                           
+                           <ng-template pTemplate="header">
+                               <tr class="table-header">
+                                   <th style="width:10%;">Project Region</th>
+                                   <th style="width:10%;">Project Country</th>
+                                   <th style="width:10%;">Project Code</th>
+                                   <th style="width:20%;">Description</th>
+                                   <th style="width:10%;">Project Type</th>
+                                   <th style="width:10%;">Delivery Model</th>
+                                   <th style="width:10%;">Start Date</th>
+                                   <th style="width:10%;">End Date</th>
+                                   <th style="width:5%;">Status</th>
+                                   <th pSortableColumn="task" style="width:10%;">Phase<p-sortIcon field="task" /></th>
+                                   <!-- <th style="width:10%;">Task</th> -->
+                                   <th style="width:10%;" class="right-align">Budgeted Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Allocated Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Worked Hours</th>
+                                   <!-- <th style="width:10%;" class="right-align">Billable Hours</th>
+                                   <th style="width:10%;" class="right-align">Non-Billable Hours</th> -->
+                                   <th style="width:5%;" class="right-align">Utilization %</th>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="body" let-project>
+                               <tr>
+                                   <td>{{ project.project_region }}</td>
+                                   <td>{{ project.project_country }}</td>
+                                   <td>{{ project.project_code }}</td>
+                                   <td>{{ project.description }}</td>
+                                   <td>{{ project.project_type }}</td>
+                                   <td>{{ project.delivery_model }}</td>
+                                   <td>{{ project.start_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.end_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.project_status == 'active' ? 'Active' :
+                                          project.project_status == 'open' ? 'Open' :
+                                          project.project_status == 'rejected' ? 'Rejected' :
+                                          project.project_status}}</td>
+                                   <td>{{ project.task }}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.budgeted_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_allocated_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_worked_hours)}}</td>
+                                   <!-- <td class="right-align">{{formatIndianNumber(project.billable_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.non_billable_hours)}}</td> -->
+                                   <td class="right-align">{{ project.utilization_percentage }}</td>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="emptymessage">
+                               <tr>
+                                   <td colspan="15" class="text-center">No data found</td>
+                               </tr>
+                           </ng-template>
+                       </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" *ngIf="projectSummaryPeriodReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Project Summary - Period Wise Report</h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                              </a>
+                            <!-- <button type="button" class="btn btn-primary" (click)="exportToExcel()">Export Excel</button> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-project-grid">                                        
+                                <p-table id="summary-period-report-table"
+                                [value]="projectSummaryPeriodReport"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                #dt2
+                                [globalFilterFields]="['project_region', 'project_country', 'project_code', 'description', 'project_type', 'delivery_model', 'start_date', 'end_date', 'status', 'total_budget','task', 'total_allocated_hours', 'total_worked_hours', 'billable_hours', 'non_billable', 'utilization']"
+                                [scrollable]="true" 
+                                scrollHeight="400px">
+                           
+                           <ng-template pTemplate="header">
+                               <tr class="table-header">
+                                    <th colspan="10"></th>
+                                    <th colspan="3" class="header-blue">Project Utilization Till Date</th>
+                                    <th colspan="3" class="header-orange">Project Utilization for selection period {{month_year}}</th>
+                                </tr>
+                                <tr class="table-header">
+                                    <th style="width: 10%;">Project Region</th>
+                                    <th style="width: 10%;">Project Country</th>
+                                    <th style="width: 5%;">Project Code</th>
+                                    <th style="width: 10%;">Description</th>
+                                    <th style="width: 10%;">Project Type</th>
+                                    <th style="width: 5%;">Delivery Model</th>
+                                    <th style="width: 10%;">Start Date</th>
+                                    <th style="width: 10%;">End Date</th>
+                                    <th style="width: 10%;">Status</th>
+                                    <th style="width: 5%;">Allocated Budget Hours</th>
+                                    <th style="width: 5%;">Total Allocated Hours</th>
+                                    <th style="width: 5%;">Total Worked Hours</th>
+                                    <th style="width: 5%;">Utilization %</th>
+                                    <th style="width: 5%;">Total Allocated Hours</th>
+                                    <th style="width: 5%;">Total Worked Hours</th>
+                                    <th style="width: 5%;">Utilization %</th>
+                                </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="body" let-project>
+                               <tr>
+                                   <td>{{ project.project_region }}</td>
+                                   <td>{{ project.project_country }}</td>
+                                   <td>{{ project.project_code }}</td>
+                                   <td>{{ project.description }}</td>
+                                   <td>{{ project.project_type }}</td>
+                                   <td>{{ project.delivery_model }}</td>
+                                   <td>{{ project.start_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.end_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.project_status == 'active' ? 'Active' :
+                                    project.project_status == 'open' ? 'Open' :
+                                    project.project_status == 'rejected' ? 'Rejected' :
+                                    project.project_status}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_budgeted_hours)}}</td>
+                                   <!-- <td class="right-align">{{formatIndianNumber(project.total_allocated_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_worked_hours)}}</td> -->
+                                   <td class="right-align">{{project.total_allocated_hours}}</td>
+                                   <td class="right-align">{{project.total_worked_hours}}</td>
+                                   <td class="right-align">{{ project.utilization_percentage }}</td>
+                                   <td class="right-align">{{project.total_allocated_hours_periodwise}}</td>
+                                   <td class="right-align">{{project.total_worked_hours_periodwise}}</td>
+                                   <td class="right-align">{{ project.utilization_periodwise }}</td>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="emptymessage">
+                               <tr>
+                                   <td colspan="16" class="text-center">No data found</td>
+                               </tr>
+                           </ng-template>
+                       </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" *ngIf="projectDetailPeriodReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Project Detailed - Period Wise Report </h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                              </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-project-grid">                                        
+                                <p-table id="detail-period-report-table"
+                                [value]="projectDetailPeriodReport"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                [sortField]="'task'"
+                                #dt2
+                                [globalFilterFields]="['project_region', 'project_country', 'project_code', 'description', 'project_type', 'delivery_model', 'start_date', 'end_date', 'status', 'total_budget','task', 'total_allocated_hours', 'total_worked_hours', 'billable_hours', 'non_billable', 'utilization']"
+                                [scrollable]="true" 
+                                scrollHeight="400px">
+                           
+                           <ng-template pTemplate="header">
+                                <tr class="table-header">
+                                    <th colspan="11"></th>
+                                    <th colspan="3" class="header-blue">Project Utilization Till Date</th>
+                                    <th colspan="3" class="header-orange">Project Utilization for selection period {{month_year}}</th>
+                                </tr>
+                               <tr class="table-header">
+                                   <th style="width:10%;">Project Region</th>
+                                   <th style="width:10%;">Project Country</th>
+                                   <th style="width:10%;">Project Code</th>
+                                   <th style="width:20%;">Description</th>
+                                   <th style="width:10%;">Project Type</th>
+                                   <th style="width:10%;">Delivery Model</th>
+                                   <th style="width:5%;">Status</th>
+                                   <th pSortableColumn="task" style="width:10%;">Phase<p-sortIcon field="task" /></th>
+                                   <th style="width:10%;">Start Date</th>
+                                   <th style="width:10%;">End Date</th>
+                                   <th style="width:10%;" class="right-align">Budgeted Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Allocated Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Worked Hours</th>
+                                   <th style="width:5%;" class="right-align">Utilization %</th>
+                                   <th style="width:10%;" class="right-align">Total Allocated Hours</th>
+                                   <th style="width:10%;" class="right-align">Total Worked Hours</th>
+                                   <th style="width:5%;" class="right-align">Utilization %</th>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="body" let-project>
+                               <tr>
+                                   <td>{{ project.project_region }}</td>
+                                   <td>{{ project.project_country }}</td>
+                                   <td>{{ project.project_code }}</td>
+                                   <td>{{ project.description }}</td>
+                                   <td>{{ project.project_type }}</td>
+                                   <td>{{ project.delivery_model }}</td>
+                                   <td>{{ project.project_status == 'active' ? 'Active' :
+                                          project.project_status == 'open' ? 'Open' :
+                                          project.project_status == 'rejected' ? 'Rejected' :
+                                          project.project_status}}</td>
+                                   <td>{{ project.task }}</td>
+                                   <td>{{ project.phase_start_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td>{{ project.phase_end_date | date: 'dd-MM-yyyy' }}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.budgeted_hours)}}</td>
+                                   <!-- <td class="right-align">{{formatIndianNumber(project.total_allocated_hours)}}</td>
+                                   <td class="right-align">{{formatIndianNumber(project.total_worked_hours)}}</td> -->
+                                   <td class="right-align">{{project.total_allocated_hours}}</td>
+                                   <td class="right-align">{{project.total_worked_hours}}</td>
+                                   <td class="right-align">{{ project.utilization_percentage }}</td>
+                                   <td class="right-align">{{project.total_allocated_hours_periodwise}}</td>
+                                   <td class="right-align">{{project.total_worked_hours_periodwise}}</td>
+                                   <td class="right-align">{{ project.utilization_periodwise }}</td>
+                               </tr>
+                           </ng-template>
+                           
+                           <ng-template pTemplate="emptymessage">
+                               <tr>
+                                   <td colspan="16" class="text-center">No data found</td>
+                               </tr>
+                           </ng-template>
+                       </p-table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" *ngIf="projectWiseEmpDetailsReport.length>0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Employee Details - Project Wise Report</h4>
+                            <a  (click)="exportToExcel()" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                <i class="fas fa-download text-white all-icons"></i>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card report-project-grid">                                        
+                                <p-table [value]="projectWiseEmpDetailsReport"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                #dt2
+                                [globalFilterFields]="['project_region', 'project_country', 'project_code', 'description', 'project_type', 'delivery_model', 'start_date', 'end_date', 'status', 'total_budget','task', 'total_allocated_hours', 'total_worked_hours', 'billable_hours', 'non_billable', 'utilization']"
+                                [scrollable]="true" 
+                                scrollHeight="400px">
+
+                           <ng-template pTemplate="header">
+                               <tr class="table-header">
+                                   <th>Employee Code</th>
+                                   <th>Employee Name</th>
+                                   <th>Start Date(min of Phases)</th>
+                                   <th>End Date(max of Phases)</th>
+                                   <!-- <th>Allocation %</th> -->
+                                   <th>Allocated Hours</th>
+                                   <th>Worked Hours</th>
+                                   <th>Pending Hours(for Approval)</th>
+                               </tr>
+                           </ng-template>
+
+                           <ng-template pTemplate="body" let-project>
+                               <tr>
+                                   <td>{{ project.employee_code }}</td>
+                                   <td>{{ project.employee_name }}</td>
+                                   <td>{{ project.start_date | date: 'dd-MM-yyyy'}}</td>
+                                   <td>{{ project.end_date | date: 'dd-MM-yyyy'}}</td>
+                                   <!-- <td>{{ project.allocation_percent }}</td> -->
+                                   <td>{{ project.allocated_hours }}</td>
+                                   <td>{{ project.worked_hours }}</td>
+                                   <td>{{ project.pending_hours }}</td>
+                               </tr>
+                           </ng-template>
+
+                           <ng-template pTemplate="emptymessage">
+                               <tr>
+                                   <td colspan="8" class="text-center">No data found</td>
+                               </tr>
+                           </ng-template>
+                       </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        
+

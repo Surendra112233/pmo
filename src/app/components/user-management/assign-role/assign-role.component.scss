@@ -1,0 +1,104 @@
+.assign-role {
+  .card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+      background-color: #e0f7fa; //50
+  }
+
+  ::ng-deep .p-multiselect-label,
+  ::ng-deep .p-dropdown{
+    padding-left: 10px !important;
+  }
+
+
+  ::ng-deep p-calendar .p-calendar
+  {
+      width: 100% !important;
+  }
+
+  // ::ng-deep p-calendar .p-calendar input
+  //  {
+  //     margin-left: 30px !important;
+  // }
+
+  ::ng-deep p-calendar .p-calendar input {
+      cursor: pointer
+  }
+
+  ::ng-deep .p-dropdown-items {
+      padding: 0px !important;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+      width: 100%;
+  }
+
+  ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+      font-size: 12px;
+      // font-size: 14px;
+      font-family: 'Open Sans', sans-serif;
+  }
+
+  ::ng-deep .p-multiselect {
+      line-height: 1 !important;
+      width: 19rem !important;
+      font-size: 12px !important;
+      font-family: 'Open Sans', sans-serif;
+      // font-size: 14px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+  .multiselectdropdown .p-multiselect-label {
+      padding-left: 0 !important;
+    }
+    .multiselectdropdown {
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    select option {
+      padding-left: 0 !important; /* Remove padding from the options */
+    }
+    .form-label{
+      font-weight: bold !important;
+      // font-weight: 450 !important;
+    }
+    ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+      font-family: 'Open Sans', sans-serif !important;
+      font-size: 12px !important;
+      // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+      // font-size: 14px !important;
+  }
+
+  ::ng-deep .p-dropdown-items {
+    padding: 0px !important;
+  }
+
+  ::ng-deep p-dropdown p-overlay .p-overlay.p-component {
+    width: 100%;
+  }
+
+  ::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+    font-size: 12px;
+    // font-size: 14px;
+    padding-left: 0 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  ::ng-deep .p-dropdown {
+    line-height: 1 !important;
+    width: 19rem !important;
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+    // font-size: 14px !important;
+    // font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+    // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    // font-size: 14px !important;
+  }
+}

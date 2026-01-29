@@ -1,0 +1,54 @@
+.view-supplier {
+  .card {
+        font-family: 'Open Sans', sans-serif;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 20px 100px;
+    }
+    
+    .card-header {
+        background-color: #00acc1!important;
+
+        h4 {
+            font-size: 14px !important;
+        }
+    }
+
+    .card-body {
+      background-color: #e0f7fa; //50
+  }
+
+    .card-body {
+        margin: 20px 50px;
+    }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .form-label {
+      flex: 0 0 200px;
+      font-weight: 600;
+    }
+
+    .form-value {
+      flex: 1;
+      padding: 6px 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      background: #f8f9fa;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+    }
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.6em;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,261 @@
+<div class="main-container manager-report">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Utilization Report</h4>
+                </div>
+                <div class="card-body">         
+         <form [formGroup]="projectReportForm">
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row gy-4">
+                                            <div class="col-md-3">
+                                                <div>
+                                                    <label for="year" class="form-label">Report Type <label class="required-field">*</label></label>
+                                                    <!-- If role includes "deliveryhead" or "DHAdmin", show projectType options -->
+                                                    <div class="form-icon" *ngIf="roles.includes('DeliveryHead') || roles.includes('DHAdmin')">
+                                                        <select class="form-select" formControlName="report_type" (change)="onChangeReportType()">
+                                                            <option value="" disabled selected>Report Type</option>
+                                                            <option *ngFor="let type of projectType" [value]="type.name">{{ type.name }}</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Otherwise, show reportType options -->
+                                                    <div class="form-icon" *ngIf="!roles.includes('DeliveryHead') && !roles.includes('DHAdmin')">
+                                                        <select class="form-select" formControlName="report_type" (change)="onChangeReportType()">
+                                                            <option value="" disabled selected>Report Type</option>
+                                                            <option *ngFor="let type of reportType" [value]="type.name">{{ type.name }}</option>
+                                                        </select>
+                                                    </div>
+                                                   
+                                                    <div *ngIf="getFormControl('report_type')?.invalid && (getFormControl('report_type')?.dirty || getFormControl('report_type')?.touched)" class="text-danger small">
+                                                        <span *ngIf="getFormControl('report_type')?.errors?.['required']">Please Select Report Type</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-3" *ngIf="isProjectCode">
+                                                <label class="form-label">Project Code</label><label class="required-field">*</label>
+                                                <p-multiSelect 
+                                                    formControlName="project_code"
+                                                    [options]="projects" class="multiselectdropdown"
+                                                    optionLabel="formattedLabel" 
+                                                    optionValue="project_code" 
+                                                    placeholder="Select Project Code"
+                                                    styleClass="p-multiselect-styled"
+                                                    [panelStyle]="{'width':'100%'}"
+                                                    [showClear]="true"
+                                                    [class.disableDropdown]="isProjectsLoading"
+                                                    [loading]="isProjectsLoading"
+                                                    [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                </p-multiSelect>
+                                                <div *ngIf="getFormControl('project_code')?.invalid && (getFormControl('project_code')?.dirty || getFormControl('project_code')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('project_code')?.errors?.['required']">Please Select Project Code</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Period Selection Section -->
+                                            <div class="col-md-3" *ngIf="isPeriodWise">
+                                                <label class="form-label">Select Period Type<span class="text-danger">*</span></label>
+                                                <select class="form-select" formControlName="period_type" (change)="onPeriodTypeChange($event)">
+                                                    <option value="" disabled selected>Select Period Type</option>
+                                                    <option value="month_year">Month & Year</option>
+                                                    <option value="date_range">Date Range</option>
+                                                </select>
+                                                <div *ngIf="getFormControl('period_type')?.invalid && (getFormControl('period_type')?.dirty || getFormControl('period_type')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('period_type')?.errors?.['required']">Please Select Period Type</span>
+                                                </div>
+                                            </div>                                            
+
+                                            <!-- Month & Year Fields for period wise report-->
+                                            <div class="col-md-3" *ngIf="reportPeriodType === 'month_year'">
+                                                <label class="form-label">Month<span class="text-danger">*</span></label>
+                                                <div class="form-icon">
+                                                    <select class="form-select" [(ngModel)]="selectedMonth" formControlName="month" id="month"  >
+                                                        <option *ngFor="let mt of months" [value]="mt.id">{{ mt.name }}</option>
+                                                    </select>
+                                                </div>
+                                                <div *ngIf="getFormControl('month')?.invalid && (getFormControl('month')?.dirty || getFormControl('month')?.touched)" class="text-danger small txtFont">
+                                                    <span *ngIf="getFormControl('month')?.errors?.['required']">Please select month</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3" *ngIf="reportPeriodType === 'month_year'">
+                                                <label class="form-label">Year<span class="text-danger">*</span></label>
+                                                <div class="form-icon">
+                                                    <select class="form-select" [(ngModel)]="selectedYear" formControlName="year" id="year"  >
+                                                        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                                                    </select>
+                                                </div>
+                                                <div *ngIf="getFormControl('year')?.invalid && (getFormControl('year')?.dirty || getFormControl('year')?.touched)" class="text-danger small txtFont">
+                                                    <span *ngIf="getFormControl('year')?.errors?.['required']">Please select year</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Date Range Fields for period wise report-->
+                                            <div class="col-md-3" *ngIf="reportPeriodType === 'date_range'">
+                                                <label class="form-label">Start Date<span class="text-danger">*</span></label>        
+                                                <div>
+                                                    <p-calendar
+                                                    #calendar3 (keydown)="calendar3.showOverlay()" appDisableKeys
+                                                    formControlName="start_date" [showTime]="false" appendTo="body"
+                                                    dateFormat="dd/mm/yy" placeholder="Select start date"></p-calendar>
+                                                </div>
+                                                <div *ngIf="getFormControl('start_date')?.invalid && (getFormControl('start_date')?.dirty || getFormControl('start_date')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('start_date')?.errors?.['required']">Please Select Start Date</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3" *ngIf="reportPeriodType === 'date_range'">
+                                                <label class="form-label">End Date<span class="text-danger">*</span></label>        
+                                                <div>
+                                                    <p-calendar
+                                                    #calendar4 (keydown)="calendar4.showOverlay()" appDisableKeys
+                                                    formControlName="end_date" [showTime]="false" appendTo="body"
+                                                    dateFormat="dd/mm/yy" placeholder="Select end date" (onSelect)="testEnddate(getFormControl('end_date'), getFormControl('start_date'))"></p-calendar>
+                                                </div>
+                                                <div *ngIf="getFormControl('end_date')?.invalid && (getFormControl('end_date')?.dirty || getFormControl('end_date')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('end_date')?.errors?.['required']">Please Select End Date</span>
+                                                </div>
+                                            </div>                                           
+                                            
+                                            <div class=" col-md-3" *ngIf="isEmployeeCode">
+                                                <label class="form-label">
+                                                    Employee Id
+                                                </label>
+                                                <label *ngIf="projectReportForm.controls['report_type']?.value !='Employee Utilization Cumulative'" class="required-field">*</label>
+                                                <p-multiSelect 
+                                                formControlName="employee_code"
+                                                [options]="employeeDetails" class="multiselectdropdown"
+                                                optionLabel="employee_codewithName" 
+                                                optionValue="employee_code" 
+                                                placeholder="Select Employee Id"
+                                                styleClass="p-multiselect-styled"
+                                                [panelStyle]="{'width':'100%'}"
+                                                [showClear]="true"
+                                                [class.disableDropdown]="isEmloyeesLoading"
+                                                [loading]="isEmloyeesLoading"
+                                                [loadingIcon]="'pi pi-spin pi-spinner'">
+                                            </p-multiSelect>
+                                            <div *ngIf="getFormControl('employee_code')?.invalid && (getFormControl('employee_code')?.dirty || getFormControl('employee_code')?.touched)" class="text-danger small">
+                                                <span *ngIf="getFormControl('employee_code')?.errors?.['required']">Please Select Employee Code</span>
+                                            </div>
+                                            </div>
+
+                                            <div class="col-md-3" *ngIf="projectReportForm.controls['report_type']?.value =='Employee Utilization Cumulative'">
+                                                <label class="form-label">Start Date<span class="text-danger">*</span></label>        
+                                                <div>
+                                                    <p-calendar
+                                                    #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                                    formControlName="fromDate" [showTime]="false" appendTo="body"
+                                                    dateFormat="dd/mm/yy" placeholder="Select start date" (onSelect)="onDateChange()"></p-calendar>
+                                                </div>
+                                                <div *ngIf="getFormControl('fromDate')?.invalid && (getFormControl('fromDate')?.dirty || getFormControl('fromDate')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('fromDate')?.errors?.['required']">Please Select Start Date</span>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-md-3" *ngIf="projectReportForm.controls['report_type']?.value =='Employee Utilization Cumulative'">
+                                                <label class="form-label">End Date<span class="text-danger">*</span></label>        
+                                                <div>
+                                                    <p-calendar
+                                                    #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys
+                                                    formControlName="toDate" [showTime]="false" appendTo="body"
+                                                    dateFormat="dd/mm/yy" placeholder="Select end date" (onSelect)="onDateChange()"></p-calendar>
+                                                </div>
+                                                <div *ngIf="getFormControl('toDate')?.invalid && (getFormControl('toDate')?.dirty || getFormControl('toDate')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('toDate')?.errors?.['required']">Please Select To Date</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-3" *ngIf="showDurationInputField">
+                                                <label class="form-label">No of Days<span class="text-danger">*</span></label>
+                                                <input type="number"
+                                                        class="form-control"
+                                                        formControlName="durationDays"
+                                                        min="1" max="90"
+                                                        placeholder="Enter a value (1-90)" />
+                                                <div *ngIf="getFormControl('durationDays')?.invalid && (getFormControl('durationDays')?.dirty || getFormControl('durationDays')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('durationDays')?.errors?.['required']">Please enter value from 1 to 90</span>
+                                                    <span *ngIf="getFormControl('durationDays')?.errors?.['min']">Value must be at least 1</span>
+                                                    <span *ngIf="getFormControl('durationDays')?.errors?.['max']">Value must not exceed 90</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-3" *ngIf="showInputField">
+                                                <label class="form-label">No of Days<span class="text-danger">*</span></label>
+                                                <input type="number"
+                                                        class="form-control"
+                                                        formControlName="availabilityDays"
+                                                        min="1" max="30"
+                                                        placeholder="Enter a value (1-30)" />
+                                                <div *ngIf="getFormControl('availabilityDays')?.invalid && (getFormControl('availabilityDays')?.dirty || getFormControl('availabilityDays')?.touched)" class="text-danger small">
+                                                    <span *ngIf="getFormControl('availabilityDays')?.errors?.['required']">Please enter value from 1 to 30</span>
+                                                    <span *ngIf="getFormControl('availabilityDays')?.errors?.['min']">Value must be at least 1</span>
+                                                    <span *ngIf="getFormControl('availabilityDays')?.errors?.['max']">Value must not exceed 30</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-3"
+                                                 style="margin-top:40px"
+                                                *ngIf="isPeriodWise || (reportPeriodType === 'date_range' || reportPeriodType === 'month_year')">
+                                                <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!projectReportForm.valid">Submit</button>
+                                            </div>
+
+                                            <div class="col-12 text-center mt-4" *ngIf="!isPeriodWise">
+                                                <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="!projectReportForm.valid">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+       <hr>
+      
+ <div *ngIf="isProjectCode">
+    <app-project-grid 
+    [projectSummaryReport]="projectSummaryReport" 
+    [projectDetailReport]="projectDetailReport"
+    [projectSummaryPeriodReport]="projectSummaryPeriodReport" 
+    [projectDetailPeriodReport]="projectDetailPeriodReport"
+    [projectWiseEmpDetailsReport]="projectWiseEmpDetailsReport">
+</app-project-grid>
+ </div>
+
+ <div>
+ <!-- <div *ngIf="isEmployeeCode"> -->
+    <app-employee-grid 
+    [employeeSummaryReport]="employeeSummaryReport" 
+    [employeeDetailReport]="employeeDetailReport" 
+    [employeeCumulativeReport]="employeeCumulativeReport" 
+    [barChartData]="barChartData" 
+    [barChartOptions]="barChartOptions" 
+    [employeeProjectDurationReport]="employeeProjectDurationReport"
+    [employeeAvailabilityReport]="employeeAvailabilityReport">
+</app-employee-grid>
+ </div>
+    
+ </div> 
+</div>
+</div>
+</div>
+</div></div>
+</div></div>
+</div></div>
+

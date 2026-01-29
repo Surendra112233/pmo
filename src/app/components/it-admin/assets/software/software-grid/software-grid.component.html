@@ -1,0 +1,73 @@
+<div class="main-content software-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="software"
+                                                [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                [paginator]="software.length > 0"
+                                                [rows]="10"
+                                                [rowsPerPageOptions]=""
+                                                [showCurrentPageReport]="software.length > 0"
+                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                #dt2
+                                                [globalFilterFields]="['asset_category','asset_sub_category', 'asset_tag', 'software_name', 'status']">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title">Software List</h4>
+                                                    <div class="add" (click)="addSoftware()"
+                                                          data-bs-toggle="tooltip" data-bs-placement="top" title="Add Software">
+                                                        <i class="fas fa-microchip" style="font-size: 16px;"></i>
+                                                        <i class="fas fa-plus small"></i>
+                                                      </div>
+                                                    <div class="search-container">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                        <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="asset_category">Asset category <p-sortIcon field="user_id" /></th>
+                                                        <th pSortableColumn="asset_sub_category">Asset Sub Category<p-sortIcon field="name" /></th>
+                                                        <th pSortableColumn="asset_tag">Asset Tag <p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="software_name">Software Name<p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="status">Status<p-sortIcon field="email" /></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-user>
+                                                    <tr>
+                                                        <td>{{ user.asset_category }}</td>
+                                                        <td>{{ user.asset_sub_category }}</td>
+                                                        <td>{{ user.asset_tag }}</td>
+                                                        <td>{{ user.software_name }}</td>
+                                                        <td>{{ user.status }}</td>
+                                                        <td>                                                            
+                                                            <i (click)="viewSoftware(user)" class="action-btn fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="right" title="View"></i>
+                                                            <i (click)="editSoftware(user)" class="action-btn mx-3 fas fa-edit" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit"></i>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

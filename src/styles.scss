@@ -1,0 +1,427 @@
+
+/* Global Styles */
+$main-bg-color: #f8f9fa; // Default background color (light gray) - Change if needed
+$main-text-color: #333;
+$main-font-family:  'Open Sans',sans-serif;
+// $main-font-family: Roboto, "Helvetica Neue", sans-serif;
+// $main-font-size: 16px;
+$main-font-size: 14px;
+$main-line-height: 1.6;
+$container-width: 90%;
+$container-max-width: 1200px;
+$primary-header-bg: #00acc1;  //#59a4c8 headers background color
+$primary-button-bg: #00acc1; //#D95C9B, #0073aa;
+$secondary-button-bg: #455a64; //#6b7785;
+$edit-add-link-bg: #405189;
+$edit-icon-color: #20456a;
+$required-field-color: red;
+$disabled-field-color: darkgray;
+$form-control-font-size: 12px;
+$form-control-line-height: 1.9;
+$border-color: #ddd;
+$form-element-padding: 8px;
+$form-element-border-radius: 4px;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: $main-font-family !important;
+  font-size: $main-font-size;
+  line-height: $main-line-height;
+  color: $main-text-color;
+  background-color: $main-bg-color;
+}
+
+//apply styles glaobally to forms from here
+.card-header h4{
+  font-size: 14px !important;
+  font-family: $main-font-family !important;
+}
+
+.card-body .form-label {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: $main-font-family !important;
+}
+
+
+.card-body .form-control,
+.card-body .form-control-plaintext,
+.card-body .form-control::placeholder {
+  font-size: 12px !important;
+}
+
+::ng-deep p-dropdown .p-dropdown-label.p-inputtext {
+  font-size: 12px;
+  padding: 7px;
+}
+//till here
+
+// input[type="text"],
+input[type="password"] , input[type="mobile"],input[type="number"],input[type="email"],input[type="date"]{ /* Or use a class selector if you have one */
+  padding-left: 0 !important; /* Remove left padding */
+}
+::ng-deep .multiselectdropdown .p-multiselect-label {
+  padding-left: 0 !important;
+}
+.multiselectdropdown .p-multiselect-label {
+  padding-left: 0 !important;
+}
+::ng-deep  select option {
+  padding-left: 0 !important; /* Remove padding from the options */
+}
+select option {
+  padding-left: 0 !important; /* Remove padding from the options */
+}
+.container {
+  width: $container-width;
+  max-width: $container-max-width;
+  margin: 0 auto;
+}
+
+/* Typography */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+h5 {
+  font-size: 1.25rem !important;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: $form-element-padding;
+  text-align: left;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Navigation */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+@media (max-width: 767px) {
+  nav ul {
+    text-align: center;
+  }
+
+  nav li {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+/* Responsive Containers */
+@media (min-width: 768px) {
+  .container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    width: 75%;
+  }
+}
+
+/* Page Content */
+.page-content {
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 400px;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $main-font-family;
+}
+
+.page-content th,
+.page-content td {
+  padding: $form-element-padding;
+  text-align: left;
+  border-bottom: 1px solid $border-color;
+}
+
+.page-content .search-bar {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: 15px;
+  }
+
+  .page-content th,
+  .page-content td {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Main Content (Responsive) */
+.main-content {
+  transition: all 0.1s ease-out !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.page-content {
+  padding-bottom: 0;
+}
+
+/* Form Elements */
+select {
+  background-color: $main-bg-color;
+  border: 1px solid $border-color;
+  padding: $form-element-padding;
+  border-radius: $form-element-border-radius;
+}
+
+select option:hover {
+  background-color: #e9ecef; // Example hover color
+  color: #fff; // Example button text color
+}
+
+.form-control {
+  border-radius: 5px;
+  font-size: $form-control-font-size !important;
+  font-family: $main-font-family !important;
+  line-height: $form-control-line-height !important;
+}
+
+.btn {
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+/* Buttons and Links */
+.cancel-btn {
+  margin-right: 5px;
+  border: 1px solid $secondary-button-bg !important;
+  background-color: $secondary-button-bg  !important;
+  color: #fff;
+}
+
+.edit a,
+.add a {
+  background-color: $edit-add-link-bg;
+  color: #fff;
+}
+
+.submit_btn {
+  padding-top: 1.6rem;
+  padding-left: 32rem;
+}
+
+/* Icons and Pointers */
+.pointer {
+  cursor: pointer;
+}
+
+.edit-icon {
+  color: $edit-icon-color;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin-right: 0.3rem;
+}
+
+/* Validation */
+.required-field {
+  color: $required-field-color;
+  display: inline;
+}
+
+/* Checkboxes and Radios */
+.terms-checkbox ::ng-deep .p-radiobutton .p-radiobutton-box {
+  transform: scale(0.8);
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Calendar */
+::ng-deep p-calendar .p-calendar {
+  width: 100% !important;
+}
+
+::ng-deep p-calendar .p-calendar input {
+  margin-left: 30px !important;
+  //cursor: pointer;
+}
+
+.events {
+  pointer-events: none;
+}
+
+/* Utility Classes */
+.ml-2 {
+  display: inline;
+  margin-left: 2px;
+}
+
+.disbleField {
+  color: $disabled-field-color;
+  cursor: not-allowed;
+}
+
+/* Angular Deep Styles */
+::ng-deep div .card-header,
+div .card-header {
+  height: 48px !important;
+  font-family: $main-font-family !important;
+  background-color: $primary-header-bg !important;
+  color: #fff;
+}
+
+.all-icons {
+  height: 100% !important;
+  font-size: large !important;
+  cursor: pointer !important;
+}
+
+.btn-primary {
+  background-color: $primary-button-bg !important;
+  color: #fff;
+  border: none !important;
+}
+
+[type=submit]:disabled {
+  opacity: 0.3 !important;
+}
+
+.btn-secondary {
+  border: none !important;
+}
+
+.readonly-form .form-label {
+  margin-bottom: .5rem !important;
+  font-weight: bold !important;
+}
+
+.form-label{
+  font-weight: 450 !important;
+}
+
+
+.form-select {
+  line-height: $form-control-line-height !important;
+  font-size: $form-control-font-size !important;
+  font-family: $main-font-family !important;
+  padding-left: 10px;
+  color: #6b7280;
+}
+
+.mat-toolbar {
+  font-family: $main-font-family !important;
+  font-size: $main-font-size !important;
+  font-weight: 400 !important;
+}
+.HdrDrpdwn .mdc-list-item__primary-text {
+  font-family: $main-font-family !important;
+  color: black;
+  font-size: 12px !important;
+  // font-size: 14px !important;
+}
+.HdrDrpdwn .mdc-list-item__primary-text:hover {
+  font-family: $main-font-family !important;
+  color: white;
+  font-size: 12px !important;
+  // font-size: 14px !important;
+}
+.mat-mdc-menu-item.mdc-list-item :hover{
+  color: white !important;
+}
+
+.name-ellipsis {
+  white-space: nowrap !important; 
+  overflow: hidden !important;
+  text-overflow: ellipsis!important; 
+ // cursor: pointer!important; 
+}
+
+::ng-deep .p-paginator-rpp-options {
+  max-width: 100px !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  font-family: 'Open Sans', sans-serif !important;
+  // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-size: 12px !important;
+  // font-size: 14px !important;
+}
+
+input[readonly]:hover, input[readonly]:focus{
+  border-color: lightgrey !important;
+  box-shadow: 0 0 0 .20rem lightgrey !important;
+  cursor:not-allowed !important;
+  color: grey !important;
+}
+input[readonly]{
+  color: grey !important;
+}
+
+::ng-deep a, button ,.btn{
+  cursor: pointer !important;
+}
+.p-dropdown,.p-dropdown-label,.p-multiselect-label-container {
+  cursor: default !important;
+}
+
+ ::ng-deep p-dropdown.disableDropdown {
+        opacity: 0.7;
+        pointer-events: none;
+        cursor: not-allowed;
+  }
+
+::ng-deep .p-overlay .p-dropdown-panel{
+    font-size: 12px;
+    font-family: 'Open Sans';
+}
+
+::ng-deep .p-overlay .p-dropdown-panel ul{
+    padding-left: 0px;
+}
+
+.fs-12{
+  font-size: 12px;
+}

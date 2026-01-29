@@ -1,0 +1,64 @@
+<div class="add-model">
+    <div class="card">
+        <div class="card-header text-white">
+            <h4 class="mb-0">{{page_title}} Asset Model</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="modelForm">
+
+            <!-- Asset Model Code -->
+            <div class="form-row">
+                <label class="form-label">Asset Model Code <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter asset model code" formControlName="asset_model_code" />
+
+                    <!-- Validation messages under input -->
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(modelForm.get('asset_model_code')?.dirty || modelForm.get('asset_model_code')?.touched) 
+                                && modelForm.get('asset_model_code')?.invalid">
+                    <div *ngIf="modelForm.get('asset_model_code')?.errors?.['required']">
+                        Asset model code is required.
+                    </div>
+                    <div *ngIf="modelForm.get('asset_model_code')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="modelForm.get('asset_model_code')?.errors?.['maxlength']">
+                        Maximum 15 characters allowed.
+                    </div>
+                    </div>
+                </div>            
+            </div>
+
+            <!-- Asset Model Name -->
+            <div class="form-row">
+                <label class="form-label">Asset Model Name <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter asset model name" formControlName="asset_model_name" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(modelForm.get('asset_model_name')?.dirty || modelForm.get('asset_model_name')?.touched) 
+                                && modelForm.get('asset_model_name')?.invalid">
+                    <div *ngIf="modelForm.get('asset_model_name')?.errors?.['required']">
+                        Asset model name is required.
+                    </div>
+                    <div *ngIf="modelForm.get('asset_model_name')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="modelForm.get('asset_model_name')?.errors?.['maxlength']">
+                        Maximum 40 characters allowed.
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Actions -->
+            <div class="form-row text-center mt-3 action-fe">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="modelForm.invalid" (click)="onSubmit()">{{btn_text}}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>

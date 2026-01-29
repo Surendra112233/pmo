@@ -1,0 +1,24 @@
+<p-dialog header="Session Expired" [(visible)]="showSessionDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+    <div>
+      <span>Your session has expired. Do you want to continue?</span>
+    </div>
+    <p-footer>
+        <div class="col-12 text-center mt-4">
+            <a (click)="onSessionCancel()" class="btn btn-secondary">No</a>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary"  (click)="onSessionConfirm()">Yes</button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Session Failure" [(visible)]="showResumeDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+    <div>
+      <span>Your session could not be resumed. Please log in again.</span>
+    </div>
+    <p-footer>
+        <div class="col-12 text-center mt-4">
+            <button type="submit" class="btn btn-primary"  (click)="onClose()">OK</button>
+        </div>
+    </p-footer>
+</p-dialog>
+<app-loader></app-loader>
+<router-outlet />

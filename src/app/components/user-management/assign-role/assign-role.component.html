@@ -1,0 +1,137 @@
+<div class="main-container assign-role">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+                <div class="card">
+                    <div class="card-header text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Assign Roles</h4> 
+                    </div>
+           <div class="card-body">
+            <form [formGroup]="assignForm" class="row g-3">
+                <div class="col-md-4" *ngIf="!userId">
+                    <!-- <label class="form-label" >User Id <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="userId"  (change)="getUserDetailsByUsername(assignForm.controls['userId'].value)">
+                        <option value="" disabled selected>Select User Id</option>
+                        <option *ngFor="let user of usersList" [value]="user.user_id">{{ user.user_id }}</option>
+                    </select> -->
+                    <label for="iconInput" class="form-label">User Id<label class="required-field">*</label> </label>                                                    
+                    <div>
+                        <p-dropdown 
+                        [options]="usersList" 
+                        optionLabel="user_id" 
+                        optionValue="user_id"
+                        placeholder="Select User Id" 
+                        formControlName="userId"
+                        [filter]="true" 
+                        filterBy="user_id" 
+                        (onChange)="getUserDetailsByUsername(assignForm.controls['userId'].value)"
+                        [class.disableDropdown]="isUsersLoading"
+                        [loading]="isUsersLoading"
+                        [loadingIcon]="'pi pi-spin pi-spinner'">
+                        </p-dropdown>
+                    </div>
+                    <div *ngIf="getFormControl('userId')?.invalid && (getFormControl('userId')?.dirty || getFormControl('userId')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('userId')?.errors?.['required']">Please Select User Id</span>
+                    </div>
+                </div>
+                <div class="col-md-4 readonly-form" *ngIf="userId">
+                    <label class="form-label">User Id</label>
+                    <div  class="form-control-plaintext">
+                        {{ getFormControl('userId')?.value }}
+                    </div>
+                </div>
+              
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label class="form-label">Name</label>
+                    <div class="form-control-plaintext name-ellipsis">
+                        {{ getFormControl('name')?.value }}
+                    </div>
+                </div>
+
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Email</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('email')?.value }}
+                    </div>
+                </div>
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Mobile</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('mobile')?.value }}
+                    </div>
+                </div>
+
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Start Date</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('startDate')?.value | date: 'dd-MM-yyyy' }}
+                    </div>
+                </div>
+
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">End Date</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('endDate')?.value | date: 'dd-MM-yyyy' }}
+                    </div>
+                </div>
+
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Status</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('status')?.value }}
+                    </div>
+                </div>
+                <div class="col-md-4 readonly-form" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Last Login</label>
+                    <div class="form-control-plaintext">
+                        {{ getFormControl('last_login')?.value}}
+                    </div>
+                </div>
+                <!-- <div class="col-md-4" *ngIf="getFormControl('userId')?.value">
+                    <label for="iconInput" class="form-label">Last Login</label>
+                    <input type="text" formControlName="last_login" class="form-control"  readonly>
+                </div> -->
+                <div class="col-md-4"></div>
+
+                <div class="row pt-3"  *ngIf="assignForm.get('userId')?.value">
+                <div class="col-md-4">                                       
+                    <label class="form-label">Role Name <span class="text-danger">*</span></label>
+                    <p-multiSelect   (onChange)="addRole($event)"
+                    formControlName="roleId"
+                    [options]="roles" class="multiselectdropdown"
+                    optionLabel="role_name"
+                    optionValue="role_name" 
+                    placeholder="Select Role"
+                    styleClass="p-multiselect-styled"
+                    [panelStyle]="{'width':'100%'}">
+                </p-multiSelect>
+                    <div *ngIf="assignForm.get('roleId')?.invalid && (assignForm.get('roleId')?.dirty || assignForm.get('roleId')?.touched)" class="text-danger small">
+                        <span *ngIf="assignForm.get('roleId')?.errors?.['required']">Please Select Role</span>
+                    </div>
+                    <span *ngIf="isRoleExists" class="text-danger small">Role already exists,please update new role</span>
+                </div>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2 mt-2">
+                <p-badge *ngFor="let role of selectedRoles" severity="secondary" [value]="role" styleClass="p-badge-pill larger-badge"></p-badge>
+                <!-- <a (click)="removeRole(role)"> <i class="pi pi-times" style="font-size: 1.3rem!important;color:#c73f3f"></i></a>  -->
+            </div>
+                <div class="col-12 text-center">
+                    <button type="button" class="btn btn-secondary me-2" (click)="back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!assignForm.valid" (click)="onSubmit()">{{buttonValue}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

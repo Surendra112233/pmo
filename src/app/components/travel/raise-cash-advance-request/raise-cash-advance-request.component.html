@@ -1,0 +1,139 @@
+<div class="main-container add-task">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div
+                                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Cash Advance Request</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form [formGroup]="requestForm" class="row g-3">
+                                             <div class="col-md-3">
+                                                <label class="form-label">Request ID <span
+                                                        class="text-danger">*</span></label>
+                                                <p-dropdown [options]="requstsList" optionLabel="request_id"
+                                                    optionValue="request_id" placeholder="Select Request ID"
+                                                    [filter]="true" filterBy="request_id"
+                                                    formControlName="request_id"
+                                                    (onChange)="selectedRequestId($event)">
+                                                </p-dropdown>
+                                              
+                                                <div *ngIf="getFormControl('request_id')?.invalid && (getFormControl('request_id')?.dirty || getFormControl('request_id')?.touched)"
+                                                    class="text-danger small">
+                                                    <span
+                                                        *ngIf="getFormControl('request_id')?.errors?.['required']">Please
+                                                        Select Request ID</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Employee Code<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="employee_code" placeholder="Enter Employee Code"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Employee Name<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="employee_name" placeholder="Enter Employee Name"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Department<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="department" placeholder="Enter Department"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Type <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_type" placeholder="Project Type" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Code <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_code" placeholder="Project Code" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Project Name <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_name" placeholder="Enter Project Name"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Country <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="country" placeholder="Enter Country" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Project Manager<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="project_manager" placeholder="Project Manager"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Delivery Manager<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="delivery_manager" placeholder="Delivery Manager"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">SBU Head<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="sbu_head" placeholder="SBU Head" readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Travel Location <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="travel_location" placeholder="Travel Location"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Travel Purpose <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="travel_purpose" placeholder="Travel Purpose"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4"
+                                                *ngIf="requestForm.get('travel_purpose')?.value === 'Others'">
+                                                <label class="form-label">If Others, Specify <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control name-ellipsis"
+                                                    formControlName="others_specify" placeholder="Specify" readonly>
+                                            </div>
+                                            
+                                        </form>
+                                        <div class="col-12 text-center mt-4">
+                                            <button type="button" class="btn btn-secondary me-2 fs-12"
+                                                (click)="navigateToGrid()">Back</button>
+                                            <button type="submit" class="btn btn-primary me-2 fs-12"
+                                                (click)="submit()">Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+.login-container {
+  height: 100vh;
+  // opacity: 0.7;
+  background-image: radial-gradient(circle farthest-corner at 10% 20%, rgb(224, 247, 250) 0%, rgb(0, 151, 167) 90%) !important
+}
+
+.login-container .text-primary {
+    --vz-text-opacity: 1;
+    font-weight: bold;
+    color: #000 !important;
+}
+
+.auth-one-bg .bg-overlay {
+  opacity: 0.7 !important;
+  background-image: radial-gradient(circle farthest-corner at 10% 20%, rgb(224, 247, 250) 0%, rgb(0, 151, 167) 90%) !important; 
+}
+
+.card.card-bg-fill {
+  border-radius: 30px;
+  width: 400px;
+  margin-top: 70px !important;
+}
+
+.input-group.password-field {
+  display: flex;
+  border-radius: 15px !important;
+  border: 1px solid #ced4da !important;
+  margin-top: 5px;
+}
+
+.error {
+  border: 2px solid red !important;
+  outline: none;
+}
+
+.login-container .shape>svg {
+     fill: white; 
+}
+
+.logo-image {
+  position: relative !important;
+    align-items: center !important;
+    top: 2.5rem !important;
+    height: 3.5rem !important;
+    //left: 41% !important;
+}
+
+.text-center {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+@media (max-width: 768px) { /* For tablets and smaller devices */
+  .auth-logo img {
+      height: 2.5rem !important; /* Smaller height for mobile */
+  }
+  .justify-content-center{
+    padding-top: 10px ;
+    }
+  .text-center {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+ 
+}
+
+@media (max-width: 480px) { /* For phones */
+  .auth-logo img {
+      height: 2rem !important; /* Even smaller for compact screens */
+  }
+}
+.justify-content-center{
+padding-top: 15px ;
+}
+.login-container .auth-page-content .card {
+    z-index: 9;
+}
+
+.login-container .label-text {
+    display: inline;
+    color: black;
+}
+
+.login-container .required-field {
+    color: red; 
+    display: inline;
+    margin-left: 4px; 
+}
+
+.login-container .submit-btn {
+    background-color: #000!important;
+    border-color: #000!important;
+    color: #fff !important;
+    width: 100% !important;
+    border-radius: 15px;
+}
+
+.login-container .forgot-pass {
+    text-decoration: none;
+}
+
+.login-container .resend-btn {
+    padding: 0;                                       
+    /* margin-left: 16rem; */
+    color: #00acc1;
+}
+  button:disabled {
+    /* background-color: #ccc; */
+    cursor: not-allowed;
+  }
+
+  .otp-timer{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+  }
+  #timer {
+    margin-bottom: 0px;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .resend-btn {
+    font-size: 14px;
+    color: #007bff; /* Bootstrap primary color */
+    text-decoration: none;
+  }
+  
+  .resend-btn:disabled {
+    color: #ccc; /* Disabled color */
+    cursor: not-allowed;
+  }
+
+  .input-group-text {
+    background: transparent;
+    border: none;
+  }
+  
+  .input-group-text i {
+    font-size: 1.2rem;
+    color: #6c757d;
+  }
+  
+  .input-group-text:hover i {
+    color: #000;
+  }
+
+  .input-group input{
+    border: none;
+  }
+
+  .input-group{ 
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  input[type=text], input[type=password]{
+    padding-left: 8px !important;
+}
+
+/* ================================
+   Mobile Responsiveness
+================================ */
+
+// .mobile-responsive {
+//     padding: env(safe-area-inset-top)
+//              env(safe-area-inset-right)
+//              env(safe-area-inset-bottom)
+//              env(safe-area-inset-left); /* iPhone notch fix */
+// }
+
+// .mobile-login .responsive-logo {
+//     height: 45px;
+//     width: auto;
+// }
+
+.login-row {
+    margin-top: 120px !important;
+}
+
+@media (max-width: 576px) { /* Phones */
+    .login-row {
+        margin-top: 60px !important;
+    }
+
+    .login-card {
+        padding: 15px !important;
+        border-radius: 12px !important;
+    }
+
+    .responsive-logo {
+        height: 40px !important;
+    }
+
+    // input.form-control {
+    //     font-size: 14px !important;
+    //     padding: 10px !important;
+    // }
+
+    // button.submit-btn {
+    //     font-size: 15px !important;
+    //     padding: 10px !important;
+    //     width: 100%;
+    // }
+
+    .card.card-bg-fill {
+        width: 100%;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 820px) { /* Tablets */
+    .login-row {
+        margin-top: 90px !important;
+    }
+
+    .login-card {
+        transform: scale(0.95);
+    }
+}

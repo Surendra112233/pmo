@@ -1,0 +1,64 @@
+<div class="add-status">
+    <div class="card">
+        <div class="card-header text-white">
+            <h4 class="mb-0">{{page_title}} Status</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="statusForm">
+
+            <!-- Status Code -->
+            <div class="form-row">
+                <label class="form-label">Status Code <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter status code" formControlName="status_code" />
+
+                    <!-- Validation messages under input -->
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(statusForm.get('status_code')?.dirty || statusForm.get('status_code')?.touched) 
+                                && statusForm.get('status_code')?.invalid">
+                    <div *ngIf="statusForm.get('status_code')?.errors?.['required']">
+                        Status code is required.
+                    </div>
+                    <div *ngIf="statusForm.get('status_code')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="statusForm.get('status_code')?.errors?.['maxlength']">
+                        Maximum 15 characters allowed.
+                    </div>
+                    </div>
+                </div>            
+            </div>
+
+            <!-- Status Name -->
+            <div class="form-row">
+                <label class="form-label">Status Name <span class="text-danger">*</span></label>
+                <div class="flex-1 wdh-100">
+                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter status name" formControlName="status_name" />
+
+                    <div class="text-danger mt-1 small"
+                        *ngIf="(statusForm.get('status_name')?.dirty || statusForm.get('status_name')?.touched) 
+                                && statusForm.get('status_name')?.invalid">
+                    <div *ngIf="statusForm.get('status_name')?.errors?.['required']">
+                        Status name is required.
+                    </div>
+                    <div *ngIf="statusForm.get('status_name')?.errors?.['minlength']">
+                        Minimum 3 characters required.
+                    </div>
+                    <div *ngIf="statusForm.get('status_name')?.errors?.['maxlength']">
+                        Maximum 40 characters allowed.
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Actions -->
+            <div class="form-row text-center mt-3 action-fe">
+                <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="statusForm.invalid" (click)="onSubmit()">{{btn_text}}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>

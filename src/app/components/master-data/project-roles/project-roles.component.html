@@ -1,0 +1,60 @@
+<div class="main-content pro-roles-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="projectRoles"
+                                                     [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                     [paginator]="projectRoles.length > 0"
+                                                     [rows]="10"
+                                                     [rowsPerPageOptions]=[10,20,30,40,50]
+                                                     [showCurrentPageReport]="projectRoles.length > 0"
+                                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                     #dt2
+                                                     [globalFilterFields]="['project_role']">
+                                                     <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title font-opensans">Project Roles List</h4>
+                                                        <div class="add">
+                                                            <i class="fas fa-user-plus" (click)="addProjectRoles()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add Project Role"></i>
+                                                        </div>
+                                                        <div class="search-container">
+                                                            <i class="fas fa-search search-icon"></i>
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                        </div>
+                                                    </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
+                                                        <th pSortableColumn="project_role">Project Role <p-sortIcon field="project_role" /></th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-role>
+                                                    <tr>
+                                                        <td><a (click)="navigateToView(role.id)" class="site-update-link">{{ role.id }}</a></td>
+                                                        <td>{{ role.project_role }}</td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

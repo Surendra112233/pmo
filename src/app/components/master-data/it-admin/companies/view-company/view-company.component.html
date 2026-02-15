@@ -1,0 +1,54 @@
+<div class="view-company">
+  <div class="card">
+    <div class="card-header text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">View Company</h4>
+      <i class="fas fa-pen cursor-pointer"
+        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Company" (click)="onEdit()"></i>
+    </div>
+
+    <div class="card-body">
+      <!-- Company -->
+      <div class="form-row">
+        <label class="form-label">Company</label>
+        <div class="form-value">{{ company?.company }}</div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-row">
+        <label class="form-label">Address</label>
+        <div class="form-value">{{ company?.address }}</div>
+      </div>
+
+      <!-- Geo Region -->
+      <div class="form-row">
+        <label class="form-label">Geo Region</label>
+        <div class="form-value">{{ company?.geo_region }}</div>
+      </div>
+
+      <!-- Country -->
+      <div class="form-row">
+        <label class="form-label">Country</label>
+        <div class="form-value">{{ company?.country }}</div>
+      </div>
+
+      <!-- Location Names -->
+      <div class="form-row">
+        <label class="form-label">Location Names</label>
+        <div class="form-value">
+          <ng-container *ngIf="company?.location_name?.length; else noLoc">
+            <span class="badge bg-secondary me-1" *ngFor="let loc of company.location_name">
+              {{ loc }}
+            </span>
+          </ng-container>
+          <ng-template #noLoc>
+            <span class="text-muted">No Locations</span>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

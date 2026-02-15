@@ -1,0 +1,111 @@
+.card-header {
+    background-color: #00acc1 !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .card-body {
+    background-color: #e0f7fa; //50
+}
+
+::ng-deep .page-content .report-emp-grid td,
+::ng-deep .page-content .report-emp-grid th {
+    border: 1px solid #ddd !important;
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th p-sorticon {
+    /* float: right; */
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th p-sorticon svg {
+    width: 10px;
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    // font-size: 14px !important;
+    padding: .75rem !important;
+}
+
+::ng-deep .p-datatable-header {
+    display: flex;
+    background-color: #fff;
+}
+
+::ng-deep .p-datatable-header .search {
+    padding-right: 10px;
+}
+
+::ng-deep .p-datatable-header .search input {
+    padding: 6px;
+}
+
+::ng-deep .p-datatable-header .add a {
+    /* background-color: #405189 !important; */
+}
+
+::ng-deep .p-datatable-wrapper {
+    font-size: 0.85rem;
+}
+
+::ng-deep .p-datatable-tbody a.site-update-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.row-hover:hover {
+    background-color: #e0e0e0;  /* Light gray on hover */
+}
+
+::ng-deep .p-datatable-tbody tr td.right-align {
+    text-align: right !important;
+}
+
+::ng-deep .p-datatable-tbody tr td.center-align {
+    text-align: center !important;
+}
+
+.employeeProjectDurationReport .search-container,
+.employeeDetailedeReport .search-container,
+.employeeCumulativeReport .search-container,
+.employeeAvailabilityReport .search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 300px;
+
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        font-size: 10px;
+        color: gray;
+    }
+
+    input {
+        font-size: 12px;
+        padding-left: 30px !important;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid gray;
+        padding: 5px;
+        margin-right: 10px;
+    }
+
+    .chart-placeholder {
+        //   height: 300px;
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+    }
+
+    .chart-header {
+        background-color: #00acc1 !important;
+        color: white !important;
+        font-size: 12px;
+        // font-weight: bold;
+        font-family: 'Open Sans', sans-serif;
+    }
+} 

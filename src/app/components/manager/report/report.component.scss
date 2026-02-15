@@ -1,0 +1,118 @@
+.card-header {
+  background-color: #00acc1 !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.card-body {
+    background-color: #e0f7fa; //50
+}
+
+::ng-deep .p-multiselect {
+    line-height: 1 !important;
+    width: 17rem !important;
+    font-size: 12px !important;
+    font-family: 'Open Sans', sans-serif;
+    // font-size: 14px !important;
+    // font-family: Roboto, "Helvetica Neue", sans-serif;
+ }
+ .multiselectdropdown .p-multiselect-label {
+    padding-left: 0 !important;
+  }
+  .multiselectdropdown {
+    // font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Open Sans', sans-serif;
+  }
+  ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 12px !important;
+    // font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    // font-size: 14px !important;
+ }
+
+  .btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    color: var(--bs-btn-disabled-color) !important;
+    pointer-events: none !important;
+    background-color: var(--bs-btn-disabled-bg);
+    border-color: var(--bs-btn-disabled-border-color) !important;
+    opacity: var(--bs-btn-disabled-opacity) !important;
+}
+
+.btn:disabled {
+  background-color: #00acc1 !important;
+  opacity: 0.3 !important;
+}
+
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th p-sorticon {
+  /* float: right; */
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th p-sorticon svg {
+  width: 10px;
+}
+
+::ng-deep .p-datatable-wrapper .p-datatable-thead th {
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  // font-size: 14px !important;
+  padding: .75rem !important;
+}
+
+::ng-deep .p-datatable-header {
+  display: flex;
+  background-color: #fff;
+}
+
+::ng-deep .p-datatable-header .search {
+  padding-right: 10px;
+}
+
+::ng-deep .p-datatable-header .search input {
+  padding: 6px;
+}
+
+::ng-deep .p-datatable-header .add a {
+  /* background-color: #405189 !important; */
+}
+
+::ng-deep .p-datatable-wrapper {
+  font-size: 0.85rem;
+}
+
+::ng-deep .p-datatable-tbody a.site-update-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.row-hover:hover {
+  background-color: #e0e0e0;  /* Light gray on hover */
+}
+
+::ng-deep .manager-report p-multiselect  .p-multiselect {
+  width: 100% !important;
+}
+
+::ng-deep .manager-report p-calendar .p-calendar input {
+  padding: 6px;
+  font-size: 12px;
+}
+
+::ng-deep p-dropdown .p-deopdown-label.p-inputtext {
+  font-family: 'Open Sans', sans-serif;
+}
+
+::ng-deep .manager-report .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 12px !important;
+}
+
+::ng-deep .manager-report .p-datatable-thead tr th.right-align,
+::ng-deep .manager-report .p-datatable-tbody tr td.right-align {
+  text-align: right !important;
+}
+
+::ng-deep .manager-report input[type=number],
+::ng-deep .manager-report .p-multiselect-label,
+::ng-deep .manager-report .p-dropdown{
+  padding-left: 10px !important;
+}

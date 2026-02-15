@@ -1,0 +1,313 @@
+<div class="main-content view-project">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Project Details</h4>
+                                        <a (click)="navigateToEditProject()" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Project">
+                                            <i class="fa-solid fa-pen-to-square align-middle text-white all-icons"></i> </a>
+                                    </div>
+                                    <div class="card-body">
+                                            <div class="row gy-4 readonly-form">
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Code</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_code }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <!-- <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Name</label>
+                                                        <div class="form-control-plaintext truncated-text">
+                                                            {{ projects.project_name }}
+                                                        </div>
+                                                    </div> 
+                                                </div> -->
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Description </label>
+                                                        <div class="form-control-plaintext truncated-text">
+                                                            {{ projects.project_description }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Type </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_type }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Category </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_category }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Inter Company </label>
+                                                        <div class="form-control-plaintext" *ngIf="projects.contracting_company">
+                                                            Yes
+                                                        </div>
+                                                        <div class="form-control-plaintext" *ngIf="!projects.contracting_company">
+                                                            No
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Contracting Company </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.contracting_company ? projects.contracting_company : '-' }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Status </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_status  == 'active' ? 'Active' : 
+                                                            projects.project_status  == 'inactive' ? 'Inactive' :
+                                                            projects.project_status  == 'open' ? 'Open' :
+                                                            projects.project_status  == 'completed' ? 'Completed' : projects.project_status}}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Manager </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_manager.split(' - ')[1] }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Delivery Head </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.delivery_head.split(' - ')[1] }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">SBU Head </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.sbu_head.split(' - ')[1] }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Client Name </label>
+                                                        <div class="form-control-plaintext truncated-text">
+                                                            {{ projects.client_name }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Region </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_region }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Country</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.project_country }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Delivery Model</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.delivery_model }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Start Date</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.from_date | date: 'dd-MM-yyyy' }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project End Date</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.to_date  | date: 'dd-MM-yyyy'}}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Budgeted Hours </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.budgeted_hours }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Allocated Budgeted Percentage </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.allocated_budgeted_percentage}}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Allocated Budgeted Hours </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.allocated_budgeted_hours }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Actual Allocated Hours </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.allocated_hours }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class=" col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Worked Hours </label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.worked_hours }}
+                                                        </div>
+                                                    </div> 
+                                                </div>                                                
+                                                <div class=" col-md-8">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Notes</label>
+                                                        <div class="form-control-plaintext">
+                                                            {{ projects.notes ? projects.notes : '-' }}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-4" *ngIf="phaseAllocations.length > 0">
+                                                <p-table [value]="phaseAllocations" 
+                                                [responsiveLayout]="'scroll'">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title text-white font-opensans">Phase Wise Allocation</h4>                                                   
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                    <th>Phase</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th class="align-right">Budgeted Hours</th>
+                                                    <th class="align-right">Allocated Hours</th>
+                                                    <th class="align-right">Worked Hours</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-row>
+                                                    <tr>
+                                                    <td>{{ row.phase_name }}</td>
+                                                    <td>{{ row.start_date | date:'dd-MM-yyyy'}}</td>
+                                                    <td>{{ row.end_date | date:'dd-MM-yyyy'}}</td>
+                                                    <td class="align-right">{{ row.budgeted_hours }}</td>
+                                                    <td class="align-right">{{ row.allocated_hours }}</td>
+                                                    <td class="align-right">{{ formatWorkedHours(row.worked_hours) }}</td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="8" class="text-center">No phase wise allocation available for this project</td>  </tr>
+                                                </ng-template>
+                                                </p-table>
+                                            </div>
+                                            
+                                            <div class="row" *ngIf="projectTeam.length > 0">
+                                                <div class="mt-4">
+                                                    <p-table #dt [value]="projectTeam" 
+                                                        [paginator]="projectTeam.length > 10" 
+                                                        [rows]="10" 
+                                                        [rowsPerPageOptions]=""
+                                                        [showCurrentPageReport]="projectTeam.length > 10" 
+                                                        [responsiveLayout]="'scroll'" 
+                                                        [globalFilterFields]="['employee_code','employee_name', 'designation','project_role_name', 'start_date', 'end_date','phase_name','allocated_hours']">
+                                                        <ng-template pTemplate="caption">
+                                                            <h4 class="card-title mb-0 flex-grow-1 table-title text-white font-opensans">Project Team</h4>
+                                                            <!-- <div class="add">
+                                                                <i *ngIf="projects?.project_code != 'RB001'" class="fas fa-eye text-dark all-icons text-white me-3" style="font-size:15px !important" (click)="openAllocationDialog()" title="View Allocation"></i>
+                                                            </div> -->
+                                                            <div class="search-container">
+                                                                <i class="fas fa-search search-icon"></i>
+                                                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="header">
+                                                                <tr>
+                                                                    <th>Phase</th>
+                                                                    <th>Employee Code</th>
+                                                                    <th>Employee Name</th>
+                                                                    <!-- <th>Designation</th> -->
+                                                                    <th>Project Role</th>
+                                                                    <th>Start Date</th>
+                                                                    <th>End Date</th>
+                                                                    <th class="align-right">Allocated Hours</th>
+                                                                    <!-- <th class="align-right">Worked Hours</th> -->
+                                                                    <th class="align-right">Balance Hours</th>
+                                                                </tr>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="body" let-team>
+                                                            <tr>
+                                                                <td>{{ team.phase_name }}</td>
+                                                                <td>{{ team.employee_code }}</td>
+                                                                <td>{{ team.employee_name }}</td>
+                                                                <!-- <td>{{ team.designation }}</td> -->
+                                                                <td>{{ team.project_role_name }}</td>
+                                                                <td>{{ team.start_date | date:"dd-MM-yyyy" }}</td>
+                                                                <td>{{ team.end_date | date:"dd-MM-yyyy" }}</td>
+                                                                <td class="align-right">{{ team.allocated_hours }}</td>
+                                                                <!-- <td class="align-right">{{ team.worked_hours }}</td> -->
+                                                                <td class="align-right">{{ team.balance_hours }}</td>
+                                                            </tr>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="emptymessage">
+                                                            <tr>
+                                                                <td colspan="9" class="text-center">No project team found for this project</td>  </tr>
+                                                        </ng-template>
+                                                    </p-table>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col text-center">
+                                                    <a (click)="navigateToGrid()" class="btn btn-secondary cancel-btn">Back</a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

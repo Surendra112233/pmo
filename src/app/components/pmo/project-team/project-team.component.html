@@ -1,0 +1,209 @@
+<div class="card">
+    <p-toast></p-toast>
+    <div class="card-body project-team">
+        <ng-container *ngIf="dataLoaded; else loadingTemplate">
+            <div class="table-responsive table-card">
+                <p-table 
+                        [value]="projectTeam"
+                        [tableStyle]="{ 'width': '100%', 'border-collapse': 'collapse' }"  [paginator]="projectTeam.length > 10"
+                        [rows]="10"
+                        [rowsPerPageOptions]=""
+                        [showCurrentPageReport]="projectTeam.length > 10"
+                        #dt2
+                        [globalFilterFields]="['employee_code','employee_name', 'designation','project_role_name', 'start_date', 'end_date','phase_name','allocated_hours', 'worked_hours']">
+
+                        <ng-template pTemplate="caption">
+                            <h4 class="card-title mb-0 flex-grow-1 table-title text-white font-opensans">Project Team</h4>
+                            <div class="add" *ngIf="projectsData?.project_status == 'active' || projectsData?.project_status == 'open'">
+                                <i class="fas fa-user-plus text-dark all-icons text-white me-3" (click)="addProjectTeam()" title="Add Project Team"></i>
+                            </div>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                            </div>
+                        </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th style="width:5%;">
+                                <label>Select All</label>
+                                <p-checkbox 
+                                [(ngModel)]="selectAll" 
+                                (onChange)="toggleSelectAll($event)" 
+                                binary="true"
+                                class="small-checkbox">
+                                </p-checkbox>
+                            </th>  -->
+                            <th pSortableColumn="task" style="width: 15%; text-align: center; font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Phase <p-sortIcon field="task" />
+                            </th>
+                            <th pSortableColumn="employee_code" style="width: 8%; text-align: center;font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">  
+                                Employee Code <p-sortIcon field="employee_code" />
+                            </th>
+                            <th pSortableColumn="employee_name" style="width: 14%; text-align: center;font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Employee Name <p-sortIcon field="employee_name" />
+                            </th>
+                            <!-- <th pSortableColumn="designation" style="width: 10%; text-align: center;font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Designation <p-sortIcon field="designation" />
+                            </th> -->
+                            <th pSortableColumn="project_role" style="width: 8%; text-align: center;font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Project Role <p-sortIcon field="project_role" />
+                            </th>
+                            <th pSortableColumn="start_date" style="width: 12%; text-align: center; font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Start Date<p-sortIcon field="start_date" />
+                            </th>
+                            <th pSortableColumn="end_date" style="width: 12%; text-align: center;font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                End Date<p-sortIcon field="end_date" />
+                            </th>
+                            <!-- <th pSortableColumn="task" style="text-align: center; font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                                Task <p-sortIcon field="task" />
+                            </th> -->
+                            <th pSortableColumn="allocated_hours" style="width: 10%; text-align: center; font-size: 14px; padding: 5px; border: 1px solid #dee2e6;">
+                                Allocated Hrs <p-sortIcon field="allocated_hours" />
+                            </th>
+                            <!-- <th pSortableColumn="worked_hours" style="width: 10%; text-align: center; font-size: 14px; padding: 5px; border: 1px solid #dee2e6;">
+                                Worked Hours <p-sortIcon field="worked_hours" />
+                            </th> -->
+                            <th pSortableColumn="balance_hours" style="width: 10%; text-align: center; font-size: 14px; padding: 5px; border: 1px solid #dee2e6;">
+                                Balance Hrs <p-sortIcon field="balance_hours" />
+                            </th>
+                            <th style="width:5%; font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                            Edit </th>
+                            <th style="width:5%; font-size: 14px; padding: 8px; border: 1px solid #dee2e6;">
+                            Delete </th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-project let-rowIndex="rowIndex">
+                        <tr>
+                            <!-- <td>
+                                <p-checkbox 
+                                [(ngModel)]="project.selected"
+                                (onChange)="toggleSingleSelect($event)" 
+                                binary="true"
+                                class="small-checkbox">
+                                </p-checkbox>
+                            </td> -->
+                            <td class="tdInput phase-col" style="width: 15%;">
+                                <select data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.phase_name" 
+                                    class="form-select" [(ngModel)]="project.task" [disabled]="!project.isEdit && project.id"  
+                                    style="width: fit-content;"
+                                    (change)="onPhaseChange(project, rowIndex)">
+                                    <option *ngFor="let item of tasks" [value]="item.task">{{ item.phase_name }}</option>
+                                </select>
+                            </td>
+                            <td class="tdInput" style="width: 8%;">
+                                <!-- <select class="form-select" [(ngModel)]="project.employee_code"  [disabled]="!editRows[rowIndex] && project.id" (change)="onChangeEmployee(project.employee_code,rowIndex)">
+                                    <option *ngFor="let item of employeeDetails" [value]="item.employee_code">{{ item.employee_code }}</option>
+                                </select> -->
+                                <p-dropdown 
+                                    [options]="allEmpDetails" 
+                                    optionLabel= "formattedLabel"
+                                    optionValue="employee_code"
+                                    [(ngModel)]="project.employee_code"
+                                    [filter]="true"
+                                    appendTo="body"
+                                    placeholder="Select Employee Code"
+                                    [disabled]="!project.isEdit && project.id"
+                                    (onChange)="onChangeEmployee($event.value, rowIndex)"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.employee_code">
+                                </p-dropdown>
+                            </td>
+                            <td class="tdInput" style="width: 14%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.employee_name" type="text" [(ngModel)]="project.employee_name" class="form-control" disabled ></td>
+                            <!-- <td class="tdInput"  style="width: 10%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.designation"  type="text" [(ngModel)]="project.designation" class="form-control" disabled ></td> -->
+                            <td class="tdInput pro-role-col" style="width: 8%;">
+                                <!-- <select data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.project_role_name" class="form-select" [(ngModel)]="project.project_role" [disabled]="!project.isEdit && project.id" >
+                                    <option *ngFor="let item of projectRoles" [value]="item.id">{{ item.project_role }}</option>
+                                </select> -->
+                                <p-dropdown 
+                                    [options]="projectRoles" 
+                                    optionLabel= "project_role"
+                                    optionValue="id"
+                                    [(ngModel)]="project.project_role"
+                                    [filter]="true"
+                                    appendTo="body"
+                                    placeholder="Select Project Role"
+                                    [disabled]="!project.isEdit && project.id"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.project_role_name">
+                                </p-dropdown>
+                            </td>
+                            <!-- <td class="tdInput"><input type="date" (keydown)="$event.preventDefault()" [(ngModel)]="project.start_date"  [min]="projectsData?.from_date || minDate" [max]="this.projectsData?.to_date || maxDate" class="form-control" [disabled]="!editRows[rowIndex] && project.id" ></td> -->
+                            <td style="width: 12%;" clas="calendar-col">
+                                <p-calendar
+                                #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                [(ngModel)]="project.start_date" [showTime]="false" appendTo="body"
+                                dateFormat="dd/mm/yy" placeholder="Select Start Date"
+                                [minDate]="project.phase_start_date || projectStartDate"
+                                [maxDate]="project.phase_end_date || projectEndDate"
+                                [disabled]="!project.isEdit && project.id"
+                                (onSelect)="testEnddate(project.end_date,project.start_date,project)"
+                                data-bs-toggle="tooltip" data-bs-placement="top" [title]="displayChangedFormat(project.start_date)"></p-calendar>
+                            </td>
+                            <!-- <td class="tdInput"><input type="date" (keydown)="$event.preventDefault()" [(ngModel)]="project.end_date" [min]="projectsData?.from_date || minDate" [max]="this.projectsData?.to_date || maxDate" (change)="testEnddate(project.end_date,project.start_date)"  class="form-control" [disabled]="!editRows[rowIndex] && project.id" ></td> -->
+                            <td style="width: 12%;" class="calendar-col">
+                                <p-calendar
+                                #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys
+                                [(ngModel)]="project.end_date" [showTime]="false" appendTo="body"
+                                dateFormat="dd/mm/yy" placeholder="Select End Date"
+                                [minDate]="project.phase_start_date || projectStartDate"
+                                [maxDate]="project.phase_end_date || projectEndDate"
+                                (onSelect)="testEnddate(project.end_date,project.start_date,project)"
+                                [disabled]="!project.isEdit && project.id"
+                                data-bs-toggle="tooltip" data-bs-placement="top" [title]="displayChangedFormat(project.end_date)"></p-calendar>
+                            </td>
+                            <!-- <td class="tdInput">
+                                <select class="form-select" [(ngModel)]="project.task" [disabled]="!editRows[rowIndex] && project.id"  style="width: fit-content;">
+                                    <option *ngFor="let item of tasks" [value]="item.task_code">{{ item.description }}</option>
+                                </select>
+                            </td> -->
+                            <td class="tdInput" style="width: 10%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.allocated_hours" type="text" appNumbersOnly [(ngModel)]="project.allocated_hours" class="form-control" [disabled]="!project.isEdit && project.id" maxlength="10" style="text-align: right;"></td>
+                            <!-- <td class="tdInput" style="width: 10%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.allocated_hours" type="text" appNumbersOnly [(ngModel)]="project.allocated_hours" class="form-control" (change)="onChangeAllocatedHours(project,rowIndex)" [disabled]="!project.isEdit && project.id" maxlength="10" style="text-align: right;"></td> -->
+                            <!-- <td class="tdInput" style="width: 10%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.worked_hours" type="text" appNumbersOnly [(ngModel)]="project.worked_hours" class="form-control" [disabled]="true" maxlength="10" style="text-align: right;"></td> -->
+                            <td class="tdInput" style="width: 10%;"><input data-bs-toggle="tooltip" data-bs-placement="top" [title]="project.balance_hours" type="text" appNumbersOnly [(ngModel)]="project.balance_hours" class="form-control" [disabled]="true" maxlength="10" style="text-align: right;"></td>
+                            <td class="tdInput" style="text-align: center; width: 5%;">
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="edit" *ngIf="project?.id" (click)="edit(project)" class="site-update-link "><i class="fas fa-pencil" style="font-size: 17x;"></i></a>
+                                <!-- <a data-bs-toggle="tooltip" data-bs-placement="top" title="edit" *ngIf="project?.id" (click)="edit(project,rowIndex)" class="site-update-link "><i class="fas fa-pencil" style="font-size: 17x;"></i></a> -->
+                            </td>
+                            <td class="tdInput" style="text-align: center; width: 5%;">
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="delete" (click)="showDeleteDialog(project,rowIndex)" class="site-update-link "><i class="las la-trash text-danger" style="font-size: 20px;"></i></a>
+                            </td>
+                        
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" class="text-center">No team found</td>  </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </ng-container>
+
+        <!-- LOADING TEMPLATE (outside table scope) -->
+        <ng-template #loadingTemplate>
+        <div class="text-center my-4">
+            <i class="pi pi-spin pi-spinner" style="font-size: 2em; color: #00acc1; animation-duration: 0.8s;"></i>
+            <p>Loading project team. Please wait...</p>
+        </div>
+        </ng-template>
+
+        <div class="col-12 text-center mt-4" *ngIf="dataLoaded">
+            <button type="button" class="btn btn-secondary me-2" (click)="navigateToGrid()">Cancel</button>
+            <button type="submit" class="btn btn-primary" (click)="onSubmitProjectTeam()" [class.disabled]="isSubmitDisabled()">Submit</button>
+            <!-- <button type="submit" class="btn btn-primary" (click)="onSubmitProjectTeam()" [class.disabled]="isSubmitDisabled() || hasDuplicateError">Submit</button> -->
+        </div>
+    </div>
+</div>
+
+    <!-- Dialog to delete team member -->
+    <p-dialog header="Confirm Deletion" [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+        <div>
+        <p>Are you sure you want to delete the selected row(s)?</p>
+        </div>
+        <p-footer>
+            <div class="col-12 text-center mt-4">
+                <a (click)="closeDeleteDialog()" class="btn btn-inverse waves-effect waves-light cancel-btn">Close</a>
+                <a (click)="deleteProjectTeam()" class="btn btn-primary waves-effect waves-light">Confirm</a>
+        </div>
+        </p-footer>
+    </p-dialog>
+

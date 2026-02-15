@@ -1,0 +1,95 @@
+<div class="main-content user-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="filteredData"
+                                                [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                [paginator]="filteredData.length > 0"
+                                                [rows]="10"
+                                                [rowsPerPageOptions]=""
+                                                [showCurrentPageReport]="filteredData.length > 0"
+                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                #dt2
+                                                [globalFilterFields]="['user_id','name', 'email', 'status', 'last_login']">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title">Users List</h4>
+                                                    <div class="add">
+                                                        <i class="fas fa-user-plus" (click)="navigateToRegistration()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add User" appTooltip="Add User" position="bottom"></i>
+                                                    </div>
+                                                    <div class="select-type">
+                                                             <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterUsersByStatus()">
+                                                                <option value="" disabled>Select Status</option>
+                                                                <option *ngFor="let type of status" [value]="type.id">{{ type.name }}</option>
+                                                            </select>
+                                                        </div>
+                                                    <div class="search-container">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                        <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="user_id">User Id <p-sortIcon field="user_id" /></th>
+                                                        <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+                                                        <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
+                                                        <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
+                                                        <th pSortableColumn="last_login">Last Login <p-sortIcon field="last_login" /></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-user>
+                                                    <tr>
+                                                        <td><a (click)="navigateToView(user.user_id)" class="site-update-link">{{ user.user_id }}</a></td>
+                                                        <td><span class="truncated-text">{{ user.name }}</span></td>
+                                                        <td>{{ user.email }}</td>
+                                                        <td>{{ user.status.toLowerCase() === 'active' ? 'Active' : 'Inactive' }}</td>
+                                                        <td>{{ formatLastLogin(user.last_login)}}</td>
+                                                        <td>
+                                                            <span (click)="user.status.toLowerCase() !== 'inactive' ? showDeleteDialog(user) : null" 
+                                                            class="site-update-link" 
+                                                            [class.disabled]="user.status.toLowerCase() === 'inactive'">
+                                                          <i class="action-btn" [class]= "user.status.toLowerCase() === 'inactive' ? 'fas fa-ban' : 'fas fa-check-circle'" data-bs-toggle="tooltip" data-bs-placement="right" title="Deactivate User"></i>
+                                                      </span>
+                                                            <!-- <a (click)="showDeleteDialog(user)" class="site-update-link " [class.disabled]="user.status === 'inactive'"><i class="las la-trash text-danger" style="font-size: 20px;"></i></a> -->
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Deactivate User" [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+    <div>
+      <span>Are you sure you want to make this user inactive?</span>
+    </div>
+    <p-footer>
+        <div class="col-12 text-center mt-4">
+            <a (click)="closeDeleteDialog()" class="btn btn-secondary">Cancel</a>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary"  (click)="deleteUser()">Confirm</button>
+    </div>
+      <!-- <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="closeDeleteDialog()"></button>
+      <button pButton type="button" label="Confirm" icon="pi pi-check" class="p-button-danger" (click)="deleteProjectTeam()"></button> -->
+    </p-footer>
+  </p-dialog>

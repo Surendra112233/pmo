@@ -1,0 +1,122 @@
+.view-software {
+  .card {
+        font-family: 'Open Sans', sans-serif;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 20px 50px;
+    }
+    
+    .card-header {
+        background-color: #00acc1!important;
+
+        h4 {
+            font-size: 14px !important;
+        }
+    }
+
+    .card-body {
+      background-color: #e0f7fa; //50
+        margin: 10px 25px;
+    }
+
+  .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 12px;
+      font-family: 'Open Sans', sans-serif;
+
+      label {
+          flex: 0 0 200px; // fixed width for labels
+          font-weight: 600;
+      }
+
+      .form-value {
+          flex: 1;
+          padding: 6px 12px;
+          border: 1px solid #dee2e6;
+          border-radius: 4px;
+          background: #f8f9fa;
+          font-family: 'Open Sans', sans-serif;
+          font-size: 12px;
+      }
+
+      .form-control,
+      .form-select {
+          flex: 1; // take remaining width
+      }
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.6em;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .ml-20 {
+    margin-left: 20px;
+  }
+
+  hr,
+  .section-title {
+    color: #00acc1;
+    font-weight: bold;
+    opacity: 1;
+  }
+
+    ::ng-deep .p-datatable-wrapper .p-datatable-thead th {
+        background-color: #00acc1 !important;
+        color: #fff;
+        font-weight: 700 !important;
+        font-size: 12px !important;
+        padding: .75rem !important;
+        // color: #03e9f4;
+        border-bottom: 2px solid #dee2e6;
+        border-bottom-color: #ccc;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+        font-size: 12px;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td > a{
+        cursor: pointer;
+        color: darkslategray
+    }
+
+    ::ng-deep .p-datatable .p-datatable-tbody tr:hover {
+        background-color: #e9e9e9;
+    }
+
+    ::ng-deep p-table .p-datatable {
+        font-family: 'Open Sans',sans-serif;
+    }
+
+    ::ng-deep .p-paginator {
+        font-size: 12px;
+    }
+
+    ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+      background: #00acc1;
+      color: #fff;
+  }
+
+    ::ng-deep .p-paginator p-dropdown .p-paginator-rpp-options{
+        height: 1.5rem;
+
+        span.p-dropdown-label.p-inputtext{
+            // padding: 3px;
+            padding: 1px 3px 3px 3px;
+            font-size: 12px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .p-dropdown-trigger{
+            height: 25px;
+        }
+    }
+}

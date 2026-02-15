@@ -1,0 +1,58 @@
+.view-pro-roles {
+    .card-header {
+        background-color: #00acc1 !important;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .card-body {
+        background-color: #e0f7fa; //50
+    }
+    
+    ::ng-deep .terms-checkbox .radio-btn p-radiobutton .p-radiobutton-box {
+        transform: scale(0.8);
+    }
+
+    ::ng-deep p-calendar .p-calendar {
+        width: 100% !important;
+    }
+
+    ::ng-deep p-calendar .p-calendar input {
+        margin-left: 30px !important;
+    }
+
+    ::ng-deep p-calendar .p-calendar input {
+        cursor: pointer
+    }
+
+    .events{
+        pointer-events: none;
+    }
+
+    .ml-2{
+        display: inline;
+        margin-left: 2px;
+    }
+
+    .checkbox-group{
+        display: flex;
+        gap: 10px;
+    }
+
+    .disbleField{
+        color: darkgray;
+    }
+
+    .truncated-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px; /* Adjust the maximum width as needed */
+    }
+
+    .truncated-text:hover {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        max-width: none !important;
+    }
+}

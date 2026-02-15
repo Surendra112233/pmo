@@ -1,0 +1,92 @@
+<div class="main-container add-task">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">{{ taskHeaderText }}</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="projectForm" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Project Type <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="project_type" placeholder="Select Project Type">
+                        <option value="" disabled selected> Select Project Type</option>
+                        <option *ngFor="let project of projectTypeList" [value]="project.value">{{ project.name }}</option>
+                    </select>
+                    <div *ngIf="getFormControl('project_type')?.invalid && (getFormControl('project_type')?.dirty || getFormControl('project_type')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('project_type')?.errors?.['required']">Please Select Project Type</span>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                    <label class="form-label">Phase <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="task_group" placeholder="Select Phase">
+                        <option value="" disabled selected>Select Phase</option>
+                        <option *ngFor="let item of phaseList" [value]="item.value">{{ item.name }}</option>
+                    </select>
+                    <div *ngIf="getFormControl('task_group')?.invalid && (getFormControl('task_group')?.dirty || getFormControl('task_group')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('task_group')?.errors?.['required']">Please Select Phase</span>
+                    </div>
+                </div> -->
+
+                <div class="col-md-4">
+                    <label class="form-label">Phase <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control name-ellipsis" formControlName="task_group"
+                    placeholder="Enter Phase" appNoSpace appAlphaNumericSpecialChars appFirstLetterCapital>
+                    <div *ngIf="getFormControl('task_group')?.invalid && (getFormControl('task_group')?.dirty || getFormControl('task_group')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('task_group')?.errors?.['required']">Please Enter Phase</span>
+                        <span *ngIf="getFormControl('task_group')?.errors?.['minlength']">
+                            Phase must be at least 3 characters long
+                          </span>
+                        <span *ngIf="getFormControl('task_group')?.errors?.['maxlength']">
+                            Phase maximum length can not exceed 40 characters
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Task Description <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control name-ellipsis" formControlName="description"
+                    placeholder="Enter Description" appNoSpace appAlphaNumericSpecialChars appFirstLetterCapital minlength="3" maxlength="100">
+                    <div *ngIf="getFormControl('description')?.invalid && (getFormControl('description')?.dirty || getFormControl('description')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('description')?.errors?.['required']">Please Enter Description</span>
+                        <span *ngIf="getFormControl('description')?.errors?.['minlength']">
+                            Description must be at least 3 characters long
+                          </span>
+                        <span *ngIf="getFormControl('description')?.errors?.['maxlength']">
+                            Description maximum length can not exceed 100 characters
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-md-4">
+                    <label class="form-label">Billable <span class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="billable" placeholder="Select Billable">
+                        <option value="" disabled selected>Select Billable</option>
+                        <option *ngFor="let item of billableList" [value]="item.value">{{ item.name }}</option>
+                    </select>
+                    <div *ngIf="getFormControl('billable')?.invalid && (getFormControl('billable')?.dirty || getFormControl('billable')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('billable')?.errors?.['required']">Please Select Billable</span>
+                    </div>
+                </div> -->
+
+                <div class="col-12 text-center mt-4">
+                    <button type="button" class="btn btn-secondary me-2"  (click)="back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!projectForm.valid" (click)="onSubmit()">{{ buttonValue }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+

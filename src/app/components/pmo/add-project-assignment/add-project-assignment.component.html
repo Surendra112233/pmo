@@ -1,0 +1,440 @@
+<div class="main-container add-project">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">{{ projectHeaderText }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                    <form [formGroup]="projectForm" class="row g-3">
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Project Code <span class="text-danger">*</span></label>
+                                                                    <!-- <input type="text" class="form-control"  placeholder="Enter Project Code" 
+                                                                    formControlName="project_code" appNoSpace minlength="2"  maxlength="10" appAlphanumaricsWithSlashIphon appFirstLetterCapital>    -->
+                                                                    <input type="text" class="form-control"  placeholder="Enter Project Code" 
+                                                                    formControlName="project_code" appNoSpace minlength="2"  maxlength="10" appAlphanumaricsWithSlashIphon appFirstLetterCapital [readonly]="editScreen">   
+                                                                    <div *ngIf="getFormControl('project_code')?.invalid && (getFormControl('project_code')?.dirty || getFormControl('project_code')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('project_code')?.errors?.['required']">Please Enter Project Code</span>
+                                                                        <span *ngIf="getFormControl('project_code')?.errors?.['minlength']">
+                                                                            Project Code must be at least 3 characters long
+                                                                        </span>
+                                                                        <span *ngIf="getFormControl('project_code')?.errors?.['maxlength']">
+                                                                            Project Code maximum length can not exceed 10 characters
+                                                                        </span>
+                                                                    </div>                                              
+                                                                </div>
+                                                            
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Project Description <span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control name-ellipsis" placeholder="Enter Project Description" 
+                                                                    formControlName="project_description" appNoSpace  appAlphaNumericWithSpace appFirstLetterCapital minlength="3" maxlength="100"> 
+                                                                        <div *ngIf="getFormControl('project_description')?.invalid && (getFormControl('project_description')?.dirty || getFormControl('project_description')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('project_description')?.errors?.['required']">Please Enter Project Description</span>                                                        
+                                                                            <span *ngIf="getFormControl('project_description')?.errors?.['minlength']">
+                                                                                Project Description must be at least 3 characters long
+                                                                            </span>  
+                                                                            <span *ngIf="getFormControl('project_description')?.errors?.['maxlength']">
+                                                                                Project Description maximum length can not exceed 100 characters
+                                                                            </span>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                        <label class="form-label">Project Type <span class="text-danger">*</span></label>
+                                                                        <select class="form-select" formControlName="project_type" placeholder="Select Project Type" (change)="onProjectTypeChange($event, 'onChange')">
+                                                                            <option value="" disabled selected>Select Project Type</option>
+                                                                            <option *ngFor="let item of projectTypes" [value]="item.name">{{ item.name }}</option>
+                                                                        </select>                                                
+                                                                        <div *ngIf="getFormControl('project_type')?.invalid && (getFormControl('project_type')?.dirty || getFormControl('project_type')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('project_type')?.errors?.['required']">Please Select Project Type</span>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                        <label class="form-label">Project Category <span class="text-danger">*</span></label>
+                                                                        <select class="form-select" formControlName="project_category" placeholder="Select Project Category">
+                                                                            <option value="" disabled selected>Select Project Category</option>
+                                                                            <option *ngFor="let item of projectCategory" [value]="item.name">{{ item.name }}</option>
+                                                                        </select>                                           
+                                                                        <div *ngIf="getFormControl('project_category')?.invalid && (getFormControl('project_category')?.dirty || getFormControl('project_category')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('project_category')?.errors?.['required']">Please Select Project Category</span>
+                                                                        
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-check" style="display:flex; flex-direction:column">
+                                                                        <label class="form-label" for="interCompany">Inter Company</label>
+                                                                        <input class="form-check-input" type="checkbox" id="interCompany" formControlName="inter_company" style="margin-left: 5px; font-size: 20px;">                                                                        
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Contracting Company Dropdown -->
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Contracting Company</label>
+                                                                    <select class="form-select contracting_field" formControlName="contracting_company"
+                                                                    [class.disableField]="!projectForm.get('inter_company')?.value" placeholder="Select Contracting Company">
+                                                                        <option value="" disabled selected>Select Contracting Company</option>
+                                                                        <option value="ROBOXA Singapore">ROBOXA Singapore</option>
+                                                                        <option value="ROBOXA Malaysia">ROBOXA Malaysia</option>
+                                                                        <option value="ROBOXA Dubai">ROBOXA Dubai</option>
+                                                                    </select>
+                                                                    <div *ngIf="getFormControl('contracting_company')?.invalid && (getFormControl('contracting_company')?.dirty || getFormControl('contracting_company')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('contracting_company')?.errors?.['required']">Please Select Contracting Company</span>                                                                        
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Project Status <span class="text-danger">*</span></label>
+                                                                    <select class="form-select" formControlName="project_status" placeholder="Select Project Status">
+                                                                        <option value="" disabled selected>Select Project Status</option>
+                                                                        <option *ngFor="let item of statusList" [value]="item.value">{{ item.name }}</option>
+                                                                    </select> 
+                                                                        <div *ngIf="getFormControl('project_status')?.invalid && (getFormControl('project_status')?.dirty || getFormControl('project_status')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('project_status')?.errors?.['required']">Please Select Project Status</span>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="iconInput" class="form-label">Project Manager <label class="required-field">*</label> </label>                                                    
+                                                                    <div>
+                                                                        <p-dropdown
+                                                                    [options]="projectManagers"
+                                                                    optionLabel="name"
+                                                                    optionValue="employee_codewithName"
+                                                                    placeholder="Select Project Manager "
+                                                                    [filter]="true"
+                                                                    filterBy="employee_codewithName"
+                                                                    formControlName="project_manager"
+                                                                    [class.disableDropdown]="isProjectsLoading"
+                                                                    [loading]="isProjectsLoading"
+                                                                    [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                    </p-dropdown>
+                                                                    </div>
+                                                                        <div *ngIf="getFormControl('project_manager')?.invalid && (getFormControl('project_manager')?.dirty || getFormControl('project_manager')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('project_manager')?.errors?.['required']">Please Select Project Manager</span>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="iconInput" class="form-label">Delivery Head<label class="required-field">*</label> </label>                                                    
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                    [options]="dhManagers" 
+                                                                    optionLabel="name" 
+                                                                    optionValue="employee_codewithName"
+                                                                    placeholder="Select Delivery Head " 
+                                                                    [filter]="true" 
+                                                                    filterBy="employee_codewithName" 
+                                                                    formControlName="delivery_head"
+                                                                    [class.disableDropdown]="isProjectsLoading"
+                                                                    [loading]="isProjectsLoading"
+                                                                    [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                    </p-dropdown>
+                                                                    </div>
+                                                                        <div *ngIf="getFormControl('delivery_head')?.invalid && (getFormControl('delivery_head')?.dirty || getFormControl('delivery_head')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('delivery_head')?.errors?.['required']">Please Select Delivery Head</span>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="iconInput" class="form-label">SBU Head<label class="required-field">*</label> </label>                                                    
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                    [options]="sbuHeads" 
+                                                                    optionLabel="name" 
+                                                                    optionValue="employee_codewithName"
+                                                                    placeholder="Select SBU Head " 
+                                                                    [filter]="true" 
+                                                                    filterBy="employee_codewithName" 
+                                                                    formControlName="hr"
+                                                                    [class.disableDropdown]="isProjectsLoading"
+                                                                    [loading]="isProjectsLoading"
+                                                                    [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                    </p-dropdown>
+                                                                    </div>
+                                                                        <div *ngIf="getFormControl('hr')?.invalid && (getFormControl('hr')?.dirty || getFormControl('hr')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('hr')?.errors?.['required']">Please Select SBU Head</span>
+                                                                        </div>
+                                                                </div>
+                                                                <!-- <div class=" col-md-4">
+                                                                    <div>
+                                                                        <label for="iconInput" class="form-label">Management </label>
+                                                                        <div class="form-control">
+                                                                            {{ projects.management }}
+                                                                        </div>
+                                                                    </div> 
+                                                                </div> -->
+                                                            
+                                                                
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Client Name<span class="text-danger">*</span></label>
+                                                                <input type="text"  class="form-control name-ellipsis" placeholder="Enter Client Name" 
+                                                                formControlName="client_name" appNoSpace appAllowOnlyChar appFirstLetterCapital minlength="3" maxlength="100"> 
+                                                                    <div *ngIf="getFormControl('client_name')?.invalid && (getFormControl('client_name')?.dirty || getFormControl('client_name')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('client_name')?.errors?.['required']">Please Enter Client Name</span>
+                                                                        <span *ngIf="getFormControl('client_name')?.errors?.['minlength']">
+                                                                            Client Name must be at least 3 characters long
+                                                                        </span>
+                                                                        <span *ngIf="getFormControl('client_name')?.errors?.['maxlength']">
+                                                                            Client Name maximum length can not exceed 100 characters
+                                                                        </span>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Project Region<span class="text-danger">*</span></label>
+                                                                <select class="form-select" formControlName="project_region" (change)="onRegionChange('onChange')" placeholder="Select Project Region">
+                                                                    <option value="" disabled selected>Select Project Region</option>
+                                                                    <option *ngFor="let item of regions" [value]="item.name">{{ item.name }}</option>
+                                                                </select>  
+                                                                    <div *ngIf="getFormControl('project_region')?.invalid && (getFormControl('project_region')?.dirty || getFormControl('project_region')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('project_region')?.errors?.['required']">Please Select Project Region</span>
+                                                                    </div>
+                                                            </div>    
+                                                            
+                                                            <div class="col-md-4">
+                                                                <label for="iconInput" class="form-label">Project Country<label class="required-field">*</label> </label>                                                    
+                                                                <div>
+                                                                    <p-dropdown 
+                                                                    [options]="countries" 
+                                                                    optionLabel="name" 
+                                                                    optionValue="name"
+                                                                    placeholder="Select Country" 
+                                                                    [filter]="true" 
+                                                                    filterBy="name" 
+                                                                    formControlName="project_country">
+                                                                    </p-dropdown>
+                                                                </div>
+                                                                    <div *ngIf="getFormControl('project_country')?.invalid && (getFormControl('project_country')?.dirty || getFormControl('project_country')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('project_country')?.errors?.['required']">Please Select Project Country</span>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Delivery Model<span class="text-danger">*</span></label>
+                                                                <select class="form-select" formControlName="delivery_model" placeholder="Select Delivery Model">
+                                                                    <option value="" disabled selected>Select Delivery Model</option>
+                                                                    <option *ngFor="let item of deliveryModel" [value]="item.name">{{ item.name }}</option>
+                                                                </select> 
+                                                                    <div *ngIf="getFormControl('delivery_model')?.invalid && (getFormControl('delivery_model')?.dirty || getFormControl('delivery_model')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('delivery_model')?.errors?.['required']" >Please Select Delivery Model</span>
+                                                                    </div>
+                                                            </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Project Start Date<span class="text-danger">*</span></label>
+                                                                    <!-- <input type="date" (keydown)="$event.preventDefault()" class="form-control" formControlName="from_date" placeholder="Select From Date"> -->
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                                                        formControlName="from_date" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select start date"></p-calendar>
+                                                                    </div>
+                                                                    <div *ngIf="getFormControl('from_date')?.invalid && (getFormControl('from_date')?.dirty || getFormControl('from_date')?.touched)"  class="text-danger small">
+                                                                        <span *ngIf="getFormControl('from_date')?.errors?.['required']">Please Select Start Date</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Project End Date<span class="text-danger">*</span></label>
+                                                                    <!-- <input type="date" (keydown)="$event.preventDefault()" class="form-control" formControlName="to_date"  placeholder="Select To Date" (change)="testEnddate( getFormControl('to_date'),getFormControl('from_date'))"> -->
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys
+                                                                        formControlName="to_date" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select end date"  (onSelect)="testEnddate(getFormControl('to_date'),getFormControl('from_date'), 'project')"></p-calendar>
+                                                                    </div>
+                                                                    <div *ngIf="getFormControl('to_date')?.invalid && (getFormControl('to_date')?.dirty || getFormControl('to_date')?.touched)" class="text-danger small">
+                                                                        <span *ngIf="getFormControl('to_date')?.errors?.['required']">Please Select End Date</span>
+                                                                    </div>
+                                                                    <div *ngIf="projectForm.errors?.['endDateLessThanStartDate'] && getFormControl('to_date')?.dirty && getFormControl('from_date')?.dirty" 
+                                                                    class="text-danger small">End date must be greater than start date.</div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Budgeted Hours<span class="text-danger">*</span></label>
+                                                                    <input type="text"  class="form-control" appNumbersOnly placeholder="Enter Budgeted Hours" (input)="validatePhaseWiseTotalBudgetedHrs()" formControlName="budgeted_hours" appNoSpace>
+                                                                        <div *ngIf="getFormControl('budgeted_hours')?.invalid && (getFormControl('budgeted_hours')?.dirty || getFormControl('budgeted_hours')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('budgeted_hours')?.errors?.['required']" >Please Enter Budgeted Hours</span>
+                                                                            <span *ngIf="getFormControl('budgeted_hours')?.errors?.['maxlength']">
+                                                                                Budgeted Hours maximum length can not exceed 10
+                                                                            </span>
+                                                                        </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Allocated Budgeted Percentage<span class="text-danger">*</span></label>
+                                                                    <input *ngIf="!roles.includes('DeliveryHead')" type="number" class="form-control" placeholder="Enter Allocated Budgeted Percentage" formControlName="allocated_budgeted_percentage" readonly appNoSpace>
+                                                                    <input *ngIf="roles.includes('DeliveryHead')" type="number" min="70" max="100" class="form-control" appNumbersOnly placeholder="Enter Allocated Budgeted Percentage" (input)="validatePhaseWiseTotalBudgetedHrs()" formControlName="allocated_budgeted_percentage" appNoSpace>
+                                                                        <div *ngIf="getFormControl('allocated_budgeted_percentage')?.invalid && (getFormControl('allocated_budgeted_percentage')?.dirty || getFormControl('allocated_budgeted_percentage')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormControl('allocated_budgeted_percentage')?.errors?.['required']" >Please Enter Allocated Budgeted Percentage</span>
+                                                                            <span *ngIf="getFormControl('allocated_budgeted_percentage')?.errors?.['min']">
+                                                                                Allocated Budgeted Percentage must be at least 70%
+                                                                            </span>
+                                                                            <span *ngIf="getFormControl('allocated_budgeted_percentage')?.errors?.['max']">
+                                                                                Allocated Budgeted Percentage cannot exceed 100%
+                                                                            </span>
+                                                                        </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Allocated Budgeted Hours<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" placeholder="Enter Allocated Budgeted Hours" formControlName="allocated_budgeted_hours" readonly appNoSpace>
+                                                                </div>
+                                                        
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label">Actual Allocated Hours</label>
+                                                                    <input type="text"  class="form-control" placeholder="Enetr Allocated Hours" formControlName="allocated_hours" appNoSpace readonly>
+                                                                    <span *ngIf="getFormControl('allocated_hours')?.errors?.['maxlength']">
+                                                                        Actual Allocated Hours maximum length can not exceed 10
+                                                                    </span>    
+                                                                    <div *ngIf="isBudgetHrsLimit" class="text-danger small">
+                                                                            <span>
+                                                                                Actual Allocated Hours cannot be greater than allocated budgeted hours
+                                                                            </span>
+                                                                        </div>
+                                                                    
+                                                                </div>
+                            
+                                                                <div class=" col-md-4">
+                                                                    <label class="form-label">Worked Hours</label>
+                                                                    <input type="text"  class="form-control" placeholder="Enter Worked Hours" formControlName="worked_hours" readonly appNoSpace>
+                                                                        <!-- <div *ngIf="getFormControl('worked_hours')?.invalid && (getFormControl('worked_hours')?.dirty || getFormControl('worked_hours')?.touched)">
+                                                                            <span *ngIf="getFormControl('worked_hours')?.errors?.['required']" style="color: red; font-size:12px ;">Please enter worked hours</span>
+                                                                        </div> -->
+                                                                </div>
+                                                        <div class="row gx-2 gy-6" *ngIf="editScreen">
+                                                            <div class="col-md-12 phase-allocation-header">
+                                                                <h4 class="table-title font-opensans">Phase Wise Allocation</h4>
+                                                                <i class="fas fa-sharp fa-thin fa-plus edit-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Phase" (click)="addRate()"></i>
+                                                            </div>
+                                                            <div *ngIf="budgetHoursError" class="error-msg">
+                                                                Total Budgeted Hours ({{ totalBudgetHours }}) cannot exceed the Allocated Budgeted Hours ({{ projectForm.get('allocated_budgeted_hours')?.value }}).
+                                                            </div>
+                                                            <table>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="form-label">Phase<label class="required-field">*</label></th>
+                                                                    <th class="form-label">Start Date<label class="required-field">*</label></th>
+                                                                    <th class="form-label">End Date<label class="required-field">*</label></th>
+                                                                    <th class="form-label">Budgeted Hours<label class="required-field">*</label></th>
+                                                                    <th class="form-label">Allocated Hours</th>
+                                                                    <th class="form-label">Worked Hours</th>
+                                                                    <th class="form-label">Actions</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody formArrayName="phaseWiseArray">
+                                                                <tr *ngFor="let activity of phaseWiseArray.controls; let i = index" [formGroupName]="i">
+                                                                    <td style="width: 15%; padding: 0px 10px 10px 10px;">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        formControlName="phase" 
+                                                                        [options]="phaseList" 
+                                                                        optionLabel="task_group" 
+                                                                        optionValue="task_code"
+                                                                        placeholder="Select Phase" 
+                                                                        [filter]="true">
+                                                                        </p-dropdown>
+                                                                    </div>
+                                                                        <div *ngIf="getFormArrayControl(i,'phase')?.invalid && (getFormArrayControl(i,'phase')?.dirty || getFormArrayControl(i,'phase')?.touched)">
+                                                                            <span *ngIf="getFormArrayControl(i,'phase')?.errors?.['required']" class="error-msg">Please select phase</span>                    
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 10%;padding: 0px 10px 10px 10px;">
+                                                                        <div>
+                                                                            <p-calendar
+                                                                            #calendar3 (keydown)="calendar3.showOverlay()" appDisableKeys
+                                                                            formControlName="start_date" [showTime]="false" appendTo="body"
+                                                                            dateFormat="dd/mm/yy" placeholder="Select Start Date"
+                                                                            [minDate]="projectStartDate"
+                                                                            [maxDate]="projectEndDate"></p-calendar>
+                                                                        </div>
+                                                                        <div *ngIf="getFormArrayControl(i,'start_date')?.invalid && (getFormArrayControl(i,'start_date')?.dirty || getFormArrayControl(i,'start_date')?.touched)"  class="text-danger small">
+                                                                            <span *ngIf="getFormArrayControl(i,'start_date')?.errors?.['required']">Please Select Start Date</span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    <td style="width: 10%;padding: 0px 10px 10px 10px;">
+                                                                        <div>
+                                                                            <p-calendar
+                                                                            #calendar4 (keydown)="calendar4.showOverlay()" appDisableKeys
+                                                                            formControlName="end_date" [showTime]="false" appendTo="body"
+                                                                            dateFormat="dd/mm/yy" placeholder="Select End Date"  (onSelect)="testEnddate(getFormArrayControl(i,'end_date'),getFormArrayControl(i,'start_date'), 'phase')"
+                                                                            [minDate]="projectStartDate"
+                                                                            [maxDate]="projectEndDate"></p-calendar>
+                                                                        </div>
+                                                                        <div *ngIf="getFormArrayControl(i,'end_date')?.invalid && (getFormArrayControl(i,'end_date')?.dirty || getFormArrayControl(i,'end_date')?.touched)" class="text-danger small">
+                                                                            <span *ngIf="getFormArrayControl(i,'end_date')?.errors?.['required']">Please Select End Date</span>
+                                                                        </div>
+                                                                        <!-- <div *ngIf="projectForm.errors?.['endDateLessThanStartDate'] && getFormArrayControl(i,'end_date')?.dirty && getFormArrayControl(i,'start_date')?.dirty" 
+                                                                        class="text-danger small">End date must be greater than start date.</div> -->
+                                                                    </td>
+                                                                    <td style="width: 5%; padding: 0px 10px 10px 10px;">
+                                                                        <input type="text" class="form-control" id="floatingInputGrid" 
+                                                                            formControlName="budgetHrs" appNoSpace placeholder="Enter budget hours" style="text-align: right;">
+                                                                        <div *ngIf="getFormArrayControl(i, 'budgetHrs')?.invalid && (getFormArrayControl(i, 'budgetHrs')?.dirty || getFormArrayControl(i, 'budgetHrs')?.touched)">
+                                                                            <span *ngIf="getFormArrayControl(i, 'budgetHrs')?.errors?.['required']" class="error-msg">
+                                                                                Enter budget hours
+                                                                            </span>
+                                                                            <!-- <span *ngIf="getFormArrayControl(i, 'budgetHrs')?.errors?.['pattern']" class="error-msg">
+                                                                            Please enter valid budgeted hours (up to 5 digits)
+                                                                            </span> -->
+                                                                            <span *ngIf="getFormArrayControl(i, 'budgetHrs')?.hasError('maxlength')" class="error-msg">
+                                                                                Budget hours cannot exceed more than 10
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 8%; padding: 0px 10px 10px 10px;">
+                                                                        <input [class.is-invalid]="getFormArrayControl(i, 'allocatedHrs')?.invalid && getFormArrayControl(i, 'allocatedHrs')?.touched" 
+                                                                        type="text" class="form-control disableField" id="floatingInputGrid" 
+                                                                        formControlName="allocatedHrs" appNoSpace readonly style="text-align: right;">
+                                                                    </td>
+                                                                    <td style="width: 8%; padding: 0px 10px 10px 10px;">
+                                                                        <input [class.is-invalid]="getFormArrayControl(i, 'workedHrs')?.invalid && getFormArrayControl(i, 'workedHrs')?.touched" 
+                                                                        type="text" class="form-control disableField" id="floatingInputGrid" 
+                                                                        formControlName="workedHrs" appNoSpace readonly style="text-align: right;">
+                                                                    </td>
+                                                                    <td style="width: 4%; padding: 0px 10px 10px 10px;" [class.disabled]="phaseWiseArray.length < 2">
+                                                                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="delete" (click)="showDeleteDialog(activity,i)" class="site-update-link "><i class="las la-trash text-danger" style="font-size: 20px; cursor: pointer;"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        
+                                                        </div>
+                                                            <div class=" col-md-8">
+                                                                    <label  class="form-label">Notes</label>
+                                                                        <textarea class="form-control name-ellipsis"  placeholder="Enter Notes" 
+                                                                        formControlName="notes" appNoSpace></textarea>
+                                                                
+                                                            </div>
+                                                            <div class="col-12 text-center mt-4">
+                                                                <button type="button" class="btn btn-secondary me-2" (click)="back()">Cancel</button>
+                                                                <button type="submit" class="btn btn-primary" [disabled]="!projectForm.valid || isSubmitButton || budgetHoursError" (click)="onSubmit()">{{ buttonValue }}</button>
+                                                            </div>
+                                    </form>
+                                    </div>
+                                </div> 
+                                <div *ngIf="project_code && projects?.project_code && enableProjectTeam">
+                                    <hr>
+                                    <app-project-team [projectsData]="projects" [projectCode]="project_code" (submitButtonHide)="submitButtonHide($event)" (allocatedHoursChanged)="updateAllocatedHours($event)" (updateProjectAssignmentEvent)="onSubmit()"></app-project-team>
+                                    <!-- <app-project-team  [employeeDetails]="employeeDetails" [projectsData]="projects" [projectCode]="project_code" (submitButtonHide)="submitButtonHide($event)" (allocatedHoursChanged)="updateAllocatedHours($event)" (updateProjectAssignmentEvent)="onSubmit()"></app-project-team> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Confirm Deletion" [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+    <div>
+      <p>Are you sure you want to delete this phase?</p>
+    </div>
+    <p-footer>
+        <div class="col-12 text-center mt-4">
+            <a (click)="closeDeleteDialog()" class="btn btn-inverse waves-effect waves-light cancel-btn">Close</a>
+            <a (click)="deleteProjectTeam()" class="btn btn-primary waves-effect waves-light">Confirm</a>
+    </div>      
+    </p-footer>
+  </p-dialog>

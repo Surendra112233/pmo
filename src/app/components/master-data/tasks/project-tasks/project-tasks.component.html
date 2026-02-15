@@ -1,0 +1,75 @@
+<div class="main-content tasks-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <!-- <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Project Tasks</h4>
+                                        <a (click)="addTask()" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Task">
+                                            <i class="fas fa-plus text-white all-icons"></i>
+                                        </a>
+                                    </div> -->
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="tasks"
+                                                [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                [paginator]="tasks.length > 0"
+                                                [rows]="10"
+                                                [rowsPerPageOptions]=[10,20,30,40,50]
+                                                [showCurrentPageReport]="tasks.length > 0"
+                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                #dt2
+                                                [globalFilterFields]="['task_code','project_type','task_group', 'description', 'billable']">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title">Tasks List</h4>
+                                                    <div class="add">
+                                                        <i class="fas fa-user-plus me-3" (click)="addTask()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add Task"></i>
+                                                        <i class="fas fa-download" (click)="exportToExcel()"data-bs-toggle="tooltip" data-bs-placement="top" title="Download Tasks"></i>
+                                                    </div>
+                                                    <div class="search-container">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                        <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="task_code">Task Code <p-sortIcon field="task_code" /></th>
+                                                        <th pSortableColumn="project_type">Project Type <p-sortIcon field="project_type" /></th>
+                                                        <th pSortableColumn="task_group">Phase <p-sortIcon field="task_group" /></th>
+                                                        <th pSortableColumn="description">Task Description <p-sortIcon field="description" /></th>
+                                                        <!-- <th pSortableColumn="billable">Billable <p-sortIcon field="billable" /></th> -->
+                                                        <!-- <th>Delete</th> -->
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-task>
+                                                    <tr>
+                                                        <td><a (click)="navigateToView(task.task_code)" class="site-update-link">{{ task.task_code }}</a></td>
+                                                        <td>{{ task.project_type }}</td>
+                                                        <td>{{ task.task_group }}</td>
+                                                        <td>{{ task.description }}</td>
+                                                        <!-- <td>{{ task.billable }}</td> -->
+                                                        <!-- <td><a (click)="deleteTask(task.task_code)" class="site-update-link "><i class="las la-trash text-danger" style="font-size: 20px;"></i></a></td> -->
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,289 @@
+<div class="main-container allocation-percent">
+  <div class="page-content">
+    <div class="container-fluid">
+        <p-toast></p-toast>
+        <div class="row">
+            <div class="col">
+            <div class="h-100">
+                <div class="row row-body">
+                <div class="col-xl-12">
+                    <div class="card">
+                    <div class="card-header text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Allocation Percentage</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form [formGroup]="allocationPercentForm">
+                            <!-- Employee Selection -->
+                            <div class="form-row mb-15">
+                                <label class="form-label">Select Employee Code <span class="text-danger">*</span></label>
+                                <div class="flex-1 wdh-100">
+                                    <div class="wdh-100 d-flex align-items-center">
+                                        <p-dropdown 
+                                        [options]="employeesList" 
+                                        optionLabel="employee_codewithName" 
+                                        optionValue="employee_code"
+                                        placeholder="Select Employee Code" 
+                                        [filter]="true" 
+                                        filterBy="employee_codewithName" 
+                                        formControlName="employee_code"
+                                        (onChange)="getEmpProjectDetails($event)"
+                                        [class.disableDropdown]="isEmpLoading"
+                                        [loading]="isEmpLoading"
+                                        [loadingIcon]="'pi pi-spin pi-spinner'">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Projects Table -->
+                        <div *ngIf="empProjectDetails?.length > 0">
+                            <p-table [value]="empProjectDetails" class="main-table"
+                                [tableStyle]="{'width':'100%'}"
+                                [paginator]="empProjectDetails.length > 0"
+                                [rows]="20"
+                                [rowsPerPageOptions]=""
+                                [showCurrentPageReport]="empProjectDetails.length > 0"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                #dt2
+                                [sortField]="'endDate'" 
+                                [globalFilterFields]="['projectCode' ,'projectName', 'managerName', 'allocationPercent', 'startDate', 'endDate']"
+                            >
+
+                            <ng-template pTemplate="caption">
+                                <h4 class="card-title mb-0 flex-grow-1 table-title text-white font-opensans">Add Allocation Percentage</h4>
+                                <div class="search-container">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" pInputText (input)="applyAllocationFilterGlobal($event, 'contains')" placeholder="Search...">
+                                </div>
+                            </ng-template>
+                                <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Project Code</th>
+                                    <th>Project Name</th>
+                                    <th>Project Manager</th>
+                                    <!-- <th>Employee Start Date</th>
+                                    <th pSortableColumn="endDate">Employee End Date<p-sortIcon field="endDate"/></th> -->
+                                    <th>Phase Name</th>
+                                    <th>Phase Start</th>
+                                    <th>Phase End</th>
+                                    <th>Allocation Start</th>
+                                    <th>Allocation End</th>
+                                    <th>Allocation %</th>                                    
+                                </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-row let-i="rowIndex">
+                                <tr>
+                                    <td>{{ row.projectCode }}</td>
+                                    <td>{{ row.projectName }}</td>
+                                    <td>{{ row.managerName?.includes(' - ') 
+															?row.managerName?.split(' - ')[1]
+															: row.managerName }}</td>
+                                    <!-- <td>{{ row.startDate | date:'dd-MM-yyyy' }}</td>
+                                    <td>{{ row.endDate | date:'dd-MM-yyyy' }}</td> -->
+                                    <!-- Nested Table for Phases -->
+                                  <td colspan="6" style="padding: 0 !important;">
+                                    <table class="sub-phase-table">
+
+                                      <tr *ngFor="let ph of row.phases">
+                                        <td class="phase-name">{{ ph.phaseName }}</td>
+
+                                        <td>{{ ph.phaseStartDate | date:'dd-MM-yyyy' }}</td>
+                                        <td>{{ ph.phaseEndDate | date:'dd-MM-yyyy' }}</td>
+
+                                        <td>
+                                          <p-calendar
+                                          #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys 
+                                            [(ngModel)]="ph.allocationStartDate" [showTime]="false" appendTo="body"
+                                            dateFormat="dd/mm/yy" placeholder="Select start date"
+                                            [minDate]="ph.phaseStartDate"
+                                            [maxDate]="ph.phaseEndDate"
+                                            (onSelect)="testEnddate(ph.allocationEndDate, ph.allocationStartDate, ph)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" [title]="displayChangedFormat(ph.allocationStartDate)">
+                                          </p-calendar>
+                                          <div class="text-danger small mt-1" 
+                                              *ngIf="!ph.allocationStartDate">
+                                              Allocation Start Date is required
+                                          </div>
+                                        </td>
+
+                                        <td>
+                                          <p-calendar
+                                            #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys 
+                                            [(ngModel)]="ph.allocationEndDate" [showTime]="false" appendTo="body"
+                                            dateFormat="dd/mm/yy" placeholder="Select end date"
+                                            [minDate]="ph.phaseStartDate"
+                                            [maxDate]="ph.phaseEndDate"
+                                            (onSelect)="testEnddate(ph.allocationEndDate, ph.allocationStartDate, ph)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" [title]="displayChangedFormat(ph.allocationEndDate)">
+                                          </p-calendar>
+                                          <div class="text-danger small mt-1" 
+                                              *ngIf="!ph.allocationEndDate">
+                                              Allocation End Date is required
+                                          </div>
+                                        </td>
+
+                                        <td>
+                                          <input type="number" class="form-control right-align"
+                                            [(ngModel)]="ph.allocationPercent"
+                                            min="0" max="100"
+                                            [readonly]="row.projectCode === 'RB001'"
+                                            [ngClass]="{'readonly-field': row.projectCode === 'RB001'}"/>
+                                            <div class="text-danger small mt-1" 
+                                                *ngIf="ph.allocationPercent === null || ph.allocationPercent === ''">
+                                                Allocation % is required
+                                            </div>
+                                            <div class="text-danger small mt-1" 
+                                                *ngIf="ph.allocationPercent < 0 || ph.allocationPercent > 100">
+                                                Allocation % must be between 0 and 100
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                          <i class="fas fa-history ms-2 cursor-pointer text-info"
+                                            (click)="viewHistory(ph)"
+                                            data-bs-toggle="tooltip" title="View History"></i>
+                                        </td>
+                                      </tr>
+
+                                    </table>
+                                  </td>
+                                </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="5" class="text-center">No project details found</td>
+                                </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-3" *ngIf="empProjectDetails?.length > 0">
+                        <!-- <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Close</button> -->
+                        <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!isAllocationValid()">Submit</button>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+    </div>
+  </div>
+</div>
+
+<!-- Dialog to handle overlapping allocations -->
+<p-dialog class="allocation-percent"
+    header="" 
+    [(visible)]="showOverlapDialog"
+    [modal]="true"
+    [closable]="true"
+    [style]="{width: '70%'}">
+
+    <p-table [value]="overlapList" class="overlap-table history-table"
+    [paginator]="overlapList.length > 10" 
+    [rows]="10" 
+    [rowsPerPageOptions]=""
+    [showCurrentPageReport]="overlapList.length > 10"
+    #dt3
+    [globalFilterFields]="['projectCode' ,'projectName', 'allocation_percent', 'phase_start_date', 'phase_end_date', 'allocation_start_date', 'allocation_end_date']">
+        <ng-template pTemplate="caption">
+            <h4 class="card-title mb-0 flex-grow-1 table-title text-white font-opensans">Overlapping Allocation Found</h4>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" pInputText (input)="applyOverlapFilterGlobal($event, 'contains')" placeholder="Search...">
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="allocation-overlap-header">Project Code</th>
+                <!-- <th>Task Code</th> -->
+                <th class="allocation-overlap-header">Phase Name</th>
+                <th class="allocation-overlap-header">Phase Start</th>
+                <th class="allocation-overlap-header">Phase End</th>
+                <th class="allocation-overlap-header">Allocation Start</th>
+                <th class="allocation-overlap-header">Allocation End</th>
+                <th class="allocation-overlap-header">Allocation %</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                <td>{{ row.projectCode }}</td>
+                <!-- <td>{{ row.taskCode }}</td> -->
+                <td>{{ row.phase_name }}</td>
+                <td>{{ row.phase_start_date | date:'dd-MM-yyyy' }}</td>
+                <td>{{ row.phase_end_date | date:'dd-MM-yyyy' }}</td>
+                <td>
+                    <!-- <p-calendar 
+                        [(ngModel)]="row.allocation_start_date"
+                        appendTo="body"
+                        dateFormat="dd/mm/yy"
+                        [minDate]="row.phase_start_date"
+                        [maxDate]="row.phase_end_date">
+                    </p-calendar> -->
+                    {{ row.allocation_start_date | date:'dd-MM-yyyy' }}
+                </td>
+                <td>
+                    <!-- <p-calendar 
+                        [(ngModel)]="row.allocation_end_date"
+                        appendTo="body"
+                        dateFormat="dd/mm/yy"
+                        [minDate]="row.allocation_start_date"
+                        [maxDate]="row.phase_end_date">
+                    </p-calendar> -->
+                    {{ row.allocation_end_date | date:'dd-MM-yyyy' }}
+                </td>
+                <td>
+                    <input type="number" 
+                           class="form-control right-align"
+                           min="0" max="100"
+                           [(ngModel)]="row.allocation_percent"
+                           [ngClass]="row.highlightAllocation == true ? 'highlight-overlap' : ''" 
+                           (focus)="removeHighlight(row)"
+                           (input)="removeHighlight(row)"/>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="text-center mt-3">
+        <button class="btn btn-primary me-2" (click)="saveOverlapFix()">Save</button>
+        <button class="btn btn-secondary" (click)="cancelOverlap()">Cancel</button>
+    </div>
+</p-dialog>
+
+<!-- Dialog to view allocation history -->
+<p-dialog class="allocation-percent" header="Allocation % History" [(visible)]="showHistoryDialog" [modal]="true" [style]="{width:'60%'}">
+  <p-table [value]="selectedHistory" class="history-table"
+    [paginator]="selectedHistory.length > 10" 
+    [rows]="10" 
+    [rowsPerPageOptions]=""
+    [showCurrentPageReport]="selectedHistory.length > 10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Allocation %</th>
+        <th>Updated By</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [ngClass]="{'highlight-row': row.timestamp?.getTime() === latestTimestamp?.getTime()}">
+        <td>{{ row.fromDate | date:'dd-MM-yyyy' }}</td>
+        <td>{{ row.toDate | date:'dd-MM-yyyy' }}</td>
+        <td>{{ row.allocationPercent }}</td>
+        <td>{{row.updatedBy}} {{ row.timestamp | date:'dd-MM-yyyy HH:mm' }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr><td colspan="3" class="text-center">No history found</td></tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

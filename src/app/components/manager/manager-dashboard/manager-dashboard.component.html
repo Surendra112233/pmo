@@ -1,0 +1,235 @@
+
+<div class="main-container manager-dashboard">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+                                <div class="card">
+                                    <div class="card-header text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Dashboard</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-md-4 year-section">
+                                                <label for="yearSelect" class="select-year">Project Status<span class="text-danger">*</span></label>
+                                                <div class="status-mt-4">
+                                                  <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterProjectsByStatus()">
+                                                      <option value="" disabled>Select Status</option>
+                                                      <option *ngFor="let type of status" [value]="type.id">{{ type.name }}</option>
+                                                  </select>
+                                                </div>                                              
+                                          </div>
+
+                                          <div class="col-md-4 year-section" [formGroup]="dashboardForm">
+                                              <label for="yearSelect" class="select-year">Project Name<span class="text-danger">*</span></label>
+                                              <div>
+                                                  <p-dropdown 
+                                                      [options]="filteredData" 
+                                                      optionLabel="formattedLabel" 
+                                                      optionValue="project_code"
+                                                      placeholder="Select Project" 
+                                                      formControlName="project_code"
+                                                      [filter]="true" 
+                                                      filterBy="project_description"
+                                                      (onChange)="getDashboardData($event)">
+                                                  </p-dropdown>
+                                              </div>
+                                          </div>                                          
+                                        </div>                                        
+                                        
+                                        <div class="row mt-30">
+                                            <div class="col-md-6">                                            
+                                                  <!-- <table class="table table-bordered utilization-table">
+                                                    <tr class="header">
+                                                        <th>Name</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                    <tr class="tbody">
+                                                      <td>Allocated Budgeted Hours</td>
+                                                      <td *ngFor="let item of tableData">{{ item.allocated_budgeted_hours }}</td>
+                                                    </tr>
+                                                    <tr class="tbody">
+                                                      <td>Worked Hours</td>
+                                                      <td *ngFor="let item of tableData">{{ item.worked_hours }}</td>
+                                                    </tr>
+                                                    <tr class="tbody">
+                                                      <td>Utilization %</td>
+                                                      <td *ngFor="let item of tableData">{{ item.Utilization }}</td>
+                                                    </tr>
+                                                  </table> -->
+                                                  
+                                                  <div class="stats-cards">
+                                                  <div class="card target">
+                                                    <i class="icon fas fa-bullseye"></i>
+                                                    <div class="card-info">
+                                                      <!-- <p class="label">Allocated Budgeted Hours</p> -->
+                                                      <p class="label">Actual Allocated Hours</p>
+                                                      <p class="value">{{ animatedBudgetedHours }}</p>
+                                                      <!-- <p class="value">{{ tableData.allocated_budgeted_hours }}</p> -->
+                                                    </div>
+                                                  </div>
+                                                  <div class="card utilized">
+                                                    <i class="icon fas fa-clock"></i>
+                                                    <div class="card-info">
+                                                      <p class="label">Worked Hours</p>
+                                                      <p class="value">{{ animatedWorkedHours }}</p>
+                                                      <!-- <p class="value">{{ tableData.worked_hours }}</p> -->
+                                                    </div>
+                                                  </div>
+                                                  <!-- <div class="card utilization">
+                                                    <i class="icon fas fa-percentage"></i>
+                                                    <div class="card-info">
+                                                      <p class="label">Utilization %</p>
+                                                      <p class="value">{{ animatedUtilization | number: '1.0-2' }}</p> -->
+                                                      <!-- <p class="value">{{ tableData.Utilization }}</p> -->
+                                                    <!-- </div>
+                                                  </div> -->
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6" style="display: flex; justify-content: space-around; height: 150px;">
+                                                <app-manager-meter-gauge [percentage]="meterPercent"></app-manager-meter-gauge>
+                                                <div class="threshold-legend">
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 0 to 69.9 -->
+                                                    <span class="color-box" style="background-color: darkgreen;"></span> 0–70
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 70 to 79.9 -->
+                                                    <span class="color-box" style="background-color: #66BB6A;"></span> 70–80
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 80 to 84.9 -->
+                                                    <span class="color-box" style="background-color: #A5D6A7;"></span> 80–85
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 85 to 89.9 -->
+                                                    <span class="color-box" style="background-color: yellow;"></span> 85–90
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 90 to 94.9 -->
+                                                    <span class="color-box" style="background-color: lightcoral;"></span> 90–95
+                                                  </div>
+                                                  <div class="legend-item">
+                                                    <!-- color will apply from 95 to 100 -->
+                                                    <span class="color-box" style="background-color: red;"></span> 95–100
+                                                  </div>
+                                                </div>                                                                                   
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label style="width: 100%; padding: 10px;" class="chart-header">Quarterly / Monthly Utilization Chart</label>
+                                                <div class="chart-placeholder" style="margin-top: 5px;">
+                                                  <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p-table [value]="empUtlTableData" class="pending-table"
+                                                    #dt1 [sortField]="'project_start_date'"
+                                                    [paginator]="empUtlTableData.length > 10" 
+                                                    [rows]="10" 
+                                                    [rowsPerPageOptions]=""
+                                                    [showCurrentPageReport]="empUtlTableData.length > 10"
+                                                    [globalFilterFields]="['employee_code','employee_name','total_allocated_hours','total_worked_hours', 'utilization']">
+                                                    <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title font-opensans">Employee Utilization</h4>
+                                                        <div class="search-container">
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains' , 'empUtl')" placeholder="Search...">
+                                                        </div>
+                                                        <a class="download-btn" (click)="exportToExcel('empUtl')" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                                            <i class="fas fa-download text-white all-icons"></i>
+                                                        </a>                                                        
+                                                    </ng-template>
+                                                    <ng-template pTemplate="header">
+                                                      <tr>
+                                                        <th>Employee Code</th>
+                                                        <th>Employee Name</th>
+                                                        <!-- <th style="text-align: right;">Allocation %</th> -->
+                                                        <th style="text-align: right;">Total Allocated Hours(A)</th>
+                                                        <th style="text-align: right;">Allocated Hours(till date) (B)</th>
+                                                        <th style="text-align: right;">Total Worked Hours(C)</th>
+                                                        <th style="text-align: right;">Utilization [(C/B)*100]</th>
+                                                      </tr>
+                                                    </ng-template>
+                                                    
+                                                    <ng-template pTemplate="body" let-rowData>
+                                                      <tr>
+                                                        <td>{{ rowData.employee_code }}</td>
+                                                        <td>{{ rowData.employee_name }}</td>
+                                                        <!-- <td style="text-align: right;">{{ rowData.allocation_percent }}</td>    -->
+                                                        <td style="text-align: right;">{{ rowData.total_allocated_hours }}</td>                                                        
+                                                        <td style="text-align: right;">{{ rowData.till_allocated_hours}}</td>                                                        
+                                                        <td style="text-align: right;">{{ rowData.total_worked_hours }}</td>
+                                                        <td style="text-align: right;">{{ rowData.till_utilization }}</td>
+                                                      </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="emptymessage">
+                                                      <tr>
+                                                          <td colspan="7" class="text-center">No data found</td>
+                                                      </tr>
+                                                    </ng-template>
+                                                  </p-table>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p-table [value]="timeLogTableData" class="pending-table"
+                                                    #dt2 [sortField]="'project_start_date'"
+                                                    [paginator]="timeLogTableData.length > 10" 
+                                                    [rows]="10" 
+                                                    [rowsPerPageOptions]=""
+                                                    [showCurrentPageReport]="timeLogTableData.length > 10"
+                                                    [globalFilterFields]="['employee_code','employee_name', 'missed_entries']">
+                                                    <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title font-opensans">Time Log Data</h4>
+                                                        <div class="search-container">
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains', 'timeLog')" placeholder="Search...">
+                                                        </div>
+                                                        <a class="download-btn"  (click)="exportToExcel('timeLog')" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Excel">
+                                                            <i class="fas fa-download text-white all-icons"></i>
+                                                        </a>                                                        
+                                                    </ng-template>
+                                                    <ng-template pTemplate="header">
+                                                      <tr>
+                                                        <th>Employee Code</th>
+                                                        <th>Employee Name</th>
+                                                        <th style="text-align: right;">Missed Entries</th>
+                                                      </tr>
+                                                    </ng-template>
+                                                    
+                                                    <ng-template pTemplate="body" let-rowData>
+                                                      <tr>
+                                                        <td>{{ rowData.employee_code }}</td>
+                                                        <td>{{ rowData.employee_name }}</td>
+                                                        <td style="text-align: right;">{{ rowData.missed_entries }}</td>   
+                                                      </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="emptymessage">
+                                                      <tr>
+                                                          <td colspan="3" class="text-center">No data found</td>
+                                                      </tr>
+                                                    </ng-template>
+                                                  </p-table>
+                                            </div>
+                                        </div>
+
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

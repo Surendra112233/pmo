@@ -1,0 +1,148 @@
+<div class="main-content view-employee">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Employee Details</h4>
+                                        <a (click)="navigateToEditEmployee()" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Employee">
+                                            <i class="fas fa-user-edit text-white all-icons"></i> </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- <form [formGroup]="employeeForm"> -->
+                                            <div class="row gy-4 readonly-form">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Employee Code</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.employee_code }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Name</label>
+                                                    <div class="form-control-plaintext truncated-text">
+                                                        {{ employee.name }}
+                                                    </div> 
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Designation</label>
+                                                    <div class="form-control-plaintext truncated-text">
+                                                        {{ employee.designation }}
+                                                    </div>
+                                                </div>
+                                                 <div class="col-md-4">
+                                                    <label class="form-label">Email</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.email }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Mobile</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.mobile }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Country</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.country }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Primary Skill(s)</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.primary_skill }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Secondary Skill(s)</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.secondary_skill ? employee.secondary_skill : '-' }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Department</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.department }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Band/Grade</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.band_grade }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <!-- <label class="form-label">Project Specific Hire</label> -->
+                                                    <!-- <div class="form-control-plaintext">
+                                                        {{ employee.project_specific_hire}}
+                                                    </div> -->
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Project Specific Hire</label>
+                                                        <div class="form-control-plaintext" *ngIf="employee.project_specific_hire">
+                                                            Yes
+                                                        </div>
+                                                        <div class="form-control-plaintext" *ngIf="!employee.project_specific_hire">
+                                                            No
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <label for="iconInput" class="form-label">Contractor</label>
+                                                        <div class="form-control-plaintext" *ngIf="employee.contractor">
+                                                            Yes
+                                                        </div>
+                                                        <div class="form-control-plaintext" *ngIf="!employee.contractor">
+                                                            No
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Joining Date</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.joining_date | date: 'dd-MM-yyyy' }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Manager</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.manager ? employee.manager : '-' }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Status</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.status =='active' ? 'Active':'Inactive' }}
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-4" *ngIf="employee.status.toLowerCase() =='inactive'">
+                                                    <label class="form-label">Relieving Date</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ employee.relieving_date | date: 'dd-MM-yyyy'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col text-center">
+                                                    <a (click)="navigateToGrid()" class="btn btn-secondary">Back</a>
+                                                </div>
+                                            </div>
+                                        <!-- </form> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

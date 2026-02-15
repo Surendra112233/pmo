@@ -1,0 +1,480 @@
+<div class="main-container timesheet-section">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Timesheet Entry</h4>
+                </div>
+                <div class="card-body">         
+                    <form [formGroup]="timesheetForm">
+                        <div class="row">
+                            <div class="col">
+                                <div class="h-100">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row gy-4">
+                                                        <div class=" col-md-4">
+                                                            <div>
+                                                                <label for="iconInput" class="form-label">Employee Code<label class="required-field">*</label></label>
+                                                                    <input *ngIf="!isTSAdmin" type="text" class="form-control form-control-icon readonly-form" placeholder="Enter Employee Code" formControlName="employee_code" readonly
+                                                                    appAlphanumeric appNoSpace>
+                                                                    <div *ngIf="isTSAdmin">
+                                                                        <p-dropdown 
+                                                                            [options]="employeeList" 
+                                                                            formControlName="employee_code"
+                                                                            optionLabel="formattedLabel"
+                                                                            optionValue="employee_code" 
+                                                                            placeholder="Select Employee Code"
+                                                                            filter="true"
+                                                                            filterBy="formattedLabel"
+                                                                            [class.disableDropdown]="isEmpDetailsLoading"
+                                                                            [loading]="isEmpDetailsLoading"
+                                                                            [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                        </p-dropdown>
+                                                                    </div>
+                                                                <div *ngIf="getFormControl('employee_code')?.invalid && (getFormControl('employee_code')?.dirty || getFormControl('employee_code')?.touched)" class="text-danger small txtFont">
+                                                                    <span *ngIf="getFormControl('employee_code')?.errors?.['required']">Please Enter Employee Code</span>
+                                                                    <span *ngIf="getFormControl('employee_code')?.errors?.['minlength']">
+                                                                        User Name must be at least 3 characters long
+                                                                    </span>
+                                                                    <span *ngIf="getFormControl('employee_code')?.errors?.['maxlength']">
+                                                                        User Name maximum length can not exceed 10 characters
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class=" col-md-3">
+                                                            <div>
+                                                                <label for="year" class="form-label">Month<label class="required-field">*</label></label>
+                                                                <div class="form-icon">
+                                                                    <select class="form-select" formControlName="month" id="month"  >
+                                                                        <option value="" disabled selected>Select Month</option>
+                                                                        <option *ngFor="let mt of months" [value]="mt.id">{{ mt.name }}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div *ngIf="getFormControl('month')?.invalid && (getFormControl('month')?.dirty || getFormControl('month')?.touched)" class="text-danger small txtFont">
+                                                                    <span *ngIf="getFormControl('month')?.errors?.['required']">Please select Year</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" col-md-3">
+                                                            <div>
+                                                                <label for="year" class="form-label">Year<label class="required-field">*</label></label>
+                                                                <div class="form-icon">
+                                                                    <select class="form-select" [(ngModel)]="selectedYear" formControlName="year" id="year"  >
+                                                                        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div *ngIf="getFormControl('year')?.invalid && (getFormControl('year')?.dirty || getFormControl('year')?.touched)" class="text-danger small txtFont">
+                                                                    <span *ngIf="getFormControl('year')?.errors?.['required']">Please select Year</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 text-center mt-4">
+                                                            <button type="button" class="btn btn-secondary me-2"  (click)="navigateToGrid()">Cancel</button>
+                                                            <button type="submit" class="btn btn-primary" [class.disabled]="!getFormValidation()" (click)="onSubmit()">Submit</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="row" *ngIf="showTimesheetTable">
+                        <div class="col">
+                            <div class="h-100">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-header project-hrs">
+                                                Project Hours
+                                            </div>
+                                            <div class="card-body">
+                                                <p-tabView>
+                                                    <p-tabPanel *ngFor="let project of projectHours; let i = index" [header]="project.project_name">
+                                                    <!-- <p-tabPanel *ngFor="let project of projectHours; let i = index" [header]="'Project ' + (i + 1)"> -->
+                                                        <p-table [value]="project.phases"
+                                                            [tableStyle]="{ 'min-width': '50rem' }"
+                                                            #dt1
+                                                            [globalFilterFields]="['phase_name','allocated_hours','worked_hours', 'balance_hours']"
+                                                            [scrollable]="true" 
+                                                            scrollHeight="400px">
+                                                        
+                                                            <ng-template pTemplate="header">
+                                                                <tr class="table-header">
+                                                                    <th pSortableColumn="phase_name" style="width:10%;">Phase<p-sortIcon field="phase_name" /></th>
+                                                                    <th style="width:10%;">Allocation Start</th>
+                                                                    <th style="width:10%;">Allocation End</th>
+                                                                    <th style="width:10%;">Allocation %</th>
+                                                                    <th style="width:10%;">Allocated Hrs</th>
+                                                                    <th style="width:10%;">Approved Hrs</th>
+                                                                    <th style="width:10%;">Balance Hrs</th>
+                                                                </tr>
+                                                            </ng-template>
+                                                            
+                                                            <ng-template pTemplate="body" let-phases let-rowIndex="rowIndex">
+                                                                <tr class='row-hover'>
+                                                                    <td>{{ phases.phase_name }}</td>
+                                                                    <td>{{ phases.allocation_start_date | date:'dd-MM-yyyy'}}</td>
+                                                                    <td>{{ phases.allocation_end_date | date:'dd-MM-yyyy'}}</td>
+                                                                    <td>{{ phases.allocation_percent}}</td>
+                                                                    <td>{{ phases.allocated_hours }}</td>
+                                                                    <td>{{ phases.worked_hours }}</td>
+                                                                    <td>{{ phases.balance_hours }}</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                            
+                                                            <ng-template pTemplate="emptymessage">
+                                                                <tr>
+                                                                    <td colspan="10" class="text-center">No data found</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </p-table>
+                                                    </p-tabPanel>
+                                                </p-tabView>                                      
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row"  *ngIf="showTimesheetTable" id="employeeTimesheetTable" #timesheetTable>
+                        <div class="col">
+                            <div class="h-100">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="table-responsive table-card ">                                        
+                                                    <p-table [value]="employeeTimesheetData"
+                                                    [tableStyle]="{ 'min-width': '50rem' }"
+                                                    #dt2
+                                                    [globalFilterFields]="['date','project_code','description', 'project_role', 'task_description', 'new_description','worked_hours','remarks','status']"
+                                                    [scrollable]="true" 
+                                                    scrollHeight="400px">
+                                                    <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title text-dark fw-bold font-opensans">Add Timesheet</h4>
+                                                        <div class="search-container">
+                                                            <i class="fas fa-search search-icon"></i>
+                                                            <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                        </div>
+                                                    </ng-template>
+                                        
+                                            <ng-template pTemplate="header">
+                                                <tr class="table-header">
+                                                    <th pSortableColumn="date" style="width:15%;">Date <p-sortIcon field="date" /></th>
+                                                    <th style="width:10%;">Project Code</th>
+                                                    <th style="width:20%;">Project Description</th>
+                                                    <th style="width:10%;">Project Role / Employee Designation</th>
+                                                    <!-- <th style="width:10%;">Allocated Hours</th>
+                                                    <th style="width:10%;">Booked Hours</th> -->
+                                                    <th style="width:15%;">Phase</th>
+                                                    <th style="width:15%;">Task Description</th>
+                                                    <th style="width:10%;">Worked Hours</th>
+                                                    <!-- <th style="width:15%;">Task Description</th> -->
+                                                    <th style="width:5%;">Status</th>
+                                                    <th style="width:10%;">Remarks</th>
+                                                    <th style="width:5%;">Comments</th>
+                                                </tr>
+                                            </ng-template>
+                                            
+                                            <!-- weekends disabled from here -->
+                                            <!-- <ng-template pTemplate="body" let-timesheetData let-rowIndex="rowIndex"> -->
+                                                <!-- Weekend row -->
+                                                <!-- <tr *ngIf="timesheetData.isWeekend"> -->
+                                                    <!-- Keep Date -->
+                                                    <!-- <td style="width:15%;">{{ timesheetData.date }}</td> -->
+
+                                                    <!-- Merge remaining columns -->
+                                                    <!-- <td [attr.colspan]="9" class="text-center text-muted font-italic">
+                                                    {{ getWeekendLabel(timesheetData.date) }} - Week Off
+                                                    </td>
+                                                </tr> -->
+
+                                                <!-- Normal row -->
+                                                <!-- <tr *ngIf="!timesheetData.isWeekend"
+                                                    (click)="canClick(timesheetData) ? showPopup(timesheetData, rowIndex) : null"
+                                                    style="cursor: pointer;"
+                                                    [ngClass]="{
+                                                        'row-hover': isRowHovered,
+                                                        'row-clicked': isRowClicked,
+                                                        'approved-row': timesheetData.status === 'approved',
+                                                        'rejected-row': timesheetData.status === 'rejected',
+                                                        'open-row': timesheetData.status === 'open'
+                                                    }">
+
+                                                    <td style="width:15%;">{{ timesheetData.date }}</td>
+                                                    <td style="width:10%;">{{ timesheetData.project_code }}</td>
+                                                    <td style="width:10%;">{{ timesheetData.project_role }}</td>
+                                                    <td style="width:20%;">{{ timesheetData.description }}</td>
+                                                    <td style="width:15%;">{{ timesheetData.task_descriptionValue }}</td>
+                                                    <td style="width:15%;">{{ timesheetData.new_description }}</td>
+                                                    <td style="width:10%;">{{ timesheetData.worked_hours | timeFormat }}</td>
+                                                    <td style="width:10%;">{{ timesheetData.remarks }}</td>
+                                                    <td style="width:5%;">
+                                                    {{ timesheetData.status === 'open' ? 'Open' :
+                                                        timesheetData.status === 'approved' ? 'Approved' :
+                                                        timesheetData.status === 'rejected' ? 'Rejected' : timesheetData.status }}
+                                                    </td>
+                                                    <td style="width:5%;">{{ timesheetData.comments }}</td>
+                                                </tr>
+                                            </ng-template> -->
+                                            <!-- weekends disabled till here -->
+
+                                            <ng-template pTemplate="body" let-timesheetData let-rowIndex="rowIndex">
+                                                <!-- <tr (click)="canClick(timesheetData) ? showPopup(timesheetData, rowIndex) : null"
+                                                    style="cursor: pointer;"
+                                                    [ngClass]="{
+                                                    'row-hover': isRowHovered,
+                                                    'row-clicked': isRowClicked,
+                                                    'approved-row': timesheetData.status === 'approved',
+                                                    'rejected-row': timesheetData.status === 'rejected',
+                                                    'open-row': timesheetData.status === 'open',
+                                                    'weekend-row': timesheetData.isWeekend
+                                                    }"> -->
+                                                    <tr (click)="canClick(timesheetData) ? showPopup(timesheetData, rowIndex) : null"
+                                                    style="cursor: pointer;"
+                                                    [ngClass]="{
+                                                    'row-hover': isRowHovered,
+                                                    'row-clicked': isRowClicked,
+                                                    'weekend-row': timesheetData.isWeekend
+                                                    }">
+                                                
+                                                <!-- Show date with weekend label if needed -->
+                                                <td style="width:15%;">
+                                                    {{ timesheetData.date }}
+                                                    <span *ngIf="timesheetData.isWeekend" class="text-muted font-italic weekend-label">
+                                                    ({{ getWeekendLabel(timesheetData.date) }})
+                                                    </span>
+                                                </td>
+                                            
+                                                <td style="width:10%;">{{ timesheetData.project_code }}</td>
+                                                <td style="width:20%;">{{ timesheetData.description }}</td>
+                                                <td style="width:10%;">{{ timesheetData.project_role }}</td>
+                                                <td style="width:15%;">{{ timesheetData.task_descriptionValue }}</td>
+                                                <td style="width:15%;">{{ timesheetData.new_description }}</td>
+                                                <td style="width:10%;">{{ timesheetData.worked_hours | timeFormat }}</td>
+                                                <td style="width:5%;"
+                                                [ngClass]="{                                        
+                                                    'approved-row': timesheetData.status === 'approved',
+                                                    'rejected-row': timesheetData.status === 'rejected',
+                                                    'open-row': timesheetData.status === 'open',
+                                                }">
+                                                    {{ timesheetData.status === 'open' ? 'Open' :
+                                                    timesheetData.status === 'approved' ? 'Approved' :
+                                                    timesheetData.status === 'rejected' ? 'Rejected' : timesheetData.status }}
+                                                </td>                                      
+                                                <td style="width:10%;">{{ timesheetData.remarks}}</td>
+                                                <!-- <td style="width:10%;">
+                                                    {{ timesheetData.remarks || (timesheetData.isWeekend ? getWeekendLabel(timesheetData.date) + ' - Week Off' : '') }}
+                                                </td> -->
+                                                <td style="width:5%;">{{ timesheetData.comments }}</td>
+                                                </tr>
+                                            </ng-template>
+                                            
+                                            
+                                            <ng-template pTemplate="emptymessage">
+                                                <tr>
+                                                    <td colspan="10" class="text-center">No data found</td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                    <div class="status-container  col-12 text-center mt-4">
+                        <div class="status-box open"></div><span>Open</span>
+                        <div class="status-box approved"></div><span>Approved</span>
+                        <div class="status-box rejected"></div><span>Rejected</span>
+                        <div class="status-box weekend"></div><span>Week Off</span>
+                    </div>
+                    <!-- <div class="col-12 text-center mt-4">
+                        <a class="btn btn-primary waves-effect waves-light" (click)="submitTimesheet()">Submit</a>
+                    </div> -->
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog [(visible)]="popupVisible" [modal]="true" [style]="{width: '80vw'}" position="right" (onHide)="popuponClose($event)">
+    <div *ngIf="selectedTimesheet">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">{{screenType + ' '}}Timesheet</h4> 
+                <div style="display: flex;">
+                    <i *ngIf="screenType == 'Edit'" class="fas fa-sharp fa-thin fa-plus add-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add New Timesheet" (click)="newEntry()"></i>
+                    <h4 class="mb-0"> {{timesheetEntryForm.get('date')?.value}}</h4>
+                </div>                
+            </div>
+            <div class="card-body">
+                <form [formGroup]="timesheetEntryForm" class="row g-3">
+                   <!-- <div class="row"><h5>{{timesheetEntryForm.get('date')?.value}}</h5></div> -->
+                    <div class="col-md-4">                        
+                        <label class="form-label">Project Code <span class="text-danger">*</span></label>
+                        <select [class.disabled] = "disableProjectField" class="form-select" formControlName="project_code" placeholder="Select Project Code" (change)="getProjectDropdown()">
+                            <option value="" disabled selected>Select Project Code</option>
+                            <option *ngFor="let item of projectList" [value]="item.project_code">{{ item.formattedLabel }}</option>
+                        </select>
+                        <div *ngIf="getTimesheetFormControl('project_code')?.invalid && (getTimesheetFormControl('project_code')?.dirty || getTimesheetFormControl('project_code')?.touched)">
+                            <span *ngIf="getTimesheetFormControl('project_code')?.errors?.['required']" class="text-danger small txtFont">Please Select Project Code</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Project Description <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="description" placeholder="Enter Description" readonly>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Employee Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="employee_name" placeholder="Enter Employee Name" readonly>
+                    </div>
+    
+                    <div class="col-md-4" *ngIf="!showDesignation">
+                        <label class="form-label">Project Role <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="project_role" placeholder="Enter Project Role" readonly>                      
+                    </div>
+                    
+                    <div class="col-md-4" *ngIf="showDesignation">
+                        <label class="form-label">Employee Designation <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="project_role" placeholder="Enter Designation" readonly>                       
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="iconInput" class="form-label">Phase<label class="required-field">*</label> </label>                                                    
+                        <div>
+                            <p-dropdown 
+                            [options]="allProjectPhases" 
+                            optionLabel="name" 
+                            optionValue="value"
+                            placeholder="Select Phases" 
+                            formControlName="task_description"
+                            (onChange)="onTaskChange($event)"
+                            [filter]="true" 
+                            filterBy="name">
+                            </p-dropdown>  
+                        </div>                    
+                        <div *ngIf="getTimesheetFormControl('task_description')?.invalid && (getTimesheetFormControl('task_description')?.dirty || getTimesheetFormControl('task_description')?.touched)" class="text-danger small txtFont">
+                            <span *ngIf="getTimesheetFormControl('task_description')?.errors?.['required']">Please Select Phase</span>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="col-md-4">
+                        <label for="iconInput" class="form-label">Task Description<label class="required-field">*</label> </label>                                                    
+                        <p-dropdown 
+                            [options]="tasks" 
+                            optionLabel="description" 
+                            optionValue="task_code"
+                            placeholder="Select Task Description" 
+                            formControlName="task_description"
+                            (onChange)="onTaskChange($event)"
+                            [filter]="true" 
+                            filterBy="task_code">
+                            </p-dropdown>                      
+                        <div *ngIf="getTimesheetFormControl('task_description')?.invalid && (getTimesheetFormControl('task_description')?.dirty || getTimesheetFormControl('task_description')?.touched)" class="text-danger small txtFont">
+                            <span *ngIf="getTimesheetFormControl('task_description')?.errors?.['required']">Please Select Task Description</span>
+                        </div>
+                    </div> -->
+
+                    <div class="col-md-4">
+                        <label for="iconInput" class="form-label">Task Description<label class="required-field">*</label> </label>                                                    
+                        <div>
+                            <p-dropdown 
+                            [options]="allPhaseDescArray" 
+                            optionLabel="name" 
+                            optionValue="value"
+                            placeholder="Select Description" 
+                            formControlName="new_description"
+                            [filter]="true" 
+                            filterBy="name"
+                            (onChange)="onTaskDescriptionChange($event)">
+                            </p-dropdown>
+                        </div>                    
+                        <div *ngIf="getTimesheetFormControl('new_description')?.invalid && (getTimesheetFormControl('new_description')?.dirty || getTimesheetFormControl('new_description')?.touched)" class="text-danger small txtFont">
+                            <span *ngIf="getTimesheetFormControl('new_description')?.errors?.['required']">Please Select Task Description</span>
+                        </div>
+                    </div>
+    
+                    <!-- <div class="col-md-4">
+                        <label class="form-label">Allocated Hours <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Allocated Hours" readonly formControlName="allocated_hours">
+                    </div> -->
+    
+                    <!-- <div class="col-md-4">
+                        <label class="form-label">Booked Hours <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Booked Hours" formControlName="booked_hours" readonly>
+                        <div *ngIf="IsExceedeAllocatedHoursLimit" class="text-danger small txtFont">
+                            <span>Booked hours exceed the allocated limit.</span>   
+                             </div>
+                            
+                    </div> -->
+                    <div class="col-md-4">
+                        <label class="form-label">Worked Hours <span class="text-danger">*</span></label>
+                        <div [class.workedHrsDisabled] = "workedHrsDisabled">
+                            <p-calendar  formControlName="worked_hours" [showTime]="true" [hourFormat]="'24'" 
+                            placeholder="Select Time" formControlName="worked_hours"
+                            [showSeconds]="false"timeOnly="true" [selectOtherMonths]="false" (onBlur)="validateTime($event)" (onSelect)="limitHours($event)"></p-calendar> 
+                        </div> 
+                                          
+                        <div *ngIf="hoursExceededError" class="text-danger small txtFont">
+                         <span>Worked hours cannot exceed 8 hours.</span>   
+                          </div>
+                          <div *ngIf="isWorkedHoursLimitPerDay" class="text-danger small txtFont">
+                            <span>Worked hours cannot exceed 8 hours per day.</span>   
+                             </div>
+                        
+                        <!-- <div *ngIf="(getTimesheetFormControl('worked_hours')?.hasError('invalidTime') || getTimesheetFormControl('worked_hours')?.hasError('required')) && (getTimesheetFormControl('worked_hours')?.dirty || getTimesheetFormControl('worked_hours')?.touched ||getTimesheetFormControl('worked_hours')?.invalid )" class="text-danger small txtFont">
+                            <span>Please Enter Worked Hours</span>
+                          </div> -->
+
+                          <div *ngIf="getTimesheetFormControl('worked_hours')?.invalid && (getTimesheetFormControl('worked_hours')?.dirty || getTimesheetFormControl('worked_hours')?.touched)" class="text-danger small txtFont">
+                            <span *ngIf="getTimesheetFormControl('worked_hours')?.hasError('invalidTime') || getTimesheetFormControl('worked_hours')?.hasError('required')">Please Enter Worked Hours</span>
+                        </div>
+                          
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Remarks</label>
+                        <input type="text" class="form-control" placeholder="Enter Remarks" formControlName="remarks">
+                        <div *ngIf="getTimesheetFormControl('remarks')?.invalid && (getTimesheetFormControl('remarks')?.dirty || getTimesheetFormControl('remarks')?.touched)" class="text-danger small txtFont">
+                            <span *ngIf="getTimesheetFormControl('remarks')?.errors?.['maxlength']">
+                                Remarks should not exceed 200 characters
+                              </span>
+                        </div>
+                    </div>
+    
+                    <div class="col-12 text-center mt-4">
+                        <button (click)="cancelTimesheet()" class="btn btn-inverse waves-effect waves-light cancel-btn">Cancel</button>
+                        <button (click)="saveTimesheetEntry()" class="btn btn-primary waves-effect waves-light" [disabled]="!timesheetEntryForm.valid || hoursExceededError||IsExceedeAllocatedHoursLimit || isWorkedHoursLimitPerDay || getTimesheetFormControl('worked_hours')?.hasError('invalidTime') || isRejected || isApproved">{{buttonValue}}</button>
+                        <!-- <button (click)="saveTimesheetEntry()" class="btn btn-primary waves-effect waves-light" [disabled]="!getTimesheetFormValidation() || hoursExceededError||IsExceedeAllocatedHoursLimit || isWorkedHoursLimitPerDay || getTimesheetFormControl('worked_hours')?.hasError('invalidTime') || isRejected">{{buttonValue}}</button> -->
+
+                        <!-- <button type="button" class="btn btn-secondary me-2" (click)="cancelTimesheet()">Cancel</button>
+                        <button type="submit" class="btn btn-primary"  (click)="saveTimesheetEntry()" [class.disabled]="!getFormValidation()">{{buttonValue}}</button> -->
+                    </div>
+                </form>
+            </div>
+        </div>  
+                      
+    </div>
+</p-dialog>

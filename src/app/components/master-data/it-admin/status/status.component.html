@@ -1,0 +1,80 @@
+<div class="main-content status-grid">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <p-table [value]="status"
+                                                [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                [paginator]="status.length > 0"
+                                                [rows]="10"
+                                                [rowsPerPageOptions]=""
+                                                [showCurrentPageReport]="status.length > 0"
+                                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                #dt2
+                                                [globalFilterFields]="['status_code','status_name']">
+                                                <ng-template pTemplate="caption">
+                                                    <h4 class="card-title mb-0 flex-grow-1 table-title">Status List</h4>
+                                                    <div class="add" (click)="addStatus()"
+                                                          data-bs-toggle="tooltip" data-bs-placement="top" title="Add Status">
+                                                        <i class="fas fa-info-circle" style="font-size: 16px;"></i>
+                                                        <i class="fas fa-plus small"></i>
+                                                      </div>
+                                                    <div class="search-container">
+                                                        <i class="fas fa-search search-icon"></i>
+                                                        <input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th pSortableColumn="status_code">Status Code <p-sortIcon field="status_code" /></th>
+                                                        <th pSortableColumn="status_name">Status Name <p-sortIcon field="status_name" /></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-user>
+                                                    <tr>
+                                                        <td>{{ user.status_code }}</td>
+                                                        <td>{{ user.status_name }}</td>
+                                                        <td>                                                            
+                                                            <i (click)="viewStatus(user)" class="action-btn fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="right" title="View"></i>
+                                                            <i (click)="editStatus(user)" class="action-btn mx-3 fas fa-edit" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit"></i>
+                                                            <a (click)="showDeleteDialog(user)"><i class="action-btn fas fa-trash-alt" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No data found</td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Delete Status" [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false" [style]="{width: '400px'}">
+    <div>
+      <span>Are you sure you want to delete this status?</span>
+    </div>
+    <p-footer>
+        <div class="col-12 text-center mt-4">
+            <a (click)="closeDeleteDialog()" class="btn btn-secondary">Cancel</a>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary"  (click)="deleteStatus()">Confirm</button>
+    </div>
+    </p-footer>
+  </p-dialog>

@@ -1,0 +1,133 @@
+<div class="main-container add-task">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div
+                                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Dashboard</h4>
+                                        <!-- <div class="add">
+                                            <i class="fa-solid fa-file-circle-plus" (click)="navigateToRaiseRequest()"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Raise Request"
+                                                appTooltip="Raise Request" position="left" style="cursor: pointer;"></i>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex gap-3 my-3 dashboard-buttons">
+
+                                            <button class="dash-btn" [class.activeBtn]="selectedSection==='requests'"
+                                                (click)="selectSection('requests')">
+                                                Requests (10)
+                                            </button>
+
+                                            <button class="dash-btn" [class.activeBtn]="selectedSection==='cash'"
+                                                (click)="selectSection('cash')">
+                                                Cash Advances (10)
+                                            </button>
+
+                                            <button class="dash-btn" [class.activeBtn]="selectedSection==='approvals'"
+                                                (click)="selectSection('approvals')">
+                                                Required Approvals (10)
+                                            </button>
+
+                                            <button class="dash-btn" [class.activeBtn]="selectedSection==='expenses'"
+                                                (click)="selectSection('expenses')">
+                                                Expense Reports (10)
+                                            </button>
+                                            <hr>
+                                        </div>
+                                        <!-- REQUEST TABLE -->
+                                        <div *ngIf="selectedSection==='requests'">
+                                            <app-requests-list></app-requests-list>
+                                            <!-- <div class="table-responsive table-card">
+                                                <p-table [value]="travelRequests"
+                                                    [tableStyle]="{ 'min-width': '50rem','width': '100%'}"
+                                                    [paginator]="travelRequests.length > 0" [rows]="10"
+                                                    [rowsPerPageOptions]=""
+                                                    [showCurrentPageReport]="travelRequests.length > 0"
+                                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                    #dt2
+                                                    [globalFilterFields]="['request_id','name', 'project_name', 'country','travel_location','status']">
+                                                    <ng-template pTemplate="caption">
+                                                        <h4 class="card-title mb-0 flex-grow-1 table-title">Requests
+                                                            List</h4>
+                                                        <div class="add">
+                                                            <i class="fas fa-user-plus"
+                                                                (click)="navigateToRaiseRequest()"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Create Request" appTooltip="Create Request"
+                                                                position="bottom"></i>
+                                                        </div>
+                                                        <div class="search-container">
+                                                            <i class="fas fa-search search-icon"></i>
+                                                            <input type="text" pInputText
+                                                                (input)="applyFilterGlobal($event, 'contains')"
+                                                                placeholder="Search...">
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th pSortableColumn="request_id">Request Id <p-sortIcon
+                                                                    field="request_id" /></th>
+                                                            <th pSortableColumn="name">Name <p-sortIcon field="name" />
+                                                            </th>
+                                                            <th pSortableColumn="project_name">Project Name <p-sortIcon
+                                                                    field="project_name" />
+                                                            </th>
+                                                            <th pSortableColumn="country">Country <p-sortIcon
+                                                                    field="country" /></th>
+                                                            <th pSortableColumn="travel_location">Travel Location
+                                                                <p-sortIcon field="travel_location" /></th>
+                                                            <th pSortableColumn="status">Status <p-sortIcon
+                                                                    field="status" /></th>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-user>
+                                                        <tr>
+                                                            <td><a (click)="navigateToView(user.request_id)"
+                                                                    class="site-update-link">1</a></td>
+                                                            <td><span class="truncated-text">Ganesh</span></td>
+                                                            <td>CIERRA</td>
+                                                            <td>Malysia</td>
+                                                            <td>Koulalampur</td>
+                                                            <td>Pending</td>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="emptymessage">
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">No data found</td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div> -->
+                                        </div>
+
+                                        <!-- CASH ADVANCE TABLE -->
+                                        <div *ngIf="selectedSection==='cash'">
+                                            <app-cash-advance-requests-list></app-cash-advance-requests-list>
+                                        </div>
+
+                                        <!-- APPROVALS TABLE -->
+                                        <div *ngIf="selectedSection==='approvals'">
+                                            <app-requests-list></app-requests-list>
+                                        </div>
+
+                                        <!-- EXPENSES TABLE -->
+                                        <div *ngIf="selectedSection==='expenses'">
+                                           <app-requests-list></app-requests-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

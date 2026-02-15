@@ -1,0 +1,121 @@
+<div class="main-container user-registration">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12"> 
+    <div class="card">
+        <div class="card-header text-white d-flex justify-content-between align-items-center">
+            <h4 *ngIf="!userId" class="mb-0">Add User</h4>
+            <h4 *ngIf="userId" class="mb-0">Edit User</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="userForm" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">User ID <span class="text-danger">*</span></label>
+                    <!-- <select class="form-select"  *ngIf="!userId" formControlName="user_id" placeholder="Select User Id" 
+                         (change)="onChangeEmployeeCode()">
+                        <option value="" disabled selected>Select User Id</option>
+                        <option *ngFor="let employee of employees" [value]="employee.employee_code">{{ employee.employee_code}}</option>
+                    </select> -->
+                    <div  *ngIf="!userId">
+                        <p-dropdown 
+                        [options]="employees" 
+                        optionLabel="employee_code" 
+                        optionValue="employee_code"
+                        placeholder="Select User Id" 
+                        formControlName="user_id"
+                        [filter]="true" 
+                        filterBy="employee_code"
+                        [class.disableDropdown]="isUsersLoading"
+                        [loading]="isUsersLoading"
+                        [loadingIcon]="'pi pi-spin pi-spinner'">
+                        </p-dropdown>
+                    </div>
+                    <input type="text" *ngIf="userId" class="form-control" formControlName="user_id" readonly>
+                    <div *ngIf="getFormControl('user_id')?.invalid && (getFormControl('user_id')?.dirty || getFormControl('user_id')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('user_id')?.errors?.['required']">Please Select User Id</span>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control name-ellipsis" placeholder="Enter Name" formControlName="name" 
+                    appNoSpace appAllowOnlyChar appFirstLetterCapital readonly>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" appNoSpace appNoSpecialChars placeholder="Enter Email" formControlName="email" readonly>                    
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Mobile <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="mobile" placeholder="Enter Mobile" 
+                    appMobileNumbersOnly readonly>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Start Date <span class="text-danger">*</span></label>
+                    <div>
+                        <p-calendar
+                        #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                        formControlName="start_date" [showTime]="false" appendTo="body"
+                        dateFormat="dd/mm/yy" placeholder="Select start date" [minDate]="joiningDate" [maxDate]="maxStartDate"></p-calendar>
+                    </div>
+
+                    <div *ngIf="getFormControl('start_date')?.invalid && (getFormControl('start_date')?.dirty || getFormControl('start_date')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('start_date')?.errors?.['required']">Please Select Start Date</span>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">End Date <span class="text-danger">*</span></label>
+                    <div>
+                        <p-calendar
+                        #calendar2 (keydown)="calendar2.showOverlay()" appDisableKeys
+                        formControlName="end_date" [showTime]="false" appendTo="body"
+                        dateFormat="dd/mm/yy" placeholder="Select end date"  (change)="testEnddate(getFormControl('end_date'),getFormControl('start_date'))"></p-calendar>
+                    </div>
+
+                    <div *ngIf="getFormControl('end_date')?.invalid && (getFormControl('end_date')?.dirty || getFormControl('end_date')?.touched)" class="text-danger small">
+                        <span *ngIf="getFormControl('end_date')?.errors?.['required']">Please Select End Date</span>
+                    </div>
+                    <div *ngIf="userForm.errors?.['endDateLessThanStartDate'] && (getFormControl('end_date')?.dirty || getFormControl('start_date')?.dirty)" 
+                    class="text-danger small">End date must be greater than start date.</div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status<label class="required-field">*</label></label>
+                    <select 
+                    class="form-select" id="floatingSelectGrid" aria-label="Floating label select example" 
+                    formControlName="status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="getFormControl('status')?.invalid && (getFormControl('status')?.dirty || getFormControl('status')?.touched)">
+                        <span *ngIf="getFormControl('status')?.errors?.['required']" class="error-msg">Please select status</span>                    
+                    </div>
+                </div>
+
+                <div class="col-md-4" *ngIf="userId">
+                    <label class="form-label">Last Login</label>
+                    <div class="form-control-plaintext">
+                        {{ formatLastLogin(lastLogin)}}
+                    </div>
+                </div>
+                
+                <div class="col-12 text-center mt-4">
+                    <button type="button" class="btn btn-secondary me-2"   (click)="back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!getFormValidation()" (click)="onSubmit()">{{ buttonValue }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div></div>
+</div></div>
+</div></div>
+</div></div>

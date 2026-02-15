@@ -1,0 +1,65 @@
+<div class="main-content view-task">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">Task Details</h4>  <a (click)="navigateToEditTask()" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Task">
+                                            <i class="fa-solid fa-pen-to-square text-white all-icons"></i> </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- <form [formGroup]="taskForm"> -->
+                                            <div class="row gy-4 readonly-form">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Task Code</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ tasks.task_code }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Project Type</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ tasks.project_type }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Task Group</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ tasks.task_group }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Task Description</label>
+                                                    <div class="form-control-plaintext truncated-text">
+                                                        {{ tasks.description }}
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-md-4">
+                                                    <label class="form-label">Billable</label>
+                                                    <div class="form-control-plaintext">
+                                                        {{ tasks.billable }}
+                                                    </div>
+                                                </div> -->
+                                                </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col text-center">
+                                                    <a (click)="navigateToGrid()" class="btn btn-secondary">Back</a>
+                                                </div>
+                                            </div>
+                                        <!-- </form> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

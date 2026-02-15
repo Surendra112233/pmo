@@ -1,0 +1,122 @@
+<div class="main-content project-grid">
+	<div class="page-content">			
+		<div class="container-fluid">
+			<p-toast></p-toast>
+			<div class="row">
+				<div class="col">
+					<div class="h-100">
+						<div class="row row-body">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="table-responsive table-card">	
+											<p-table [value]="filteredData"
+											 [tableStyle]="{ 'min-width': '50rem' }"
+											 [paginator]="filteredData.length > 0"
+											 [rows]="25"
+											 [rowsPerPageOptions]=""
+											 [showCurrentPageReport]="filteredData.length > 0"
+											 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+											 #dt2
+											 [sortField]="'project_code'" 
+											 [globalFilterFields]="['project_code','project_description', 'project_type', 'project_manager', 'delivery_head', 'from_date', 'to_date','project_status']">
+											 <ng-template pTemplate="caption">
+												<h4 class="card-title mb-0 flex-grow-1 table-title">Projects List</h4>
+												<div class="add">
+													<i class="fas fa-user-plus" (click)="navigateToAddProject()"data-bs-toggle="tooltip" data-bs-placement="top" title="Add Project"></i>
+												</div>
+												<div class="select-type">
+														<select class="form-select" [(ngModel)]="selectedStatus" (change)="filterProjectsByStatus()">
+														<option value="" disabled>Select Status</option>
+														<option *ngFor="let type of status" [value]="type.id">{{ type.name }}</option>
+													</select>
+												</div>
+												<div class="search-container">
+													<i class="fas fa-search search-icon"></i>
+													<input type="text" pInputText (input)="applyFilterGlobal($event, 'contains')" placeholder="Search...">
+												</div>
+											</ng-template>
+												<ng-template pTemplate="header">
+													<tr>
+														<th pSortableColumn="project_code" style="width:10%">
+															Code <p-sortIcon field="project_code" />
+														</th>
+														<th pSortableColumn="project_description" style="width:15%">
+															Name <p-sortIcon field="project_description" />
+														</th>
+														<th pSortableColumn="project_type" style="width:15%">
+															Project Type <p-sortIcon field="project_type" />
+														</th>
+														<th pSortableColumn="project_manager" style="width:15%">
+															Manager <p-sortIcon field="project_manager" />
+														</th>
+														<th pSortableColumn="delivery_head" style="width:20%">
+															Delivery Head <p-sortIcon field="delivery_head" />
+														</th>
+														<th pSortableColumn="from_date" style="width:10%">
+															Start<p-sortIcon field="from_date" />
+														</th>
+														<th pSortableColumn="to_date" style="width:10%">
+															End<p-sortIcon field="to_date" />
+														</th>
+														<th pSortableColumn="project_status" style="width:5%">
+															Status <p-sortIcon field="project_status" />
+														</th>
+														<!-- <th style="width:20%">
+															Edit
+														</th>-->
+														<!-- <th style="width:20%">
+															Delete
+														</th>  -->
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="body" let-project >
+													<tr>
+														<td>
+															<a (click)="navigateToView(project.project_code)" class="site-update-link">{{ project.project_code}}</a>
+														</td>
+														<td>{{ project.project_description}}</td>
+														<td>{{ project.project_type }}</td>
+														<td>{{project.project_manager?.includes(' - ') 
+															?project.project_manager?.split(' - ')[1]
+															: project.project_manager}}</td>
+														<td>{{  project.delivery_head?.includes(' - ')
+      															? project.delivery_head.split(' - ')[1]
+      															: project.delivery_head }}</td>
+														<td>{{ project.from_date | date: 'dd-MM-yyyy' }}</td>
+														<td>{{ project.to_date | date: 'dd-MM-yyyy' }}</td>
+														<td>
+															{{ project.project_status  == 'active' ? 'Active' : 
+                                                            project.project_status  == 'inactive' ? 'Inactive' :
+                                                            project.project_status  == 'open' ? 'Open' :
+                                                            project.project_status  == 'completed' ? 'Completed' : project.project_status}}
+														</td>
+														<!-- <td>
+															<a (click)="editProject(project.project_code)" class="site-update-link ">
+																<i class="las la-edit" style="color: #405189;font-size: 20px;"></i>
+															</a>
+														</td>-->
+														<!-- <td>
+															<a (click)="deleteProject(project.project_code)" class="site-update-link ">
+																<i class="las la-trash" style="color: #880808;font-size: 20px;"></i>
+															</a>
+														</td>  -->
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="emptymessage">
+													<tr>
+													  <td colspan="8" class="text-center">No data found</td>
+													</tr>
+												</ng-template>
+											</p-table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

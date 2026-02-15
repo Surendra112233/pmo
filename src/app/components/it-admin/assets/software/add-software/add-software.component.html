@@ -1,0 +1,729 @@
+<div class="main-container add-software">
+    <div class="page-content">
+        <div class="container-fluid">
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row row-body" >
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">{{page_title}} Software </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form [formGroup]="softwareForm">
+                                                <p-accordion>
+
+                                                    <!-- General Data -->
+                                                    <p-accordionTab header="General Data" [selected]="true">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Type<span class="text-danger">*</span></label>
+                                                                <div class="form-value">{{'Software'}}</div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Category <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="assetCategories" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Asset Category" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name"
+                                                                        formControlName="asset_category"
+                                                                        (onChange)="onCategoryChange('onChange')">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('asset_category')?.dirty || softwareForm.get('asset_category')?.touched) 
+                                                                                && softwareForm.get('asset_category')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('asset_category')?.errors?.['required']">
+                                                                            Asset category is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Asset Sub Category <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="assetSubCategories" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Asset Sub Category" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name" 
+                                                                        formControlName="asset_sub_category">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('asset_sub_category')?.dirty || softwareForm.get('asset_sub_category')?.touched) 
+                                                                                && softwareForm.get('asset_sub_category')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('asset_sub_category')?.errors?.['required']">
+                                                                            Asset sub category is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Software Name <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter Software Name" formControlName="softwareName" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('softwareName')?.dirty || softwareForm.get('softwareName')?.touched) 
+                                                                                && softwareForm.get('softwareName')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('softwareName')?.errors?.['required']">
+                                                                            Software name is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('softwareName')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('softwareName')?.errors?.['maxlength']">
+                                                                            Maximum 40 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Minimum Quantity (No)<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appNumbersOnly class="form-control" placeholder="Enter Minimum Quantity" formControlName="quantity" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('quantity')?.dirty || softwareForm.get('quantity')?.touched) 
+                                                                                && softwareForm.get('quantity')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('quantity')?.errors?.['required']">
+                                                                            Quantity is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('quantity')?.errors?.['maxlength']">
+                                                                            Maximum 5 digits allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Product Key</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Product Key" formControlName="productKey" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('productKey')?.dirty || softwareForm.get('productKey')?.touched) 
+                                                                                && softwareForm.get('productKey')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('productKey')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('productKey')?.errors?.['maxlength']">
+                                                                            Maximum 50 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Roboxa Asset Id <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Roboxa Asset Id" formControlName="assetId" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('assetId')?.dirty || softwareForm.get('assetId')?.touched) 
+                                                                                && softwareForm.get('assetId')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('assetId')?.errors?.['required']">
+                                                                            Roboxa Asset Id is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('assetId')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('assetId')?.errors?.['maxlength']">
+                                                                            Maximum 30 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Manufacturer Asset Tag <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Asset Tag" formControlName="assetTag" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('assetTag')?.dirty || softwareForm.get('assetTag')?.touched) 
+                                                                                && softwareForm.get('assetTag')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('assetTag')?.errors?.['required']">
+                                                                            Asset tag is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('assetTag')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('assetTag')?.errors?.['maxlength']">
+                                                                            Maximum 30 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Company<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-dropdown 
+                                                                        [options]="companies" 
+                                                                        optionLabel="name" 
+                                                                        optionValue="name"
+                                                                        placeholder="Select Company" 
+                                                                        [filter]="true" 
+                                                                        filterBy="name" 
+                                                                        formControlName="company"
+                                                                        (onChange)="onCompanyChange('onChange')">
+                                                                        </p-dropdown>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('company')?.dirty || softwareForm.get('company')?.touched) 
+                                                                                && softwareForm.get('company')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('company')?.errors?.['required']">
+                                                                            Company is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Location<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-dropdown 
+                                                                            [options]="locations" 
+                                                                            optionLabel="name" 
+                                                                            optionValue="name"
+                                                                            placeholder="Select Location" 
+                                                                            [filter]="true" 
+                                                                            filterBy="name" 
+                                                                            formControlName="location">
+                                                                            </p-dropdown>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(softwareForm.get('location')?.dirty || softwareForm.get('location')?.touched) 
+                                                                                    && softwareForm.get('location')?.invalid">
+                                                                            <div *ngIf="softwareForm.get('location')?.errors?.['required']">
+                                                                                Location is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Licensed Email</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" class="form-control" placeholder="Enter Licensed Email" formControlName="licensedEmail" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('licensedEmail')?.dirty || softwareForm.get('licensedEmail')?.touched) 
+                                                                                && softwareForm.get('licensedEmail')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('licensedEmail')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('licensedEmail')?.errors?.['maxlength']">
+                                                                            Maximum 50 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div class="wdh-100 d-flex align-items-center">
+                                                                        <p-dropdown 
+                                                                        [options]="statuses" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Select Status" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="status">
+                                                                        </p-dropdown>
+
+                                                                        <span style="cursor: pointer; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Status"
+                                                                         (click)="onAddStatus()">
+                                                                            <i class="fas fa-plus-circle fa-lg"></i>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('status')?.dirty || softwareForm.get('status')?.touched) 
+                                                                                && softwareForm.get('status')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('status')?.errors?.['required']">
+                                                                            Status is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                                <div class="form-row">
+                                                                    <label class="form-label">User Name <span class="text-danger">*</span></label>
+                                                                    <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-dropdown 
+                                                                            [options]="users" 
+                                                                            optionLabel="label" 
+                                                                            optionValue="label"
+                                                                            placeholder="Select User Name" 
+                                                                            [filter]="true" 
+                                                                            filterBy="label" 
+                                                                            formControlName="userName"
+                                                                            [class.disableDropdown]="isEmpLoading"
+                                                                            [loading]="isEmpLoading"
+                                                                            [loadingIcon]="'pi pi-spin pi-spinner'">
+                                                                            </p-dropdown>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(softwareForm.get('userName')?.dirty || softwareForm.get('userName')?.touched) 
+                                                                                    && softwareForm.get('userName')?.invalid">
+                                                                            <div *ngIf="softwareForm.get('userName')?.errors?.['required']">
+                                                                                User name is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-row">
+                                                                    <label class="form-label">From Date<span class="text-danger">*</span></label>
+                                                                    <div class="flex-1 wdh-100">
+                                                                        <div>
+                                                                            <p-calendar
+                                                                            #calendar1 (keydown)="calendar1.showOverlay()" appDisableKeys
+                                                                            formControlName="fromDate" [showTime]="false" appendTo="body"
+                                                                            dateFormat="dd/mm/yy" [maxDate]="maxDate" placeholder="Select From Date"></p-calendar>
+                                                                        </div>
+
+                                                                        <div class="text-danger mt-1 small"
+                                                                            *ngIf="(softwareForm.get('fromDate')?.dirty || softwareForm.get('fromDate')?.touched) 
+                                                                                    && softwareForm.get('fromDate')?.invalid">
+                                                                            <div *ngIf="softwareForm.get('fromDate')?.errors?.['required']">
+                                                                                From Date is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Notes</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" class="form-control" placeholder="Enter Notes" formControlName="notes" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('notes')?.dirty || softwareForm.get('notes')?.touched) 
+                                                                                && softwareForm.get('notes')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('notes')?.errors?.['required']">
+                                                                            Notes is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('notes')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('notes')?.errors?.['maxlength']">
+                                                                            Maximum 80 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Image
+                                                                    <div class="text-muted small mb-2 fw-500">
+                                                                        (Only pdf/jpeg format allowed. Max size <i>5MB</i>)
+                                                                    </div>
+                                                                </label>
+                                                                <div class="form-value password-field">
+                                                                    <input type="file" (change)="onFileSelect($event, 'image')" id="image_attachment" formControlName="image"/>
+                                                                    <i *ngIf="imgAvailable == true"
+                                                                    class="fas fa-eye"
+                                                                    style="cursor: pointer; margin-left: 8px"
+                                                                    (click)="viewPdf('image')"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view image document"
+                                                                    >
+                                                                    </i>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+                                                    
+                                                    <!-- Optional Info -->
+                                                    <p-accordionTab header="Optional Info">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty Start Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar3 (keydown)="calendar3.showOverlay()" appDisableKeys
+                                                                        formControlName="warrantyStart" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Start Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty End Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar4 (keydown)="calendar4.showOverlay()" appDisableKeys
+                                                                        formControlName="warrantyEnd" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select End Date"
+                                                                        (change)="testEnddate(softwareForm.get('warrantyEnd'), softwareForm.get('warrantyStart'))"></p-calendar>
+                                                                    </div>
+                                                                    
+                                                                    <div *ngIf="softwareForm.errors?.['endDateLessThanStartDate'] && (softwareForm.get('warrantyEnd')?.dirty || softwareForm.get('warrantyStart')?.dirty)" 
+                                                                        class="text-danger small">End date must be greater than or equal to start date.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Warranty Status</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <select class="form-select" formControlName="warrantyStatus" id="warrantyStatus"  >
+                                                                            <option value="" disabled selected>Select Warranty Status</option>
+                                                                            <option *ngFor="let status of warrantyStatus" [value]="status.id">{{ status.name }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC Vendor</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAllowOnlyChar class="form-control" placeholder="Enter AMC Vendor" formControlName="amcVendor" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('amcVendor')?.dirty || softwareForm.get('amcVendor')?.touched) 
+                                                                                && softwareForm.get('amcVendor')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('amcVendor')?.errors?.['amcVendor']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('amcVendor')?.errors?.['maxlength']">
+                                                                            Maximum 100 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC Start Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar9 (keydown)="calendar9.showOverlay()" appDisableKeys
+                                                                        formControlName="amcStartDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select AMC Start Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">AMC End Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar10 (keydown)="calendar10.showOverlay()" appDisableKeys
+                                                                        formControlName="amcEndDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select AMC End Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Check-In Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar5 (keydown)="calendar5.showOverlay()" appDisableKeys
+                                                                        formControlName="checkInDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Check-In Date"></p-calendar>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">BYOD</label>
+                                                                <input class="form-check-input" type="checkbox" id="interCompany" formControlName="byod" style="margin-top: 0px; font-size: 20px;">
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>                                                
+
+                                                    <!-- Order Info -->
+                                                    <p-accordionTab header="Order Info">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Order Number</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Order Number" formControlName="orderNumber" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('orderNumber')?.dirty || softwareForm.get('orderNumber')?.touched) 
+                                                                                && softwareForm.get('orderNumber')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('orderNumber')?.errors?.['required']">
+                                                                            Order number is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('orderNumber')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('orderNumber')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Purchase Date</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div>
+                                                                        <p-calendar
+                                                                        #calendar6 (keydown)="calendar6.showOverlay()" appDisableKeys
+                                                                        formControlName="purchaseDate" [showTime]="false" appendTo="body"
+                                                                        dateFormat="dd/mm/yy" placeholder="Select Purchase Date"></p-calendar>
+                                                                    </div>
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('purchaseDate')?.dirty || softwareForm.get('purchaseDate')?.touched) 
+                                                                                && softwareForm.get('purchaseDate')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('purchaseDate')?.errors?.['required']">
+                                                                            Purchase date is required.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Supplier</label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <div class="wdh-100 d-flex align-items-center">
+                                                                        <p-dropdown 
+                                                                        [options]="suppliers" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Select Supplier" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="supplier">
+                                                                        </p-dropdown>
+
+                                                                        <span style="cursor: pointer; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Supplier"
+                                                                         (click)="onAddSupplier()">
+                                                                            <i class="fas fa-plus-circle fa-lg"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Purchase Cost</label>
+                                                                <div class="wdh-100">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <input type="text" appNumbersOnly class="form-control" 
+                                                                        placeholder="Enter Purchase Cost" formControlName="purchaseCost"
+                                                                        (blur)="onPurchaseCostBlur()" />
+                                                                        
+                                                                        <p-dropdown 
+                                                                        [options]="currencyList" 
+                                                                        optionLabel="label" 
+                                                                        optionValue="label"
+                                                                        placeholder="Currency" 
+                                                                        [filter]="true" 
+                                                                        filterBy="label" 
+                                                                        formControlName="currency"
+                                                                        class="currencyList">
+                                                                        </p-dropdown>
+                                                                    </div>                                                                   
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="purchaseCostTouched 
+                                                                        && softwareForm.get('currency')?.invalid
+                                                                        && softwareForm.get('currency')?.errors?.['required']">
+                                                                        Currency is required when Purchase Cost is entered.
+                                                                    </div>                                                                   
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Invoice Copy
+                                                                    <div class="text-muted small mb-2 fw-500">
+                                                                        (Only pdf/jpeg format allowed. Max size <i>5MB</i>)
+                                                                    </div>
+                                                                </label>
+                                                                <!-- <div class="flex-1 wdh-100">
+                                                                    <input type="file" (change)="onFileSelect($event, 'invoice')" id="invoice_attachment" formControlName="invoiceCopy"/>
+                                                                </div> -->
+                                                                <div class="form-value password-field">
+                                                                    <input type="file" (change)="onFileSelect($event, 'invoice')" id="invoice_attachment" formControlName="invoiceCopy"/>
+                                                                    <i *ngIf="invAvailable == true"
+                                                                    class="fas fa-eye"
+                                                                    style="cursor: pointer; margin-left: 8px"
+                                                                    (click)="viewPdf('invoice')"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view invoice document"
+                                                                    >
+                                                                    </i>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+
+                                                    <!-- Admin Credentials -->
+                                                    <p-accordionTab header="Admin Credentials">
+                                                        <ng-container>
+                                                            <div class="form-row">
+                                                                <label class="form-label">Admin User Name<span class="text-danger">*</span></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <input type="text" appAlphaNumericSpecialChars class="form-control" placeholder="Enter Admin User Name" formControlName="adminUserName" />
+
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('adminUserName')?.dirty || softwareForm.get('adminUserName')?.touched) 
+                                                                                && softwareForm.get('adminUserName')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('adminUserName')?.errors?.['required']">
+                                                                            Admin user name is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('adminUserName')?.errors?.['minlength']">
+                                                                            Minimum 3 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('adminUserName')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <label class="form-label">Admin Password <span class="text-danger">*</span>                                                                   </label>
+                                                                <div class="flex-1 wdh-100 input-group password-field">
+                                                                    <input 
+                                                                    [type]="showPassword ? 'text' : 'password'" 
+                                                                    class="form-control" 
+                                                                    placeholder="Enter Admin Password" 
+                                                                    formControlName="adminPassword"
+                                                                    />
+
+                                                                    <!-- Toggle Icon -->
+                                                                    <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer">
+                                                                        <i [ngClass]="showPassword ? 'fas fa-eye-slash' : ' fas fa-eye'"></i>
+                                                                    </span>
+                                                                </div>                                                                
+                                                            </div>
+
+                                                            <div class="form-row pwd-fld-err">
+                                                                <label></label>
+                                                                <div class="flex-1 wdh-100">
+                                                                    <!-- Validation Errors -->
+                                                                    <div class="text-danger mt-1 small"
+                                                                        *ngIf="(softwareForm.get('adminPassword')?.dirty || softwareForm.get('adminPassword')?.touched) 
+                                                                                && softwareForm.get('adminPassword')?.invalid">
+                                                                        <div *ngIf="softwareForm.get('adminPassword')?.errors?.['required']">
+                                                                            Admin password is required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('adminPassword')?.errors?.['minlength']">
+                                                                            Minimum 6 characters required.
+                                                                        </div>
+                                                                        <div *ngIf="softwareForm.get('adminPassword')?.errors?.['maxlength']">
+                                                                            Maximum 20 characters allowed.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </p-accordionTab>
+
+                                                    <!-- Assignment Details -->
+                                                    <p-accordionTab header="Assignment Details" *ngIf="software_id">
+                                                        <p-table [value]="assignmentDetails.controls"
+                                                            [tableStyle]="{'width': '100%'}"
+                                                            [paginator]="assignmentDetails.controls.length > 0"
+                                                            [rows]="10"
+                                                            [rowsPerPageOptions]=""
+                                                            [showCurrentPageReport]="assignmentDetails.controls.length > 0"
+                                                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                                            #dt2
+                                                            [globalFilterFields]="[]">
+                                                            <ng-template pTemplate="caption">
+                                                                <h4 class="card-title mb-0 flex-grow-1">Assignment Details</h4>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="header">
+                                                                <tr>
+                                                                    <th>User Name</th>
+                                                                    <th>Status</th>
+                                                                    <th>From Date</th>
+                                                                    <th>To Date</th>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="body" let-row>
+                                                                <tr>
+                                                                    <td>{{ row.value.userName }}</td>
+                                                                    <td>{{ row.value.status }}</td>
+                                                                    <td>{{ row.value.fromDate ? (row.value.fromDate | date:'dd-MM-yyyy') : '-' }}</td>
+                                                                    <td>{{ row.value.toDate ? (row.value.toDate | date:'dd-MM-yyyy') : '-' }}</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="emptymessage">
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center">No details found</td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </p-table>
+                                                    </p-accordionTab>
+                                                </p-accordion>
+
+                                                <!-- Audit Trail (Read-only, not accordion) -->
+                                                <div class="audit-trial mt-3" *ngIf="software_id">
+                                                    <!-- <h4>Audit Trail</h4> -->
+                                                    <div class="form-row">
+                                                        <label>Last Modified By</label>
+                                                        <span>{{softwareDetails?.last_changed_by}}</span>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <label>Last Modified Date</label>
+                                                        <span>{{softwareDetails?.last_changed_datetime | date:'dd-MM-yyyy HH:mm'}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Form Actions -->
+                                                <div class="form-actions text-center mt-3">
+                                                    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary" [disabled]="!getFormValidation()" (click)="onSubmit()">{{btn_text}}</button>
+                                                </div>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Dialog for adding status -->
+<p-dialog header="" [(visible)]="displayAddStatusDialog" [modal]="true" [closable]="true" [style]="{width: '75%'}">
+  <app-add-status [from_software]="true" (status_for_software)="onStatusAdded($event)"></app-add-status>
+</p-dialog>
+
+
+<!-- Dialog for adding supoplier -->
+<p-dialog header="" [(visible)]="displayAddSupplierDialog" [modal]="true" [closable]="true" [style]="{width: '75%'}">
+  <app-add-supplier [from_software]="true" (supplier_for_software)="onSupplierAdded($event)"></app-add-supplier>
+</p-dialog>
